@@ -1,0 +1,161 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ユーザーテーブル - 各ユーザーは4つのアカウントを持つ
+model User {
+  id            String    @id @default(cuid())
+  friendId      String    @unique @default(cuid()) // フレンド検索用のユニークID
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   // ローカル認証用（オプショナル）
+  role          String    @default("user") // "user" or "admin"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  gameAccounts  GameAccount[] // ゲーム用アカウント（旧Accountをリネーム）
+  
+  // フレンド関係
+  sentFriendRequests     FriendRequest[] @relation("SentRequests")
+  receivedFriendRequests FriendRequest[] @relation("ReceivedRequests")
+  friendsInitiated       Friendship[]    @relation("FriendInitiator")
+  friendsReceived        Friendship[]    @relation("FriendReceiver")
+}
+
+// NextAuth用のアカウントテーブル
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// NextAuth用のセッションテーブル
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// NextAuth用の検証トークンテーブル
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ゲームアカウントテーブル - 各ユーザーが持つ4つのゲームアカウント
+model GameAccount {
+  id               String            @id @default(cuid())
+  userId           String
+  accountNumber    Int               // 1-4のアカウント番号
+  name             String            // アカウント名（例: メインアカウント、サブ1など）
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ownedCharacters  OwnedCharacter[]
+
+  @@unique([userId, accountNumber])
+}
+
+// キャラクターマスターテーブル - JSONから取り込むキャラ情報
+model CharacterMaster {
+  id              String           @id @default(cuid())
+  indexNumber     Int              @unique
+  element         String           // 火、水、木、光、闇
+  type            String           // 限定、恒常
+  monsterName     String
+  createdAt       DateTime         @default(now())
+  ownedCharacters OwnedCharacter[]
+}
+
+// 所持キャラクターテーブル - アカウントごとの所持キャラ（同キャラ複数所持可）
+model OwnedCharacter {
+  id                String                    @id @default(cuid())
+  gameAccountId     String
+  characterMasterId String
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  gameAccount       GameAccount               @relation(fields: [gameAccountId], references: [id], onDelete: Cascade)
+  characterMaster   CharacterMaster           @relation(fields: [characterMasterId], references: [id], onDelete: Cascade)
+  wakuwakuSlots     OwnedCharacterWakuwaku[]
+}
+
+// わくわくの実マスターテーブル
+model WakuwakuMaster {
+  id                     String                   @id @default(cuid())
+  name                   String                   @unique // わくわくの実の名前
+  description            String?                  // 説明
+  displayOrder           Int                      @default(0) // 表示順序
+  createdAt              DateTime                 @default(now())
+  ownedCharacterWakuwaku OwnedCharacterWakuwaku[]
+}
+
+// 所持キャラクターに装着されたわくわくの実（最大3個）
+model OwnedCharacterWakuwaku {
+  id                String          @id @default(cuid())
+  ownedCharacterId  String
+  wakuwakuMasterId  String
+  slotNumber        Int             // 1-3のスロット番号
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  ownedCharacter    OwnedCharacter  @relation(fields: [ownedCharacterId], references: [id], onDelete: Cascade)
+  wakuwakuMaster    WakuwakuMaster  @relation(fields: [wakuwakuMasterId], references: [id], onDelete: Cascade)
+
+  @@unique([ownedCharacterId, slotNumber])
+}
+
+// フレンド申請テーブル
+model FriendRequest {
+  id          String   @id @default(cuid())
+  senderId    String
+  receiverId  String
+  status      String   @default("pending") // "pending", "accepted", "rejected"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  sender      User     @relation("SentRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User     @relation("ReceivedRequests", fields: [receiverId], references: [id], onDelete: Cascade)
+  
+  @@unique([senderId, receiverId])
+}
+
+// フレンド関係テーブル
+model Friendship {
+  id          String   @id @default(cuid())
+  userId      String
+  friendId    String
+  createdAt   DateTime @default(now())
+  
+  user        User     @relation("FriendInitiator", fields: [userId], references: [id], onDelete: Cascade)
+  friend      User     @relation("FriendReceiver", fields: [friendId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, friendId])
+}

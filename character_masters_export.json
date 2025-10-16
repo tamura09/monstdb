@@ -1,0 +1,5960 @@
+[
+  {
+    "indexNumber": 191,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "アグナムート"
+  },
+  {
+    "indexNumber": 193,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "スサノオ"
+  },
+  {
+    "indexNumber": 195,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ハンターキング"
+  },
+  {
+    "indexNumber": 197,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "ストライク"
+  },
+  {
+    "indexNumber": 199,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ワールド"
+  },
+  {
+    "indexNumber": 256,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ハーレー"
+  },
+  {
+    "indexNumber": 257,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "ハーレーX"
+  },
+  {
+    "indexNumber": 260,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アポロ"
+  },
+  {
+    "indexNumber": 268,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "エクリプス"
+  },
+  {
+    "indexNumber": 280,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "アグナムートX"
+  },
+  {
+    "indexNumber": 284,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ランスロット"
+  },
+  {
+    "indexNumber": 286,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "マーリン"
+  },
+  {
+    "indexNumber": 288,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アーサー"
+  },
+  {
+    "indexNumber": 303,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "真田幸村"
+  },
+  {
+    "indexNumber": 311,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "織田信長"
+  },
+  {
+    "indexNumber": 326,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "水輝ナナミ"
+  },
+  {
+    "indexNumber": 330,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "螢光院ヒカリ"
+  },
+  {
+    "indexNumber": 348,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "コルセア"
+  },
+  {
+    "indexNumber": 352,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "モンタナ"
+  },
+  {
+    "indexNumber": 364,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "アポロX"
+  },
+  {
+    "indexNumber": 368,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "織田信長X"
+  },
+  {
+    "indexNumber": 374,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "ランスロットX"
+  },
+  {
+    "indexNumber": 383,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "オーディン"
+  },
+  {
+    "indexNumber": 386,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ヴァルキリー"
+  },
+  {
+    "indexNumber": 389,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ゼウス"
+  },
+  {
+    "indexNumber": 409,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "リン・ツー"
+  },
+  {
+    "indexNumber": 415,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ロイゼ"
+  },
+  {
+    "indexNumber": 437,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ウォッカ"
+  },
+  {
+    "indexNumber": 439,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "テキーラ"
+  },
+  {
+    "indexNumber": 442,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ギムレット"
+  },
+  {
+    "indexNumber": 459,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "赤ずきん ノンノ"
+  },
+  {
+    "indexNumber": 462,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ローレライ"
+  },
+  {
+    "indexNumber": 469,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ハーメルン"
+  },
+  {
+    "indexNumber": 484,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "坂本龍馬"
+  },
+  {
+    "indexNumber": 489,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "おりょう"
+  },
+  {
+    "indexNumber": 494,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "西郷隆盛"
+  },
+  {
+    "indexNumber": 510,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "アリス"
+  },
+  {
+    "indexNumber": 512,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "桜木リリィ"
+  },
+  {
+    "indexNumber": 517,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "トニー緑川"
+  },
+  {
+    "indexNumber": 520,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "フィリップ金光"
+  },
+  {
+    "indexNumber": 559,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ナポレオン"
+  },
+  {
+    "indexNumber": 566,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ヴェルダンディ"
+  },
+  {
+    "indexNumber": 569,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ユグドラシル"
+  },
+  {
+    "indexNumber": 574,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ロキ"
+  },
+  {
+    "indexNumber": 589,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "オシリス"
+  },
+  {
+    "indexNumber": 592,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アヌビス"
+  },
+  {
+    "indexNumber": 597,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ラー"
+  },
+  {
+    "indexNumber": 623,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ベルフェゴール"
+  },
+  {
+    "indexNumber": 626,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ベルゼブブ"
+  },
+  {
+    "indexNumber": 629,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "サタン"
+  },
+  {
+    "indexNumber": 660,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "服部半蔵"
+  },
+  {
+    "indexNumber": 663,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "霧隠才蔵"
+  },
+  {
+    "indexNumber": 670,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "猿飛佐助"
+  },
+  {
+    "indexNumber": 692,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ブラフマー"
+  },
+  {
+    "indexNumber": 695,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "カーリー"
+  },
+  {
+    "indexNumber": 698,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "パールヴァティ"
+  },
+  {
+    "indexNumber": 724,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アテナ"
+  },
+  {
+    "indexNumber": 727,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ヘラクレス"
+  },
+  {
+    "indexNumber": 732,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ハデス"
+  },
+  {
+    "indexNumber": 760,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ベートーヴェン"
+  },
+  {
+    "indexNumber": 765,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "バッハ"
+  },
+  {
+    "indexNumber": 768,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "モーツァルト"
+  },
+  {
+    "indexNumber": 788,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "武田信玄"
+  },
+  {
+    "indexNumber": 791,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "上杉謙信"
+  },
+  {
+    "indexNumber": 798,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "徳川家康"
+  },
+  {
+    "indexNumber": 825,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "チンギス・ハン"
+  },
+  {
+    "indexNumber": 833,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ラプンツェル"
+  },
+  {
+    "indexNumber": 836,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "白雪姫リボン"
+  },
+  {
+    "indexNumber": 839,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アラジン"
+  },
+  {
+    "indexNumber": 871,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "クレオパトラ"
+  },
+  {
+    "indexNumber": 890,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "ミカエル"
+  },
+  {
+    "indexNumber": 893,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ラファエル"
+  },
+  {
+    "indexNumber": 899,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "桜木イヴ"
+  },
+  {
+    "indexNumber": 902,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ジェラルド･G･蒼野"
+  },
+  {
+    "indexNumber": 907,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "機光院チヨ"
+  },
+  {
+    "indexNumber": 929,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "ウリエル"
+  },
+  {
+    "indexNumber": 969,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "ジャンヌ・ダルク"
+  },
+  {
+    "indexNumber": 974,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ギルガメッシュ"
+  },
+  {
+    "indexNumber": 979,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "クー・フーリン"
+  },
+  {
+    "indexNumber": 984,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ジークフリート"
+  },
+  {
+    "indexNumber": 1001,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "シリウス"
+  },
+  {
+    "indexNumber": 1004,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "デネブ"
+  },
+  {
+    "indexNumber": 1007,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "スピカ"
+  },
+  {
+    "indexNumber": 1030,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "ルシファー"
+  },
+  {
+    "indexNumber": 1039,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "張飛"
+  },
+  {
+    "indexNumber": 1042,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "関羽"
+  },
+  {
+    "indexNumber": 1047,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "劉備"
+  },
+  {
+    "indexNumber": 1069,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アトス"
+  },
+  {
+    "indexNumber": 1072,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "アラミス"
+  },
+  {
+    "indexNumber": 1075,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ポルトス"
+  },
+  {
+    "indexNumber": 1102,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "サラマンダー"
+  },
+  {
+    "indexNumber": 1105,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ウンディーネ"
+  },
+  {
+    "indexNumber": 1112,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ケット・シー"
+  },
+  {
+    "indexNumber": 1129,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "式神 出雲"
+  },
+  {
+    "indexNumber": 1132,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "茨木童子"
+  },
+  {
+    "indexNumber": 1135,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "安倍晴明"
+  },
+  {
+    "indexNumber": 1155,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "シンデレラ"
+  },
+  {
+    "indexNumber": 1160,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ガリバー"
+  },
+  {
+    "indexNumber": 1165,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "おやゆび姫ティアラ"
+  },
+  {
+    "indexNumber": 1191,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ロミオ"
+  },
+  {
+    "indexNumber": 1194,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ジュリエット"
+  },
+  {
+    "indexNumber": 1197,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "オセロー"
+  },
+  {
+    "indexNumber": 1224,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "孫悟空"
+  },
+  {
+    "indexNumber": 1229,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "猪八戒"
+  },
+  {
+    "indexNumber": 1232,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "三蔵法師"
+  },
+  {
+    "indexNumber": 1249,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "天草四郎"
+  },
+  {
+    "indexNumber": 1256,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "鈴蘭"
+  },
+  {
+    "indexNumber": 1259,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "蒲公英"
+  },
+  {
+    "indexNumber": 1262,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "桜"
+  },
+  {
+    "indexNumber": 1286,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "アスカ＆2号機"
+  },
+  {
+    "indexNumber": 1288,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "シンジ＆初号機"
+  },
+  {
+    "indexNumber": 1294,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "レイ＆零号機"
+  },
+  {
+    "indexNumber": 1312,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ビリー・ザ・キッド"
+  },
+  {
+    "indexNumber": 1315,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "怪傑 ゾロ"
+  },
+  {
+    "indexNumber": 1318,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ねずみ小僧"
+  },
+  {
+    "indexNumber": 1341,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "静御前"
+  },
+  {
+    "indexNumber": 1346,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "武蔵坊弁慶"
+  },
+  {
+    "indexNumber": 1351,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "源義経"
+  },
+  {
+    "indexNumber": 1387,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "卑弥呼"
+  },
+  {
+    "indexNumber": 1392,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "シンドバッド"
+  },
+  {
+    "indexNumber": 1395,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "シェヘラザード"
+  },
+  {
+    "indexNumber": 1400,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アリババ"
+  },
+  {
+    "indexNumber": 1420,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "春麗"
+  },
+  {
+    "indexNumber": 1422,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ガイル"
+  },
+  {
+    "indexNumber": 1424,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "リュウ"
+  },
+  {
+    "indexNumber": 1439,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "プロメテウス"
+  },
+  {
+    "indexNumber": 1446,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ヘラ"
+  },
+  {
+    "indexNumber": 1449,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "クロノス"
+  },
+  {
+    "indexNumber": 1482,
+    "element": "火",
+    "type": "α",
+    "monsterName": "テキーラα"
+  },
+  {
+    "indexNumber": 1485,
+    "element": "水",
+    "type": "α",
+    "monsterName": "ノンノα"
+  },
+  {
+    "indexNumber": 1488,
+    "element": "木",
+    "type": "α",
+    "monsterName": "サタンα"
+  },
+  {
+    "indexNumber": 1514,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "蛙の王子 ケロン"
+  },
+  {
+    "indexNumber": 1517,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ドロシー"
+  },
+  {
+    "indexNumber": 1520,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "マッドハッター"
+  },
+  {
+    "indexNumber": 1536,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ナスカ"
+  },
+  {
+    "indexNumber": 1539,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アトランティス"
+  },
+  {
+    "indexNumber": 1542,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ムー"
+  },
+  {
+    "indexNumber": 1556,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ブリュンヒルデ"
+  },
+  {
+    "indexNumber": 1561,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ニーベルンゲン"
+  },
+  {
+    "indexNumber": 1566,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "トール"
+  },
+  {
+    "indexNumber": 1590,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "妲己"
+  },
+  {
+    "indexNumber": 1593,
+    "element": "水",
+    "type": "α",
+    "monsterName": "茨木童子α"
+  },
+  {
+    "indexNumber": 1596,
+    "element": "光",
+    "type": "α",
+    "monsterName": "白雪姫リボンα"
+  },
+  {
+    "indexNumber": 1599,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "ベートーヴェンα"
+  },
+  {
+    "indexNumber": 1632,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ガリレオ"
+  },
+  {
+    "indexNumber": 1635,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ゲンナイ"
+  },
+  {
+    "indexNumber": 1638,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "アルキメデス"
+  },
+  {
+    "indexNumber": 1667,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "レイ×天草四郎"
+  },
+  {
+    "indexNumber": 1671,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "アスカ×ウリエル"
+  },
+  {
+    "indexNumber": 1673,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "カヲル×ルシファー"
+  },
+  {
+    "indexNumber": 1683,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "デッドラビッツLtd."
+  },
+  {
+    "indexNumber": 1686,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ルビー"
+  },
+  {
+    "indexNumber": 1691,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "エメラルド"
+  },
+  {
+    "indexNumber": 1694,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ダイヤモンド"
+  },
+  {
+    "indexNumber": 1718,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "ジキル＆ハイド"
+  },
+  {
+    "indexNumber": 1733,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ダルタニャン"
+  },
+  {
+    "indexNumber": 1742,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ガブリエル"
+  },
+  {
+    "indexNumber": 1745,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "神威"
+  },
+  {
+    "indexNumber": 1752,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "曹操"
+  },
+  {
+    "indexNumber": 1755,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "周瑜"
+  },
+  {
+    "indexNumber": 1762,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "大喬小喬"
+  },
+  {
+    "indexNumber": 1777,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "雪の女王フリーズ"
+  },
+  {
+    "indexNumber": 1780,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ドン・キホーテ"
+  },
+  {
+    "indexNumber": 1783,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ファントム"
+  },
+  {
+    "indexNumber": 1802,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アザゼル"
+  },
+  {
+    "indexNumber": 1807,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "マモン"
+  },
+  {
+    "indexNumber": 1810,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "サキュバス"
+  },
+  {
+    "indexNumber": 1834,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ケン"
+  },
+  {
+    "indexNumber": 1837,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "レインボー・ミカ"
+  },
+  {
+    "indexNumber": 1839,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "キャミィ"
+  },
+  {
+    "indexNumber": 1855,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "佐々木小次郎"
+  },
+  {
+    "indexNumber": 1860,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "宮本武蔵"
+  },
+  {
+    "indexNumber": 1863,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "柳生十兵衛"
+  },
+  {
+    "indexNumber": 1886,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ラザニー"
+  },
+  {
+    "indexNumber": 1889,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ナチョス"
+  },
+  {
+    "indexNumber": 1892,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ショコラ"
+  },
+  {
+    "indexNumber": 1908,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ヤタガラス"
+  },
+  {
+    "indexNumber": 1911,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "アメノウズメ"
+  },
+  {
+    "indexNumber": 1914,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "タケミカヅチ"
+  },
+  {
+    "indexNumber": 1936,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ロビン・フッド"
+  },
+  {
+    "indexNumber": 1939,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ダリア"
+  },
+  {
+    "indexNumber": 1942,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アイリス"
+  },
+  {
+    "indexNumber": 1945,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ローザ"
+  },
+  {
+    "indexNumber": 1964,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "白鳥星座の氷河"
+  },
+  {
+    "indexNumber": 1966,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "龍星座の紫龍"
+  },
+  {
+    "indexNumber": 1968,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "天馬星座の星矢"
+  },
+  {
+    "indexNumber": 2005,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "スキッティ"
+  },
+  {
+    "indexNumber": 2008,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "リコル"
+  },
+  {
+    "indexNumber": 2011,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ベルスター"
+  },
+  {
+    "indexNumber": 2030,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ナタ"
+  },
+  {
+    "indexNumber": 2033,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "太公望"
+  },
+  {
+    "indexNumber": 2036,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "楊セン"
+  },
+  {
+    "indexNumber": 2054,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ノア"
+  },
+  {
+    "indexNumber": 2057,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "天叢雲"
+  },
+  {
+    "indexNumber": 2060,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ゲイボルグ"
+  },
+  {
+    "indexNumber": 2063,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "イージス"
+  },
+  {
+    "indexNumber": 2083,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ウルトラマンタロウ"
+  },
+  {
+    "indexNumber": 2085,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ウルトラセブン"
+  },
+  {
+    "indexNumber": 2089,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ウルトラマン"
+  },
+  {
+    "indexNumber": 2119,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "前田慶次"
+  },
+  {
+    "indexNumber": 2122,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "豊臣秀吉"
+  },
+  {
+    "indexNumber": 2125,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "茶々"
+  },
+  {
+    "indexNumber": 2142,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "キスキル・リラ"
+  },
+  {
+    "indexNumber": 2148,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ポセイドン"
+  },
+  {
+    "indexNumber": 2151,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ペルセポネ"
+  },
+  {
+    "indexNumber": 2154,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アレス"
+  },
+  {
+    "indexNumber": 2171,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "スパイダーマン"
+  },
+  {
+    "indexNumber": 2174,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "キャプテン・アメリカ"
+  },
+  {
+    "indexNumber": 2178,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "アイアンマン"
+  },
+  {
+    "indexNumber": 2213,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "葛飾北斎"
+  },
+  {
+    "indexNumber": 2216,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "レンブラント"
+  },
+  {
+    "indexNumber": 2219,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ゴッホ"
+  },
+  {
+    "indexNumber": 2241,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ナイチンゲール"
+  },
+  {
+    "indexNumber": 2251,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アンデルセン"
+  },
+  {
+    "indexNumber": 2254,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "シェイクスピア"
+  },
+  {
+    "indexNumber": 2257,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ダンテ"
+  },
+  {
+    "indexNumber": 2280,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "珊瑚"
+  },
+  {
+    "indexNumber": 2283,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "瑠璃"
+  },
+  {
+    "indexNumber": 2286,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "真珠"
+  },
+  {
+    "indexNumber": 2305,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "浦飯幽助"
+  },
+  {
+    "indexNumber": 2307,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "蔵馬"
+  },
+  {
+    "indexNumber": 2312,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "飛影"
+  },
+  {
+    "indexNumber": 2330,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "諸葛亮"
+  },
+  {
+    "indexNumber": 2333,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "趙雲"
+  },
+  {
+    "indexNumber": 2336,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "孫尚香"
+  },
+  {
+    "indexNumber": 2367,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "岩融"
+  },
+  {
+    "indexNumber": 2370,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ミョルニル"
+  },
+  {
+    "indexNumber": 2373,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "如意棒"
+  },
+  {
+    "indexNumber": 2397,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "パンドラ"
+  },
+  {
+    "indexNumber": 2404,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "メイ"
+  },
+  {
+    "indexNumber": 2407,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "オズ"
+  },
+  {
+    "indexNumber": 2410,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ヘンゼル＆グレーテル"
+  },
+  {
+    "indexNumber": 2428,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "モグディガー"
+  },
+  {
+    "indexNumber": 2431,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ベビーアーク"
+  },
+  {
+    "indexNumber": 2434,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アンソニー・D"
+  },
+  {
+    "indexNumber": 2449,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ガウェイン"
+  },
+  {
+    "indexNumber": 2452,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "グィネヴィア"
+  },
+  {
+    "indexNumber": 2455,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "パーシヴァル"
+  },
+  {
+    "indexNumber": 2476,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "スコール"
+  },
+  {
+    "indexNumber": 2482,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ライトニング"
+  },
+  {
+    "indexNumber": 2485,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "クラウド・ストライフ"
+  },
+  {
+    "indexNumber": 2502,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ネフティス"
+  },
+  {
+    "indexNumber": 2505,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "トート"
+  },
+  {
+    "indexNumber": 2508,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アトゥム"
+  },
+  {
+    "indexNumber": 2529,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "エリザベス1世"
+  },
+  {
+    "indexNumber": 2532,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "巴御前"
+  },
+  {
+    "indexNumber": 2535,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "カラミティ・ジェーン"
+  },
+  {
+    "indexNumber": 2550,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "スクルド"
+  },
+  {
+    "indexNumber": 2553,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ウルズ"
+  },
+  {
+    "indexNumber": 2556,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ヘイムダル"
+  },
+  {
+    "indexNumber": 2572,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "ワルプルギス"
+  },
+  {
+    "indexNumber": 2575,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "マルコ・ポーロ"
+  },
+  {
+    "indexNumber": 2578,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "マゼラン"
+  },
+  {
+    "indexNumber": 2581,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "コロンブス"
+  },
+  {
+    "indexNumber": 2607,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "躯"
+  },
+  {
+    "indexNumber": 2611,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "黄泉"
+  },
+  {
+    "indexNumber": 2613,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "雷禅"
+  },
+  {
+    "indexNumber": 2633,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "パック"
+  },
+  {
+    "indexNumber": 2636,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ティターニア"
+  },
+  {
+    "indexNumber": 2639,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "オベロン"
+  },
+  {
+    "indexNumber": 2666,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "大和"
+  },
+  {
+    "indexNumber": 2669,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "パンターG"
+  },
+  {
+    "indexNumber": 2672,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "P-47"
+  },
+  {
+    "indexNumber": 2688,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "イソップ"
+  },
+  {
+    "indexNumber": 2691,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ゲーテ"
+  },
+  {
+    "indexNumber": 2694,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "紫式部"
+  },
+  {
+    "indexNumber": 2722,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ノストラダムス"
+  },
+  {
+    "indexNumber": 2726,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "紫苑"
+  },
+  {
+    "indexNumber": 2729,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "水仙"
+  },
+  {
+    "indexNumber": 2732,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "芙蓉"
+  },
+  {
+    "indexNumber": 2746,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "背徳ピストルズ"
+  },
+  {
+    "indexNumber": 2749,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "Two for all"
+  },
+  {
+    "indexNumber": 2764,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ロイ・マスタング"
+  },
+  {
+    "indexNumber": 2768,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "エルリック兄弟"
+  },
+  {
+    "indexNumber": 2794,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "竹中半兵衛"
+  },
+  {
+    "indexNumber": 2797,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "森蘭丸"
+  },
+  {
+    "indexNumber": 2800,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "長宗我部元親"
+  },
+  {
+    "indexNumber": 2838,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "バーソロミュー・ロバーツ"
+  },
+  {
+    "indexNumber": 2841,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "エドワード・ティーチ"
+  },
+  {
+    "indexNumber": 2844,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アルビダ"
+  },
+  {
+    "indexNumber": 2863,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "サラスヴァティ"
+  },
+  {
+    "indexNumber": 2866,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "インドラ"
+  },
+  {
+    "indexNumber": 2869,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ガネーシャ"
+  },
+  {
+    "indexNumber": 2882,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "バン"
+  },
+  {
+    "indexNumber": 2886,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "キング"
+  },
+  {
+    "indexNumber": 2890,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "メリオダス"
+  },
+  {
+    "indexNumber": 2911,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ハンニバル"
+  },
+  {
+    "indexNumber": 2914,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "カメハメハ"
+  },
+  {
+    "indexNumber": 2917,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "リチャード1世"
+  },
+  {
+    "indexNumber": 2941,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ミロク"
+  },
+  {
+    "indexNumber": 2947,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "フェルメール"
+  },
+  {
+    "indexNumber": 2950,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "雪舟"
+  },
+  {
+    "indexNumber": 2953,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "モネ"
+  },
+  {
+    "indexNumber": 2984,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アレキサンドライト"
+  },
+  {
+    "indexNumber": 2987,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "クリスタル"
+  },
+  {
+    "indexNumber": 2990,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "オニキス"
+  },
+  {
+    "indexNumber": 3009,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "クラピカ"
+  },
+  {
+    "indexNumber": 3011,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ゴン"
+  },
+  {
+    "indexNumber": 3014,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "キルア"
+  },
+  {
+    "indexNumber": 3031,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アップル"
+  },
+  {
+    "indexNumber": 3034,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ミスターエンパイア"
+  },
+  {
+    "indexNumber": 3037,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "リバティ"
+  },
+  {
+    "indexNumber": 3059,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ペリー"
+  },
+  {
+    "indexNumber": 3062,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "高杉晋作"
+  },
+  {
+    "indexNumber": 3065,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "吉田松陰"
+  },
+  {
+    "indexNumber": 3086,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "マナ"
+  },
+  {
+    "indexNumber": 3099,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "乙姫"
+  },
+  {
+    "indexNumber": 3102,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "金太郎"
+  },
+  {
+    "indexNumber": 3105,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "一休"
+  },
+  {
+    "indexNumber": 3119,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アヌ"
+  },
+  {
+    "indexNumber": 3122,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "マルドゥーク"
+  },
+  {
+    "indexNumber": 3125,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "イシュタル"
+  },
+  {
+    "indexNumber": 3145,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ユウナ＆ティーダ"
+  },
+  {
+    "indexNumber": 3150,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "セシル・ハーヴィ"
+  },
+  {
+    "indexNumber": 3152,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ノクティス"
+  },
+  {
+    "indexNumber": 3187,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アリナ"
+  },
+  {
+    "indexNumber": 3190,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "パーシィ"
+  },
+  {
+    "indexNumber": 3193,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "クエリー"
+  },
+  {
+    "indexNumber": 3212,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アルテミス"
+  },
+  {
+    "indexNumber": 3215,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "オルフェウス"
+  },
+  {
+    "indexNumber": 3218,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アキレウス"
+  },
+  {
+    "indexNumber": 3242,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "弁財天"
+  },
+  {
+    "indexNumber": 3249,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "打神鞭"
+  },
+  {
+    "indexNumber": 3252,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "天沼矛"
+  },
+  {
+    "indexNumber": 3255,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アロンダイト"
+  },
+  {
+    "indexNumber": 3280,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "サンダルフォン"
+  },
+  {
+    "indexNumber": 3294,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "メタトロン"
+  },
+  {
+    "indexNumber": 3299,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ザドキエル"
+  },
+  {
+    "indexNumber": 3316,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ラミエル"
+  },
+  {
+    "indexNumber": 3329,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "カマエル"
+  },
+  {
+    "indexNumber": 3335,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "神楽"
+  },
+  {
+    "indexNumber": 3337,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "坂田銀時"
+  },
+  {
+    "indexNumber": 3342,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "桂小太郎"
+  },
+  {
+    "indexNumber": 3363,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "三千院ホトリ"
+  },
+  {
+    "indexNumber": 3366,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "フォルテ・N・明村"
+  },
+  {
+    "indexNumber": 3369,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "藤園イチト"
+  },
+  {
+    "indexNumber": 3387,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "石川五右衛門"
+  },
+  {
+    "indexNumber": 3390,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ザビエル"
+  },
+  {
+    "indexNumber": 3393,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "毛利元就"
+  },
+  {
+    "indexNumber": 3396,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "前田利家＆まつ"
+  },
+  {
+    "indexNumber": 3424,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ビゼー"
+  },
+  {
+    "indexNumber": 3427,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ワーグナー"
+  },
+  {
+    "indexNumber": 3430,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ムソルグスキー"
+  },
+  {
+    "indexNumber": 3450,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "デビルズ・パンク・インフェルノ"
+  },
+  {
+    "indexNumber": 3464,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ノイシュヴァンシュタイン"
+  },
+  {
+    "indexNumber": 3467,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "シュリ"
+  },
+  {
+    "indexNumber": 3470,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ヒメジ"
+  },
+  {
+    "indexNumber": 3495,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "アスナ"
+  },
+  {
+    "indexNumber": 3499,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "シノン"
+  },
+  {
+    "indexNumber": 3501,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "キリト"
+  },
+  {
+    "indexNumber": 3519,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ブリギッド"
+  },
+  {
+    "indexNumber": 3522,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ルー"
+  },
+  {
+    "indexNumber": 3525,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ヌアザ"
+  },
+  {
+    "indexNumber": 3541,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "緋村剣心"
+  },
+  {
+    "indexNumber": 3546,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "相楽左之助"
+  },
+  {
+    "indexNumber": 3548,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "比古清十郎"
+  },
+  {
+    "indexNumber": 3570,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "モーセ"
+  },
+  {
+    "indexNumber": 3574,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "椿"
+  },
+  {
+    "indexNumber": 3577,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "向日葵"
+  },
+  {
+    "indexNumber": 3580,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "紫陽花"
+  },
+  {
+    "indexNumber": 3597,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ドナルド"
+  },
+  {
+    "indexNumber": 3599,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "チップ＆デール"
+  },
+  {
+    "indexNumber": 3601,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ミッキー"
+  },
+  {
+    "indexNumber": 3659,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "小野小町"
+  },
+  {
+    "indexNumber": 3663,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ケイ"
+  },
+  {
+    "indexNumber": 3666,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ベディヴィア"
+  },
+  {
+    "indexNumber": 3669,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "イゾルデ"
+  },
+  {
+    "indexNumber": 3694,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ブレーメン"
+  },
+  {
+    "indexNumber": 3697,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "いばら姫 ネム"
+  },
+  {
+    "indexNumber": 3700,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "チェシャ猫"
+  },
+  {
+    "indexNumber": 3718,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "セーラーマーキュリー"
+  },
+  {
+    "indexNumber": 3722,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "セーラーヴィーナス"
+  },
+  {
+    "indexNumber": 3724,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "セーラームーン"
+  },
+  {
+    "indexNumber": 3747,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ガーネット"
+  },
+  {
+    "indexNumber": 3750,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "トルマリン"
+  },
+  {
+    "indexNumber": 3753,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アンバー"
+  },
+  {
+    "indexNumber": 3781,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "トリトン"
+  },
+  {
+    "indexNumber": 3784,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ヒュプノス"
+  },
+  {
+    "indexNumber": 3787,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "タナトス"
+  },
+  {
+    "indexNumber": 3811,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "ソロモン"
+  },
+  {
+    "indexNumber": 3823,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "張遼"
+  },
+  {
+    "indexNumber": 3826,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "曹丕"
+  },
+  {
+    "indexNumber": 3829,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "華佗"
+  },
+  {
+    "indexNumber": 3843,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ベガ"
+  },
+  {
+    "indexNumber": 3846,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ベテルギウス"
+  },
+  {
+    "indexNumber": 3849,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "リゲル"
+  },
+  {
+    "indexNumber": 3864,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "加藤清正"
+  },
+  {
+    "indexNumber": 3867,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "千利休"
+  },
+  {
+    "indexNumber": 3870,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "雑賀孫市"
+  },
+  {
+    "indexNumber": 3891,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "城之内"
+  },
+  {
+    "indexNumber": 3893,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "海馬"
+  },
+  {
+    "indexNumber": 3899,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "遊戯"
+  },
+  {
+    "indexNumber": 3918,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "オオサカ"
+  },
+  {
+    "indexNumber": 3921,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ヴェルサイユ"
+  },
+  {
+    "indexNumber": 3924,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "タージ・マハル"
+  },
+  {
+    "indexNumber": 3950,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ワタツミ"
+  },
+  {
+    "indexNumber": 3953,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "姫発"
+  },
+  {
+    "indexNumber": 3956,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "普賢＆文殊"
+  },
+  {
+    "indexNumber": 3959,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "黄飛虎"
+  },
+  {
+    "indexNumber": 3990,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ルイス・キャロル"
+  },
+  {
+    "indexNumber": 3992,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "グリム兄弟"
+  },
+  {
+    "indexNumber": 3994,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "清少納言"
+  },
+  {
+    "indexNumber": 4021,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "グングニル"
+  },
+  {
+    "indexNumber": 4023,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ケラウノス"
+  },
+  {
+    "indexNumber": 4025,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ギャラルホルン"
+  },
+  {
+    "indexNumber": 4043,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "日番谷冬獅郎"
+  },
+  {
+    "indexNumber": 4047,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "朽木ルキア"
+  },
+  {
+    "indexNumber": 4049,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "黒崎一護"
+  },
+  {
+    "indexNumber": 4069,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "犬坂毛野"
+  },
+  {
+    "indexNumber": 4071,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "伏姫"
+  },
+  {
+    "indexNumber": 4073,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "犬塚信乃"
+  },
+  {
+    "indexNumber": 4095,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "纏流子"
+  },
+  {
+    "indexNumber": 4097,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ガロ"
+  },
+  {
+    "indexNumber": 4099,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "シモン＆カミナ"
+  },
+  {
+    "indexNumber": 4122,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "オオクニヌシ"
+  },
+  {
+    "indexNumber": 4124,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "サルタヒコ"
+  },
+  {
+    "indexNumber": 4126,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "フツヌシ"
+  },
+  {
+    "indexNumber": 4146,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "シャーロック・ホームズ"
+  },
+  {
+    "indexNumber": 4149,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "プルメリア"
+  },
+  {
+    "indexNumber": 4151,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "アンスリウム"
+  },
+  {
+    "indexNumber": 4153,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ハイビスカス"
+  },
+  {
+    "indexNumber": 4175,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "Angely Diva"
+  },
+  {
+    "indexNumber": 4188,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "爆豪勝己"
+  },
+  {
+    "indexNumber": 4190,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "轟焦凍"
+  },
+  {
+    "indexNumber": 4194,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "緑谷出久"
+  },
+  {
+    "indexNumber": 4218,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ベイカーズ"
+  },
+  {
+    "indexNumber": 4220,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ワトソン"
+  },
+  {
+    "indexNumber": 4222,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "レストレード"
+  },
+  {
+    "indexNumber": 4239,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ツタンカーメン"
+  },
+  {
+    "indexNumber": 4246,
+    "element": "火",
+    "type": "α",
+    "monsterName": "サンダルフォンα"
+  },
+  {
+    "indexNumber": 4248,
+    "element": "水",
+    "type": "α",
+    "monsterName": "ムーα"
+  },
+  {
+    "indexNumber": 4250,
+    "element": "光",
+    "type": "α",
+    "monsterName": "メタトロンα"
+  },
+  {
+    "indexNumber": 4265,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "土方十四郎＆沖田総悟"
+  },
+  {
+    "indexNumber": 4269,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "近藤勲＆バブルス王女"
+  },
+  {
+    "indexNumber": 4273,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "高杉晋助＆鬼兵隊"
+  },
+  {
+    "indexNumber": 4296,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ディルムッド"
+  },
+  {
+    "indexNumber": 4298,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "オスカー"
+  },
+  {
+    "indexNumber": 4300,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "フィン"
+  },
+  {
+    "indexNumber": 4315,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "媽祖"
+  },
+  {
+    "indexNumber": 4319,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "西王母"
+  },
+  {
+    "indexNumber": 4323,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "月麗"
+  },
+  {
+    "indexNumber": 4327,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "トパーズ"
+  },
+  {
+    "indexNumber": 4329,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アクアマリン"
+  },
+  {
+    "indexNumber": 4331,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "シトリン"
+  },
+  {
+    "indexNumber": 4364,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "カエサル"
+  },
+  {
+    "indexNumber": 4369,
+    "element": "火",
+    "type": "α",
+    "monsterName": "伏姫α"
+  },
+  {
+    "indexNumber": 4371,
+    "element": "水",
+    "type": "α",
+    "monsterName": "アリババα"
+  },
+  {
+    "indexNumber": 4373,
+    "element": "木",
+    "type": "α",
+    "monsterName": "ルイス・キャロルα"
+  },
+  {
+    "indexNumber": 4394,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "桂小五郎"
+  },
+  {
+    "indexNumber": 4396,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "陸奥陽之助"
+  },
+  {
+    "indexNumber": 4398,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "グラバー"
+  },
+  {
+    "indexNumber": 4421,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "テンペスト"
+  },
+  {
+    "indexNumber": 4429,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ジン"
+  },
+  {
+    "indexNumber": 4431,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "カイト"
+  },
+  {
+    "indexNumber": 4435,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ネテロ"
+  },
+  {
+    "indexNumber": 4458,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "マルス"
+  },
+  {
+    "indexNumber": 4460,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ユピテル"
+  },
+  {
+    "indexNumber": 4462,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ミネルヴァ"
+  },
+  {
+    "indexNumber": 4476,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "アベル"
+  },
+  {
+    "indexNumber": 4482,
+    "element": "水",
+    "type": "α",
+    "monsterName": "グリム兄弟α"
+  },
+  {
+    "indexNumber": 4484,
+    "element": "木",
+    "type": "α",
+    "monsterName": "太公望α"
+  },
+  {
+    "indexNumber": 4486,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "グングニルα"
+  },
+  {
+    "indexNumber": 4511,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "エクスカリバー"
+  },
+  {
+    "indexNumber": 4514,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ビナー"
+  },
+  {
+    "indexNumber": 4523,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "バルムンク"
+  },
+  {
+    "indexNumber": 4525,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アロンズ・ロッド"
+  },
+  {
+    "indexNumber": 4527,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ブリューナク"
+  },
+  {
+    "indexNumber": 4544,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "黒瀬ひばな"
+  },
+  {
+    "indexNumber": 4546,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "水無月あお"
+  },
+  {
+    "indexNumber": 4548,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "エリック金光"
+  },
+  {
+    "indexNumber": 4561,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "楊貴妃"
+  },
+  {
+    "indexNumber": 4565,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "武則天"
+  },
+  {
+    "indexNumber": 4570,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "足利義輝"
+  },
+  {
+    "indexNumber": 4572,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "宝蔵院胤栄"
+  },
+  {
+    "indexNumber": 4574,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "那須与一"
+  },
+  {
+    "indexNumber": 4590,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "竈門炭治郎"
+  },
+  {
+    "indexNumber": 4592,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "冨岡義勇"
+  },
+  {
+    "indexNumber": 4598,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "胡蝶しのぶ"
+  },
+  {
+    "indexNumber": 4622,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "鄧艾"
+  },
+  {
+    "indexNumber": 4624,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "王元姫"
+  },
+  {
+    "indexNumber": 4626,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "司馬昭"
+  },
+  {
+    "indexNumber": 4649,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "風神雷神"
+  },
+  {
+    "indexNumber": 4656,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ナツ・ドラグニル"
+  },
+  {
+    "indexNumber": 4658,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "グレイ・フルバスター"
+  },
+  {
+    "indexNumber": 4662,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "エルザ・スカーレット"
+  },
+  {
+    "indexNumber": 4696,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ゼフォン"
+  },
+  {
+    "indexNumber": 4698,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "レビィ"
+  },
+  {
+    "indexNumber": 4700,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "スルガト"
+  },
+  {
+    "indexNumber": 4715,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "鬼丸国綱"
+  },
+  {
+    "indexNumber": 4720,
+    "element": "木",
+    "type": "α",
+    "monsterName": "神威α"
+  },
+  {
+    "indexNumber": 4722,
+    "element": "光",
+    "type": "α",
+    "monsterName": "ハーレーα"
+  },
+  {
+    "indexNumber": 4724,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "蛙の王女 ケロンα"
+  },
+  {
+    "indexNumber": 4751,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "シンジ＆レイ"
+  },
+  {
+    "indexNumber": 4755,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "アスカ＆マリ"
+  },
+  {
+    "indexNumber": 4759,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "碇ゲンドウ＆冬月コウゾウ"
+  },
+  {
+    "indexNumber": 4781,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "王昭君"
+  },
+  {
+    "indexNumber": 4785,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "フビライ・ハン"
+  },
+  {
+    "indexNumber": 4789,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アラウィン"
+  },
+  {
+    "indexNumber": 4791,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ペリノア"
+  },
+  {
+    "indexNumber": 4793,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "オペコ"
+  },
+  {
+    "indexNumber": 4807,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "三日月宗近"
+  },
+  {
+    "indexNumber": 4811,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "アミダ"
+  },
+  {
+    "indexNumber": 4816,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アザトース"
+  },
+  {
+    "indexNumber": 4818,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ニャルラトホテプ"
+  },
+  {
+    "indexNumber": 4820,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ヨグ＝ソトース"
+  },
+  {
+    "indexNumber": 4841,
+    "element": "水",
+    "type": "α",
+    "monsterName": "ノア＆パンドラ"
+  },
+  {
+    "indexNumber": 4845,
+    "element": "光",
+    "type": "α",
+    "monsterName": "アーサー＆ソロモン"
+  },
+  {
+    "indexNumber": 4847,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "ルシファー＆カエサル"
+  },
+  {
+    "indexNumber": 4858,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "童子切安綱"
+  },
+  {
+    "indexNumber": 4867,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "真田昌幸"
+  },
+  {
+    "indexNumber": 4869,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "島津義弘"
+  },
+  {
+    "indexNumber": 4871,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "大谷吉継"
+  },
+  {
+    "indexNumber": 4886,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "幕末リザレクション"
+  },
+  {
+    "indexNumber": 4902,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ユージオ"
+  },
+  {
+    "indexNumber": 4904,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ベルクーリ"
+  },
+  {
+    "indexNumber": 4906,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "アリス・シンセシス・サーティ"
+  },
+  {
+    "indexNumber": 4926,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "マチュ・ピチュ"
+  },
+  {
+    "indexNumber": 4928,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "モヘンジョダロ"
+  },
+  {
+    "indexNumber": 4930,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アユタヤ"
+  },
+  {
+    "indexNumber": 4942,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "ラプラス"
+  },
+  {
+    "indexNumber": 4952,
+    "element": "火",
+    "type": "α",
+    "monsterName": "ワトソンα"
+  },
+  {
+    "indexNumber": 4954,
+    "element": "水",
+    "type": "α",
+    "monsterName": "大和α"
+  },
+  {
+    "indexNumber": 4956,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "孫悟空α"
+  },
+  {
+    "indexNumber": 4971,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "大典太光世"
+  },
+  {
+    "indexNumber": 4980,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "切島鋭児郎"
+  },
+  {
+    "indexNumber": 4984,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "八百万百"
+  },
+  {
+    "indexNumber": 4988,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "常闇踏陰"
+  },
+  {
+    "indexNumber": 5013,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ラベンダー"
+  },
+  {
+    "indexNumber": 5015,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ジャスミン"
+  },
+  {
+    "indexNumber": 5017,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "牡丹"
+  },
+  {
+    "indexNumber": 5028,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "数珠丸恒次"
+  },
+  {
+    "indexNumber": 5033,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ハレルヤ"
+  },
+  {
+    "indexNumber": 5062,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "エレン・イェーガー"
+  },
+  {
+    "indexNumber": 5066,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ミカサ・アッカーマン"
+  },
+  {
+    "indexNumber": 5070,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "リヴァイ兵士長"
+  },
+  {
+    "indexNumber": 5093,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "閻魔"
+  },
+  {
+    "indexNumber": 5097,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "不知火ヒナタ"
+  },
+  {
+    "indexNumber": 5099,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "蒼凪ミソラ"
+  },
+  {
+    "indexNumber": 5101,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "式森コカゲ"
+  },
+  {
+    "indexNumber": 5151,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ペルセウス"
+  },
+  {
+    "indexNumber": 5153,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "マルタ"
+  },
+  {
+    "indexNumber": 5155,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "源頼光"
+  },
+  {
+    "indexNumber": 5179,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "エスカノール"
+  },
+  {
+    "indexNumber": 5181,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "マーリン（コラボ）"
+  },
+  {
+    "indexNumber": 5185,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "エリザベス"
+  },
+  {
+    "indexNumber": 5206,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "タンザナイト"
+  },
+  {
+    "indexNumber": 5208,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ペリドット"
+  },
+  {
+    "indexNumber": 5210,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "タイガーアイ"
+  },
+  {
+    "indexNumber": 5225,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "まほろば"
+  },
+  {
+    "indexNumber": 5229,
+    "element": "水",
+    "type": "α",
+    "monsterName": "カメハメハα"
+  },
+  {
+    "indexNumber": 5231,
+    "element": "光",
+    "type": "α",
+    "monsterName": "黒瀬ひばなα"
+  },
+  {
+    "indexNumber": 5233,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "アロンズ・ロッドα"
+  },
+  {
+    "indexNumber": 5259,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "アルセーヌ"
+  },
+  {
+    "indexNumber": 5266,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "打出の小槌"
+  },
+  {
+    "indexNumber": 5268,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "トライデント"
+  },
+  {
+    "indexNumber": 5270,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ヴォーパルソード"
+  },
+  {
+    "indexNumber": 5283,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ニュートン"
+  },
+  {
+    "indexNumber": 5285,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "パスカル"
+  },
+  {
+    "indexNumber": 5287,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "フランクリン"
+  },
+  {
+    "indexNumber": 5305,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "小南桐絵"
+  },
+  {
+    "indexNumber": 5307,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "迅悠一"
+  },
+  {
+    "indexNumber": 5313,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "空閑遊真"
+  },
+  {
+    "indexNumber": 5335,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "神農"
+  },
+  {
+    "indexNumber": 5337,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "西施"
+  },
+  {
+    "indexNumber": 5344,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "十文字雷葉"
+  },
+  {
+    "indexNumber": 5346,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "梃子場亜流太"
+  },
+  {
+    "indexNumber": 5348,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "物乃具姫"
+  },
+  {
+    "indexNumber": 5358,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "モノノケ少女"
+  },
+  {
+    "indexNumber": 5379,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "フォルトゥナ"
+  },
+  {
+    "indexNumber": 5381,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "メルクリウス"
+  },
+  {
+    "indexNumber": 5383,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ユノー"
+  },
+  {
+    "indexNumber": 5385,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "オニャンコポン"
+  },
+  {
+    "indexNumber": 5392,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "仮面ライダー電王"
+  },
+  {
+    "indexNumber": 5396,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "仮面ライダー新1号"
+  },
+  {
+    "indexNumber": 5400,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "仮面ライダークウガ"
+  },
+  {
+    "indexNumber": 5421,
+    "element": "水",
+    "type": "α",
+    "monsterName": "ゼフォンα"
+  },
+  {
+    "indexNumber": 5423,
+    "element": "木",
+    "type": "α",
+    "monsterName": "モーツァルトα"
+  },
+  {
+    "indexNumber": 5425,
+    "element": "光",
+    "type": "α",
+    "monsterName": "アリスα"
+  },
+  {
+    "indexNumber": 5445,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ブレイク"
+  },
+  {
+    "indexNumber": 5447,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "マスター・コーヴ"
+  },
+  {
+    "indexNumber": 5449,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "スマッシュ"
+  },
+  {
+    "indexNumber": 5459,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "アムリタ"
+  },
+  {
+    "indexNumber": 5472,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "虎杖悠仁"
+  },
+  {
+    "indexNumber": 5478,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "七海建人"
+  },
+  {
+    "indexNumber": 5480,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "五条悟"
+  },
+  {
+    "indexNumber": 5502,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ミラ"
+  },
+  {
+    "indexNumber": 5504,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "アルタイル"
+  },
+  {
+    "indexNumber": 5506,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "レグルス"
+  },
+  {
+    "indexNumber": 5518,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "項羽"
+  },
+  {
+    "indexNumber": 5524,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "バサラ"
+  },
+  {
+    "indexNumber": 5530,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アブドゥーグ"
+  },
+  {
+    "indexNumber": 5532,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ベネット"
+  },
+  {
+    "indexNumber": 5534,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ピムス"
+  },
+  {
+    "indexNumber": 5550,
+    "element": "火",
+    "type": "α",
+    "monsterName": "犬塚信乃α"
+  },
+  {
+    "indexNumber": 5552,
+    "element": "水",
+    "type": "α",
+    "monsterName": "式森コカゲα"
+  },
+  {
+    "indexNumber": 5554,
+    "element": "光",
+    "type": "α",
+    "monsterName": "風神雷神α"
+  },
+  {
+    "indexNumber": 5568,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "浦女３年"
+  },
+  {
+    "indexNumber": 5571,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "浦女１年"
+  },
+  {
+    "indexNumber": 5574,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "浦女２年"
+  },
+  {
+    "indexNumber": 5582,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "エルマ・ルー＆コニィ・ルー"
+  },
+  {
+    "indexNumber": 5584,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ガリーナ"
+  },
+  {
+    "indexNumber": 5586,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "レイデル"
+  },
+  {
+    "indexNumber": 5606,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "終末運命共同隊"
+  },
+  {
+    "indexNumber": 5627,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "マァム"
+  },
+  {
+    "indexNumber": 5629,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ダイ"
+  },
+  {
+    "indexNumber": 5631,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ポップ"
+  },
+  {
+    "indexNumber": 5671,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "韓非"
+  },
+  {
+    "indexNumber": 5673,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "李信"
+  },
+  {
+    "indexNumber": 5675,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "王翦"
+  },
+  {
+    "indexNumber": 5727,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "アナスタシア"
+  },
+  {
+    "indexNumber": 5734,
+    "element": "火",
+    "type": "α",
+    "monsterName": "十文字雷葉α"
+  },
+  {
+    "indexNumber": 5736,
+    "element": "木",
+    "type": "α",
+    "monsterName": "アザトースα"
+  },
+  {
+    "indexNumber": 5738,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "那須与一α"
+  },
+  {
+    "indexNumber": 5759,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "浦原喜助"
+  },
+  {
+    "indexNumber": 5763,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "井上織姫"
+  },
+  {
+    "indexNumber": 5765,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "石田雨竜"
+  },
+  {
+    "indexNumber": 5786,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アネモネ"
+  },
+  {
+    "indexNumber": 5788,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "グロリオサ"
+  },
+  {
+    "indexNumber": 5790,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ブラックリリー"
+  },
+  {
+    "indexNumber": 5806,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "カノン"
+  },
+  {
+    "indexNumber": 5819,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ラム"
+  },
+  {
+    "indexNumber": 5821,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "レム"
+  },
+  {
+    "indexNumber": 5825,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "エミリア"
+  },
+  {
+    "indexNumber": 5862,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "えびす"
+  },
+  {
+    "indexNumber": 5869,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "犬山道節"
+  },
+  {
+    "indexNumber": 5871,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "犬田小文吾"
+  },
+  {
+    "indexNumber": 5873,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "浜路"
+  },
+  {
+    "indexNumber": 5889,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "オフィーリア"
+  },
+  {
+    "indexNumber": 5891,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "コーディリア＆リア"
+  },
+  {
+    "indexNumber": 5893,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ハムレット"
+  },
+  {
+    "indexNumber": 5902,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "アンドロメダ"
+  },
+  {
+    "indexNumber": 5911,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ホロホロ"
+  },
+  {
+    "indexNumber": 5913,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "麻倉 葉"
+  },
+  {
+    "indexNumber": 5917,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "道 蓮"
+  },
+  {
+    "indexNumber": 5942,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ハリケーン"
+  },
+  {
+    "indexNumber": 5944,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "カーム"
+  },
+  {
+    "indexNumber": 5946,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ウィンディ"
+  },
+  {
+    "indexNumber": 5959,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "帰蝶"
+  },
+  {
+    "indexNumber": 5964,
+    "element": "火",
+    "type": "α",
+    "monsterName": "マルタα"
+  },
+  {
+    "indexNumber": 5966,
+    "element": "木",
+    "type": "α",
+    "monsterName": "神農α"
+  },
+  {
+    "indexNumber": 5968,
+    "element": "光",
+    "type": "α",
+    "monsterName": "ニュートンα"
+  },
+  {
+    "indexNumber": 5982,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "骸"
+  },
+  {
+    "indexNumber": 5989,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ネオ"
+  },
+  {
+    "indexNumber": 5999,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "大千鳥十文字槍"
+  },
+  {
+    "indexNumber": 6001,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "クラウ・ソラス"
+  },
+  {
+    "indexNumber": 6003,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "カドゥケウス・ロッド"
+  },
+  {
+    "indexNumber": 6019,
+    "element": "水",
+    "type": "α",
+    "monsterName": "ベネットα"
+  },
+  {
+    "indexNumber": 6021,
+    "element": "光",
+    "type": "α",
+    "monsterName": "ラプラスα"
+  },
+  {
+    "indexNumber": 6023,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "ヴォーパルソードα"
+  },
+  {
+    "indexNumber": 6035,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "乙骨憂太"
+  },
+  {
+    "indexNumber": 6049,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "プラトン"
+  },
+  {
+    "indexNumber": 6051,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "キェルケゴール"
+  },
+  {
+    "indexNumber": 6053,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ニーチェ"
+  },
+  {
+    "indexNumber": 6062,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "包青天"
+  },
+  {
+    "indexNumber": 6064,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "劉邦"
+  },
+  {
+    "indexNumber": 6080,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "木崎レイジ"
+  },
+  {
+    "indexNumber": 6082,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "烏丸京介"
+  },
+  {
+    "indexNumber": 6084,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "忍田真史"
+  },
+  {
+    "indexNumber": 6108,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ピリカ"
+  },
+  {
+    "indexNumber": 6120,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アポロン"
+  },
+  {
+    "indexNumber": 6122,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "イリス"
+  },
+  {
+    "indexNumber": 6124,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ヘパイストス"
+  },
+  {
+    "indexNumber": 6133,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ポラリス"
+  },
+  {
+    "indexNumber": 6148,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "煉獄杏寿郎"
+  },
+  {
+    "indexNumber": 6152,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "竈門禰豆子"
+  },
+  {
+    "indexNumber": 6154,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "宇髄天元"
+  },
+  {
+    "indexNumber": 6181,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ルイス・フロイス"
+  },
+  {
+    "indexNumber": 6183,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "お市"
+  },
+  {
+    "indexNumber": 6185,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "浅井長政"
+  },
+  {
+    "indexNumber": 6200,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "ルナ"
+  },
+  {
+    "indexNumber": 6205,
+    "element": "火",
+    "type": "α",
+    "monsterName": "李信α"
+  },
+  {
+    "indexNumber": 6207,
+    "element": "木",
+    "type": "α",
+    "monsterName": "アナスタシアα"
+  },
+  {
+    "indexNumber": 6209,
+    "element": "光",
+    "type": "α",
+    "monsterName": "エルマ・ルー＆コニィ・ルーα"
+  },
+  {
+    "indexNumber": 6229,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "江戸川コナン"
+  },
+  {
+    "indexNumber": 6233,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "安室透"
+  },
+  {
+    "indexNumber": 6235,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "赤井秀一"
+  },
+  {
+    "indexNumber": 6259,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "額田王"
+  },
+  {
+    "indexNumber": 6261,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "中臣鎌足"
+  },
+  {
+    "indexNumber": 6263,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "小野妹子"
+  },
+  {
+    "indexNumber": 6275,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "聖徳太子"
+  },
+  {
+    "indexNumber": 6281,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ヨル・フォージャー"
+  },
+  {
+    "indexNumber": 6283,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ロイド・フォージャー"
+  },
+  {
+    "indexNumber": 6285,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "アーニャ・フォージャー"
+  },
+  {
+    "indexNumber": 6291,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "デイゴ"
+  },
+  {
+    "indexNumber": 6293,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "プロテア"
+  },
+  {
+    "indexNumber": 6295,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ブーゲンビリア"
+  },
+  {
+    "indexNumber": 6307,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "ジャック・ザ・リッパー"
+  },
+  {
+    "indexNumber": 6339,
+    "element": "火",
+    "type": "α",
+    "monsterName": "オニャンコポンα"
+  },
+  {
+    "indexNumber": 6341,
+    "element": "光",
+    "type": "α",
+    "monsterName": "フランクリンα"
+  },
+  {
+    "indexNumber": 6343,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "オフィーリアα"
+  },
+  {
+    "indexNumber": 6361,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "アビス"
+  },
+  {
+    "indexNumber": 6364,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "イドーラ"
+  },
+  {
+    "indexNumber": 6366,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ウボ＝サスラ"
+  },
+  {
+    "indexNumber": 6368,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "シュブ＝ニグラス"
+  },
+  {
+    "indexNumber": 6389,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "えび天娘。"
+  },
+  {
+    "indexNumber": 6413,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "空条徐倫"
+  },
+  {
+    "indexNumber": 6415,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "空条承太郎"
+  },
+  {
+    "indexNumber": 6417,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ウェザー・リポート"
+  },
+  {
+    "indexNumber": 6439,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "死者の書"
+  },
+  {
+    "indexNumber": 6441,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "マビノギオン"
+  },
+  {
+    "indexNumber": 6443,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "東海道中膝栗毛"
+  },
+  {
+    "indexNumber": 6455,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ちはや"
+  },
+  {
+    "indexNumber": 6465,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "モンキー・D・ルフィ"
+  },
+  {
+    "indexNumber": 6467,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ポートガス・D・エース"
+  },
+  {
+    "indexNumber": 6471,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ヤマト"
+  },
+  {
+    "indexNumber": 6473,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ロロノア・ゾロ"
+  },
+  {
+    "indexNumber": 6479,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "サボ"
+  },
+  {
+    "indexNumber": 6481,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "サンジ"
+  },
+  {
+    "indexNumber": 6502,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ファイヤーエンブレム"
+  },
+  {
+    "indexNumber": 6504,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ブルーローズ"
+  },
+  {
+    "indexNumber": 6506,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ワイルドタイガー"
+  },
+  {
+    "indexNumber": 6534,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ピニャコラーダ"
+  },
+  {
+    "indexNumber": 6536,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "プルケ"
+  },
+  {
+    "indexNumber": 6538,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "スピリタス"
+  },
+  {
+    "indexNumber": 6553,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "アルスラーン"
+  },
+  {
+    "indexNumber": 6560,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "佐倉杏子"
+  },
+  {
+    "indexNumber": 6566,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "鹿目まどか"
+  },
+  {
+    "indexNumber": 6569,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "暁美ほむら"
+  },
+  {
+    "indexNumber": 6606,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "須ノ花蓮治郎"
+  },
+  {
+    "indexNumber": 6608,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "小桐さくの"
+  },
+  {
+    "indexNumber": 6610,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "電堂りるる"
+  },
+  {
+    "indexNumber": 6625,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "シュレディンガー"
+  },
+  {
+    "indexNumber": 6633,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "パワー"
+  },
+  {
+    "indexNumber": 6635,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "早川アキ"
+  },
+  {
+    "indexNumber": 6639,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "デンジ"
+  },
+  {
+    "indexNumber": 6661,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ヨルズ"
+  },
+  {
+    "indexNumber": 6663,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ミーミル"
+  },
+  {
+    "indexNumber": 6665,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "テュール"
+  },
+  {
+    "indexNumber": 6680,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "バビロン"
+  },
+  {
+    "indexNumber": 6683,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ゲオルギオス"
+  },
+  {
+    "indexNumber": 6685,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "坂上田村麻呂"
+  },
+  {
+    "indexNumber": 6687,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "テセウス"
+  },
+  {
+    "indexNumber": 6700,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "ファウスト"
+  },
+  {
+    "indexNumber": 6707,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ラムα"
+  },
+  {
+    "indexNumber": 6709,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "レムα"
+  },
+  {
+    "indexNumber": 6711,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "エミリアα"
+  },
+  {
+    "indexNumber": 6736,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ヤクモ"
+  },
+  {
+    "indexNumber": 6746,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "浄玻璃鏡"
+  },
+  {
+    "indexNumber": 6748,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ガラティーン"
+  },
+  {
+    "indexNumber": 6750,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ハーメルンパイプ"
+  },
+  {
+    "indexNumber": 6761,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "バナージ・リンクス"
+  },
+  {
+    "indexNumber": 6763,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "キラ・ヤマト"
+  },
+  {
+    "indexNumber": 6767,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "アムロ・レイ"
+  },
+  {
+    "indexNumber": 6793,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ネプトゥーヌス"
+  },
+  {
+    "indexNumber": 6795,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ディアナ"
+  },
+  {
+    "indexNumber": 6797,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "サトゥルヌス"
+  },
+  {
+    "indexNumber": 6806,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "鍾馗"
+  },
+  {
+    "indexNumber": 6814,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ヴァン・ホーエンハイム"
+  },
+  {
+    "indexNumber": 6816,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "オリヴィエ"
+  },
+  {
+    "indexNumber": 6820,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "リザ＆ロイ"
+  },
+  {
+    "indexNumber": 6853,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "白蛇伝"
+  },
+  {
+    "indexNumber": 6855,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "スノッリのエッダ"
+  },
+  {
+    "indexNumber": 6857,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "解体新書"
+  },
+  {
+    "indexNumber": 6870,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "メモリー"
+  },
+  {
+    "indexNumber": 6875,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ベニマル"
+  },
+  {
+    "indexNumber": 6877,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "リムル"
+  },
+  {
+    "indexNumber": 6883,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "シオン"
+  },
+  {
+    "indexNumber": 6913,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "福島正則"
+  },
+  {
+    "indexNumber": 6915,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ねね"
+  },
+  {
+    "indexNumber": 6917,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "島左近"
+  },
+  {
+    "indexNumber": 6927,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "四宮 かぐや"
+  },
+  {
+    "indexNumber": 6929,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "早坂 愛"
+  },
+  {
+    "indexNumber": 6931,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "白銀御行"
+  },
+  {
+    "indexNumber": 6936,
+    "element": "火",
+    "type": "α",
+    "monsterName": "ウボ・サスラα"
+  },
+  {
+    "indexNumber": 6938,
+    "element": "水",
+    "type": "α",
+    "monsterName": "アルスラーンα"
+  },
+  {
+    "indexNumber": 6940,
+    "element": "木",
+    "type": "α",
+    "monsterName": "ブーゲンビリアα"
+  },
+  {
+    "indexNumber": 6961,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ミカサアルミン"
+  },
+  {
+    "indexNumber": 6963,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ジャンコニー"
+  },
+  {
+    "indexNumber": 6967,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ハンジリヴァイ"
+  },
+  {
+    "indexNumber": 6995,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ブラダマンテ"
+  },
+  {
+    "indexNumber": 6997,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アストルフォ"
+  },
+  {
+    "indexNumber": 6999,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ローラン"
+  },
+  {
+    "indexNumber": 7039,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "シャルルマーニュ"
+  },
+  {
+    "indexNumber": 7049,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "キリンジ"
+  },
+  {
+    "indexNumber": 7052,
+    "element": "水",
+    "type": "α",
+    "monsterName": "小桐さくのα"
+  },
+  {
+    "indexNumber": 7054,
+    "element": "光",
+    "type": "α",
+    "monsterName": "アルセーヌα"
+  },
+  {
+    "indexNumber": 7056,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "ローレライα"
+  },
+  {
+    "indexNumber": 7067,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ミューズ"
+  },
+  {
+    "indexNumber": 7073,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "タルウィ＆ザリチュ"
+  },
+  {
+    "indexNumber": 7075,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アンラ・マンユ"
+  },
+  {
+    "indexNumber": 7077,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "アカ・マナフ"
+  },
+  {
+    "indexNumber": 7093,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "画眉丸"
+  },
+  {
+    "indexNumber": 7095,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "山田浅ェ門　佐切"
+  },
+  {
+    "indexNumber": 7097,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "亜左弔兵衛"
+  },
+  {
+    "indexNumber": 7103,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アルデバラン"
+  },
+  {
+    "indexNumber": 7105,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "アルビレオ"
+  },
+  {
+    "indexNumber": 7107,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "プロキオン"
+  },
+  {
+    "indexNumber": 7127,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "キル×ユア×アイドル"
+  },
+  {
+    "indexNumber": 7148,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "時透無一郎"
+  },
+  {
+    "indexNumber": 7150,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "甘露寺蜜璃"
+  },
+  {
+    "indexNumber": 7152,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "竈門炭次郎＆竈門禰??豆子"
+  },
+  {
+    "indexNumber": 7177,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "泡盛"
+  },
+  {
+    "indexNumber": 7179,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "シードル"
+  },
+  {
+    "indexNumber": 7181,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "モスコミュール"
+  },
+  {
+    "indexNumber": 7193,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "サトリ"
+  },
+  {
+    "indexNumber": 7200,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "シノンα"
+  },
+  {
+    "indexNumber": 7202,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "アリス・シンセシス・サーティα"
+  },
+  {
+    "indexNumber": 7204,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "アスナα"
+  },
+  {
+    "indexNumber": 7228,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "信"
+  },
+  {
+    "indexNumber": 7232,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "羌?"
+  },
+  {
+    "indexNumber": 7234,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "王騎"
+  },
+  {
+    "indexNumber": 7255,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "モンゴルフィエ姉妹"
+  },
+  {
+    "indexNumber": 7257,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "フーコー"
+  },
+  {
+    "indexNumber": 7259,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "モールス"
+  },
+  {
+    "indexNumber": 7272,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "新島八重"
+  },
+  {
+    "indexNumber": 7282,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "佐野万次郎"
+  },
+  {
+    "indexNumber": 7288,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "三ツ谷隆"
+  },
+  {
+    "indexNumber": 7290,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "龍宮寺堅"
+  },
+  {
+    "indexNumber": 7335,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "空条承太郎SC"
+  },
+  {
+    "indexNumber": 7337,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "花京院典明"
+  },
+  {
+    "indexNumber": 7339,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ジャン・ピエール・ポルナレフ"
+  },
+  {
+    "indexNumber": 7366,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "マギア"
+  },
+  {
+    "indexNumber": 7371,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ヒヤシンス"
+  },
+  {
+    "indexNumber": 7373,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "スノードロップ"
+  },
+  {
+    "indexNumber": 7375,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "クロッカス"
+  },
+  {
+    "indexNumber": 7389,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "クリムト"
+  },
+  {
+    "indexNumber": 7395,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ベータ"
+  },
+  {
+    "indexNumber": 7399,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "アルファ"
+  },
+  {
+    "indexNumber": 7401,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "シャドウ"
+  },
+  {
+    "indexNumber": 7422,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "篤姫"
+  },
+  {
+    "indexNumber": 7426,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "緒方洪庵"
+  },
+  {
+    "indexNumber": 7441,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "sinギルティ"
+  },
+  {
+    "indexNumber": 7442,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "大久保利通"
+  },
+  {
+    "indexNumber": 7446,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "アーニャ・フォージャーα"
+  },
+  {
+    "indexNumber": 7448,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ロイド・フォージャーα"
+  },
+  {
+    "indexNumber": 7450,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ヨル・フォージャーα"
+  },
+  {
+    "indexNumber": 7462,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "水戸光圀"
+  },
+  {
+    "indexNumber": 7480,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "マサムネ"
+  },
+  {
+    "indexNumber": 7488,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "シーター"
+  },
+  {
+    "indexNumber": 7490,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ラーマ"
+  },
+  {
+    "indexNumber": 7492,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ビーマ"
+  },
+  {
+    "indexNumber": 7510,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "釘崎野薔薇"
+  },
+  {
+    "indexNumber": 7512,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "冥冥"
+  },
+  {
+    "indexNumber": 7514,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "伏黒恵"
+  },
+  {
+    "indexNumber": 7540,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "薄墨"
+  },
+  {
+    "indexNumber": 7542,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "冷艶鋸"
+  },
+  {
+    "indexNumber": 7544,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ジョワユーズ"
+  },
+  {
+    "indexNumber": 7553,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "タルタロス"
+  },
+  {
+    "indexNumber": 7559,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "月下老人"
+  },
+  {
+    "indexNumber": 7568,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "アスラン"
+  },
+  {
+    "indexNumber": 7570,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "キラ＆ラクス"
+  },
+  {
+    "indexNumber": 7572,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "シン"
+  },
+  {
+    "indexNumber": 7591,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "オデュッセイア"
+  },
+  {
+    "indexNumber": 7593,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "金枝篇"
+  },
+  {
+    "indexNumber": 7595,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "羅生門"
+  },
+  {
+    "indexNumber": 7607,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "ゲキリン"
+  },
+  {
+    "indexNumber": 7613,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "新門紅丸"
+  },
+  {
+    "indexNumber": 7619,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "アーサー（コラボ）"
+  },
+  {
+    "indexNumber": 7621,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "森羅日下部"
+  },
+  {
+    "indexNumber": 7643,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "塚原卜伝"
+  },
+  {
+    "indexNumber": 7645,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "富田勢源"
+  },
+  {
+    "indexNumber": 7647,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "源為朝"
+  },
+  {
+    "indexNumber": 7659,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "シュタルク"
+  },
+  {
+    "indexNumber": 7661,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "フェルン"
+  },
+  {
+    "indexNumber": 7663,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "フリーレン"
+  },
+  {
+    "indexNumber": 7671,
+    "element": "水",
+    "type": "α",
+    "monsterName": "メモリーα"
+  },
+  {
+    "indexNumber": 7673,
+    "element": "木",
+    "type": "α",
+    "monsterName": "テセウスα"
+  },
+  {
+    "indexNumber": 7675,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "アルビレオα"
+  },
+  {
+    "indexNumber": 7693,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "桐嶋董香"
+  },
+  {
+    "indexNumber": 7695,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "鈴屋什造"
+  },
+  {
+    "indexNumber": 7701,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "金木研"
+  },
+  {
+    "indexNumber": 7722,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ジャヒー"
+  },
+  {
+    "indexNumber": 7724,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "タローマティ"
+  },
+  {
+    "indexNumber": 7726,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "サルワ"
+  },
+  {
+    "indexNumber": 7735,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "星霜"
+  },
+  {
+    "indexNumber": 7770,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ナイトメア"
+  },
+  {
+    "indexNumber": 7775,
+    "element": "木",
+    "type": "α",
+    "monsterName": "ダルタニャンα"
+  },
+  {
+    "indexNumber": 7777,
+    "element": "光",
+    "type": "α",
+    "monsterName": "モスコミュールα"
+  },
+  {
+    "indexNumber": 7779,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "モンゴルフィエ姉妹α"
+  },
+  {
+    "indexNumber": 7793,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "日々野カフカ"
+  },
+  {
+    "indexNumber": 7799,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "四ノ宮キコル"
+  },
+  {
+    "indexNumber": 7801,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "保科宗四郎"
+  },
+  {
+    "indexNumber": 7823,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "マムル"
+  },
+  {
+    "indexNumber": 7825,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "ラクリィ"
+  },
+  {
+    "indexNumber": 7827,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "むーすたン"
+  },
+  {
+    "indexNumber": 7841,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "モンテ・クリスト"
+  },
+  {
+    "indexNumber": 7854,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "さよならグラビティ"
+  },
+  {
+    "indexNumber": 7865,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ルビー（コラボ）"
+  },
+  {
+    "indexNumber": 7869,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "有馬かな"
+  },
+  {
+    "indexNumber": 7873,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "アクア"
+  },
+  {
+    "indexNumber": 7902,
+    "element": "火",
+    "type": "α",
+    "monsterName": "ゲキリンα"
+  },
+  {
+    "indexNumber": 7904,
+    "element": "光",
+    "type": "α",
+    "monsterName": "モールスα"
+  },
+  {
+    "indexNumber": 7906,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "島左近α"
+  },
+  {
+    "indexNumber": 7920,
+    "element": "水",
+    "type": "α",
+    "monsterName": "鹿目まどかα"
+  },
+  {
+    "indexNumber": 7922,
+    "element": "木",
+    "type": "α",
+    "monsterName": "暁美ほむらα"
+  },
+  {
+    "indexNumber": 7924,
+    "element": "光",
+    "type": "α",
+    "monsterName": "佐倉杏子α"
+  },
+  {
+    "indexNumber": 7940,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "ルミナス"
+  },
+  {
+    "indexNumber": 7944,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "雛衣"
+  },
+  {
+    "indexNumber": 7946,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "犬村大角"
+  },
+  {
+    "indexNumber": 7948,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "犬飼現八"
+  },
+  {
+    "indexNumber": 7966,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "サンラク"
+  },
+  {
+    "indexNumber": 7970,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "オイカッツォ"
+  },
+  {
+    "indexNumber": 7972,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "アーサー・ペンシルゴン"
+  },
+  {
+    "indexNumber": 7991,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "久遠"
+  },
+  {
+    "indexNumber": 8018,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "ドモン・ガッシュ＆シャイニングガンダム"
+  },
+  {
+    "indexNumber": 8022,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "スレッタ・マーキュリー＆ガンダム・エアリアル（改修型）"
+  },
+  {
+    "indexNumber": 8026,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "シーブック・アノー＆ガンダムF９１"
+  },
+  {
+    "indexNumber": 8046,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "三途"
+  },
+  {
+    "indexNumber": 8050,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ドン・ジョヴァンニ"
+  },
+  {
+    "indexNumber": 8052,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "トゥーランドット"
+  },
+  {
+    "indexNumber": 8054,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アイーダ"
+  },
+  {
+    "indexNumber": 8068,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "中野一花"
+  },
+  {
+    "indexNumber": 8070,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "中野二乃"
+  },
+  {
+    "indexNumber": 8072,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "中野三玖"
+  },
+  {
+    "indexNumber": 8074,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "中野四葉"
+  },
+  {
+    "indexNumber": 8076,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "中野五月"
+  },
+  {
+    "indexNumber": 8083,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "サワロ"
+  },
+  {
+    "indexNumber": 8085,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "マリーゴールド"
+  },
+  {
+    "indexNumber": 8087,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ルピナス"
+  },
+  {
+    "indexNumber": 8100,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "ディアボロス"
+  },
+  {
+    "indexNumber": 8105,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "朝野太陽＆夜桜六美"
+  },
+  {
+    "indexNumber": 8107,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "夜桜二刃"
+  },
+  {
+    "indexNumber": 8113,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "夜桜凶一郎"
+  },
+  {
+    "indexNumber": 8134,
+    "element": "水",
+    "type": "α",
+    "monsterName": "ナイトメアα"
+  },
+  {
+    "indexNumber": 8136,
+    "element": "木",
+    "type": "α",
+    "monsterName": "オデュッセイアα"
+  },
+  {
+    "indexNumber": 8138,
+    "element": "光",
+    "type": "α",
+    "monsterName": "塚原卜伝α"
+  },
+  {
+    "indexNumber": 8151,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ヴァニタス"
+  },
+  {
+    "indexNumber": 8156,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "御坂美琴"
+  },
+  {
+    "indexNumber": 8162,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "食蜂操祈"
+  },
+  {
+    "indexNumber": 8164,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "白井黒子"
+  },
+  {
+    "indexNumber": 8183,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "マジカル☆メルルンず"
+  },
+  {
+    "indexNumber": 8196,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "エル"
+  },
+  {
+    "indexNumber": 8205,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "物干し竿"
+  },
+  {
+    "indexNumber": 8207,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "アダマス・ハルパー"
+  },
+  {
+    "indexNumber": 8209,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "アンキレー"
+  },
+  {
+    "indexNumber": 8222,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "グイード・ミスタ"
+  },
+  {
+    "indexNumber": 8224,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ブローノ・ブチャラティ"
+  },
+  {
+    "indexNumber": 8230,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ジョルノ・ジョバァーナ"
+  },
+  {
+    "indexNumber": 8256,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "盤古"
+  },
+  {
+    "indexNumber": 8261,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ラムゼー"
+  },
+  {
+    "indexNumber": 8263,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "セルシウス"
+  },
+  {
+    "indexNumber": 8265,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "レントゲン"
+  },
+  {
+    "indexNumber": 8291,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "ヴェルドラ＝テンペスト"
+  },
+  {
+    "indexNumber": 8293,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "ミリム"
+  },
+  {
+    "indexNumber": 8295,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ディアブロ"
+  },
+  {
+    "indexNumber": 8318,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "島津豊久"
+  },
+  {
+    "indexNumber": 8320,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "大友宗麟"
+  },
+  {
+    "indexNumber": 8322,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "立花道雪"
+  },
+  {
+    "indexNumber": 8333,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "ルネサンス"
+  },
+  {
+    "indexNumber": 8340,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "紅月カレン"
+  },
+  {
+    "indexNumber": 8342,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "枢木スザク"
+  },
+  {
+    "indexNumber": 8348,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ルルーシュ・ランペルージ"
+  },
+  {
+    "indexNumber": 8372,
+    "element": "水",
+    "type": "α",
+    "monsterName": "源為朝α"
+  },
+  {
+    "indexNumber": 8374,
+    "element": "木",
+    "type": "α",
+    "monsterName": "フーコーα"
+  },
+  {
+    "indexNumber": 8376,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "ラファエルα"
+  },
+  {
+    "indexNumber": 8391,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "ノノア"
+  },
+  {
+    "indexNumber": 8395,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "天乃リリサ"
+  },
+  {
+    "indexNumber": 8397,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "橘美花莉"
+  },
+  {
+    "indexNumber": 8425,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "工藤新一&毛利蘭"
+  },
+  {
+    "indexNumber": 8429,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "服部平次&遠山和葉"
+  },
+  {
+    "indexNumber": 8433,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "江戸川コナン&怪盗キッド"
+  },
+  {
+    "indexNumber": 8458,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "カストル&ポルックス"
+  },
+  {
+    "indexNumber": 8460,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "フォーマルハウト"
+  },
+  {
+    "indexNumber": 8462,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "アルファルド"
+  },
+  {
+    "indexNumber": 8471,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "エトワール"
+  },
+  {
+    "indexNumber": 8477,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "喜多郁代"
+  },
+  {
+    "indexNumber": 8479,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "山田リョウ"
+  },
+  {
+    "indexNumber": 8481,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "伊地知虹夏"
+  },
+  {
+    "indexNumber": 8489,
+    "element": "木",
+    "type": "α",
+    "monsterName": "三途α"
+  },
+  {
+    "indexNumber": 8491,
+    "element": "光",
+    "type": "α",
+    "monsterName": "物干し竿α"
+  },
+  {
+    "indexNumber": 8493,
+    "element": "闇",
+    "type": "α",
+    "monsterName": "機光院チヨα"
+  },
+  {
+    "indexNumber": 8512,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "猫猫"
+  },
+  {
+    "indexNumber": 8514,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "壬氏"
+  },
+  {
+    "indexNumber": 8529,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "メビウス"
+  },
+  {
+    "indexNumber": 8532,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "アイオワ"
+  },
+  {
+    "indexNumber": 8534,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "チハ"
+  },
+  {
+    "indexNumber": 8536,
+    "element": "闇",
+    "type": "恒常",
+    "monsterName": "ナイトホーク"
+  },
+  {
+    "indexNumber": 8550,
+    "element": "闇",
+    "type": "限定",
+    "monsterName": "いろは"
+  },
+  {
+    "indexNumber": 8564,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "ヤバい女子高生たち、"
+  },
+  {
+    "indexNumber": 8584,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "シュウジ・イトウ"
+  },
+  {
+    "indexNumber": 8586,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "マチュ"
+  },
+  {
+    "indexNumber": 8592,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ニャアン"
+  },
+  {
+    "indexNumber": 8609,
+    "element": "水",
+    "type": "α",
+    "monsterName": "Two for all α"
+  },
+  {
+    "indexNumber": 8611,
+    "element": "木",
+    "type": "α",
+    "monsterName": "マムルα"
+  },
+  {
+    "indexNumber": 8613,
+    "element": "光",
+    "type": "α",
+    "monsterName": "ラクリィα"
+  },
+  {
+    "indexNumber": 8629,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "パンサー　高巻杏"
+  },
+  {
+    "indexNumber": 8635,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "クイーン　新島真"
+  },
+  {
+    "indexNumber": 8636,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ジョーカー　雨宮蓮"
+  },
+  {
+    "indexNumber": 8657,
+    "element": "木",
+    "type": "限定",
+    "monsterName": "ニケ"
+  },
+  {
+    "indexNumber": 8664,
+    "element": "火",
+    "type": "恒常",
+    "monsterName": "ルルネーヴェ"
+  },
+  {
+    "indexNumber": 8666,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "バービッド"
+  },
+  {
+    "indexNumber": 8668,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "リリネーヴェ"
+  },
+  {
+    "indexNumber": 8680,
+    "element": "火",
+    "type": "限定",
+    "monsterName": "エリス"
+  },
+  {
+    "indexNumber": 8687,
+    "element": "水",
+    "type": "コラボ",
+    "monsterName": "羽川翼"
+  },
+  {
+    "indexNumber": 8691,
+    "element": "光",
+    "type": "コラボ",
+    "monsterName": "忍野忍"
+  },
+  {
+    "indexNumber": 8693,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "戦場ヶ原ひたぎ"
+  },
+  {
+    "indexNumber": 8720,
+    "element": "水",
+    "type": "限定",
+    "monsterName": "アンドロイドダイナー"
+  },
+  {
+    "indexNumber": 8738,
+    "element": "火",
+    "type": "コラボ",
+    "monsterName": "オカルン"
+  },
+  {
+    "indexNumber": 8742,
+    "element": "木",
+    "type": "コラボ",
+    "monsterName": "モモ"
+  },
+  {
+    "indexNumber": 8746,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "ジジ"
+  },
+  {
+    "indexNumber": 8768,
+    "element": "水",
+    "type": "恒常",
+    "monsterName": "ストレリチア"
+  },
+  {
+    "indexNumber": 8770,
+    "element": "木",
+    "type": "恒常",
+    "monsterName": "スカドクサス"
+  },
+  {
+    "indexNumber": 8772,
+    "element": "光",
+    "type": "恒常",
+    "monsterName": "ガーベラ"
+  } 
+]

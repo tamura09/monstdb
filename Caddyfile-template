@@ -1,0 +1,37 @@
+# Caddyfile - 自動HTTPS設定
+# /etc/caddy/Caddyfile
+
+# ドメインを記述するだけで自動的にHTTPS化される
+monstdb.example.com {
+    # Next.jsアプリケーションへリバースプロキシ
+    reverse_proxy localhost:3000
+    
+    # セキュリティヘッダー
+    header {
+        # HSTS
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        
+        # その他のセキュリティヘッダー
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        
+        # 不要なヘッダーを削除
+        -Server
+    }
+    
+    # gzip圧縮
+    encode gzip
+    
+    # ログ設定
+    log {
+        output file /var/log/caddy/monstdb.log
+        format json
+    }
+}
+
+# www付きドメインをwww無しにリダイレクト
+www.monstdb.example.com {
+    redir https://monstdb.example.com{uri} permanent
+}
