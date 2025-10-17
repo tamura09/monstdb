@@ -13,13 +13,15 @@ import FriendIdDisplay from '@/components/FriendIdDisplay'
 export default async function FriendsPage({
   searchParams,
 }: {
-  searchParams: { search?: string }
+  searchParams: Promise<{ search?: string }>
 }) {
   const session = await getServerSession(authOptions)
 
   if (!session) {
     redirect('/login')
   }
+
+  const { search } = await searchParams
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -87,9 +89,9 @@ export default async function FriendsPage({
 
   // 検索結果
   // (宣言は上部の import type と既存の let searchResult で行っています)
-  if (searchParams.search) {
+  if (search) {
     searchResult = await prisma.user.findUnique({
-      where: { friendId: searchParams.search },
+      where: { friendId: search },
       include: {
         gameAccounts: {
           include: {
@@ -280,7 +282,7 @@ export default async function FriendsPage({
         </h2>
         <FriendSearchForm />
         
-        {searchParams.search && !searchResult && (
+        {search && !searchResult && (
           <div className="mt-4 text-center text-gray-500">
             ユーザーが見つかりませんでした、または既にフレンド・申請済みです
           </div>

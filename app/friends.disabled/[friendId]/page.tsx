@@ -10,14 +10,14 @@ export default async function FriendAccountsPage({
   params,
   searchParams,
 }: {
-  params: { friendId: string }
-  searchParams: {
+  params: Promise<{ friendId: string }>
+  searchParams: Promise<{
     element?: string
     type?: string
     search?: string
     wakuwaku?: string
     wakuwakuMode?: 'and' | 'or'
-  }
+  }>
 }) {
   const session = await getServerSession(authOptions)
 
@@ -25,13 +25,14 @@ export default async function FriendAccountsPage({
     redirect('/login')
   }
 
-  const { element, type, search, wakuwaku, wakuwakuMode = 'or' } = searchParams
+  const { friendId } = await params
+  const { element, type, search, wakuwaku, wakuwakuMode = 'or' } = await searchParams
 
   // フレンド関係を確認
   const friendship = await prisma.friendship.findFirst({
     where: {
       userId: session.user.id,
-      friendId: params.friendId,
+      friendId: friendId,
     },
   })
 
@@ -41,7 +42,7 @@ export default async function FriendAccountsPage({
 
   // フレンド情報を取得
   const friend = await prisma.user.findUnique({
-    where: { id: params.friendId },
+    where: { id: friendId },
     include: {
       gameAccounts: {
         include: {
@@ -189,7 +190,7 @@ export default async function FriendAccountsPage({
             </label>
             <div className="flex flex-wrap gap-2">
               <a
-                href={`/friends/${params.friendId}`}
+                href={`/friends/${friendId}`}
                 className={`px-3 py-1 rounded text-sm ${
                   !element
                     ? 'bg-blue-600 text-white'
@@ -201,7 +202,7 @@ export default async function FriendAccountsPage({
               {elements.map((el) => (
                 <a
                   key={el}
-                  href={`/friends/${params.friendId}?element=${el}${type ? `&type=${type}` : ''}${
+                  href={`/friends/${friendId}?element=${el}${type ? `&type=${type}` : ''}${
                     search ? `&search=${search}` : ''
                   }${wakuwaku ? `&wakuwaku=${wakuwaku}` : ''}${wakuwakuMode ? `&wakuwakuMode=${wakuwakuMode}` : ''}`}
                   className={`px-3 py-1 rounded text-sm ${
@@ -222,7 +223,7 @@ export default async function FriendAccountsPage({
             </label>
             <div className="flex flex-wrap gap-2">
               <a
-                href={`/friends/${params.friendId}${
+                href={`/friends/${friendId}${
                   element ? `?element=${element}` : ''
                 }${search ? `${element ? '&' : '?'}search=${search}` : ''}${wakuwaku ? `${element || search ? '&' : '?'}wakuwaku=${wakuwaku}` : ''}${wakuwakuMode ? `${element || search || wakuwaku ? '&' : '?'}wakuwakuMode=${wakuwakuMode}` : ''}`}
                 className={`px-3 py-1 rounded text-sm ${
@@ -236,7 +237,7 @@ export default async function FriendAccountsPage({
               {types.map((t) => (
                 <a
                   key={t}
-                  href={`/friends/${params.friendId}?type=${t}${
+                  href={`/friends/${friendId}?type=${t}${
                     element ? `&element=${element}` : ''
                   }${search ? `&search=${search}` : ''}${wakuwaku ? `&wakuwaku=${wakuwaku}` : ''}${wakuwakuMode ? `&wakuwakuMode=${wakuwakuMode}` : ''}`}
                   className={`px-3 py-1 rounded text-sm ${
@@ -258,7 +259,7 @@ export default async function FriendAccountsPage({
             >
               キャラ名検索
             </label>
-            <form action={`/friends/${params.friendId}`} method="get">
+            <form action={`/friends/${friendId}`} method="get">
               {element && <input type="hidden" name="element" value={element} />}
               {type && <input type="hidden" name="type" value={type} />}
               {wakuwaku && <input type="hidden" name="wakuwaku" value={wakuwaku} />}
@@ -288,7 +289,7 @@ export default async function FriendAccountsPage({
               element={element}
               type={type}
               search={search}
-              basePath={`/friends/${params.friendId}`}
+              basePath={`/friends/${friendId}`}
             />
           </div>
         </div>

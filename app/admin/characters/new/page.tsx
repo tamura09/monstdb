@@ -7,13 +7,15 @@ import Link from 'next/link'
 export default async function NewCharacterPage({
   searchParams,
 }: {
-  searchParams: { error?: string; indexNumber?: string }
+  searchParams: Promise<{ error?: string; indexNumber?: string }>
 }) {
   const session = await getServerSession(authOptions)
 
   if (!session) {
     redirect('/login')
   }
+
+  const { error, indexNumber } = await searchParams
 
   // Admin権限チェック
   const user = await prisma.user.findUnique({
@@ -23,8 +25,6 @@ export default async function NewCharacterPage({
   if (!user || user.role !== 'admin') {
     redirect('/accounts')
   }
-
-  const { error, indexNumber } = searchParams
 
   // Server Action: キャラクター作成
   async function createCharacter(formData: FormData) {

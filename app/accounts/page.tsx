@@ -12,13 +12,13 @@ import ImportButton from '@/components/ImportButton'
 export default async function AccountsPage({
   searchParams,
 }: {
-  searchParams: { 
+  searchParams: Promise<{ 
     element?: string
     type?: string
     search?: string
     wakuwaku?: string
     wakuwakuMode?: 'and' | 'or'
-  }
+  }>
 }) {
   const session = await getServerSession(authOptions)
 
@@ -26,7 +26,7 @@ export default async function AccountsPage({
     redirect('/login')
   }
 
-  const { element, type, search, wakuwaku, wakuwakuMode = 'or' } = searchParams
+  const { element, type, search, wakuwaku, wakuwakuMode = 'or' } = await searchParams
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },

@@ -9,13 +9,15 @@ import DeleteCharacterMasterButton from '@/components/DeleteCharacterMasterButto
 export default async function AdminCharactersPage({
   searchParams,
 }: {
-  searchParams: { element?: string; type?: string; search?: string; success?: string }
+  searchParams: Promise<{ element?: string; type?: string; search?: string; success?: string }>
 }) {
   const session = await getServerSession(authOptions)
 
   if (!session) {
     redirect('/login')
   }
+
+  const { element, type, search, success } = await searchParams
 
   // Admin権限チェック
   const user = await prisma.user.findUnique({
@@ -25,8 +27,6 @@ export default async function AdminCharactersPage({
   if (!user || user.role !== 'admin') {
     redirect('/accounts')
   }
-
-  const { element, type, search, success } = searchParams
 
   // 全キャラクターマスターを取得
   const characters = await prisma.characterMaster.findMany({

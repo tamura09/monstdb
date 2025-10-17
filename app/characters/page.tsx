@@ -7,10 +7,10 @@ import DownloadButton from '@/components/DownloadButton'
 export default async function CharactersPage({
   searchParams,
 }: {
-  searchParams: { element?: string; type?: string; search?: string }
+  searchParams: Promise<{ element?: string; type?: string; search?: string }>
 }) {
   const session = await getServerSession(authOptions)
-  const { element, type, search } = searchParams
+  const { element, type, search } = await searchParams
 
   // Admin権限チェック
   let isAdmin = false

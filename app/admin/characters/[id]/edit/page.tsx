@@ -8,14 +8,17 @@ export default async function EditCharacterPage({
   params,
   searchParams,
 }: {
-  params: { id: string }
-  searchParams: { error?: string }
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ error?: string }>
 }) {
   const session = await getServerSession(authOptions)
 
   if (!session) {
     redirect('/login')
   }
+
+  const { id } = await params
+  const { error } = await searchParams
 
   // Admin権限チェック
   const user = await prisma.user.findUnique({
@@ -26,10 +29,8 @@ export default async function EditCharacterPage({
     redirect('/accounts')
   }
 
-  const { error } = searchParams
-
   const character = await prisma.characterMaster.findUnique({
-    where: { id: params.id },
+    where: { id },
   })
 
   if (!character) {

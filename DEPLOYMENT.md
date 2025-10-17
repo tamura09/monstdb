@@ -89,3 +89,32 @@ npx prisma generate
 chmod 755 .
 chmod 644 prisma/prod.db
 ```
+
+## GitHub Actionsでマイグレーションとシードを実行する
+
+リポジトリに含めたワークフロー `.github/workflows/prisma-migrate-deploy.yml` を使うと、`main` ブランチへ push した際に CI 上でマイグレーションとシードを実行できます。
+
+手順:
+1. Supabase の「Direct DB connection（ポート5432）」の接続文字列をコピーします。
+2. GitHub リポジトリの Settings → Secrets → Actions に `PROD_DATABASE_URL` として貼り付けます。
+3. `main` に push すると workflow が起動し、`npx prisma migrate deploy` と `npx prisma db seed` が実行されます。
+
+注意:
+- CI では Direct 接続（5432）を使ってください。Pooler（pgBouncer）エンドポイントは DDL 操作で問題を起こす場合があります。
+- Vercel のランタイム環境では接続プーラーを利用しても構いませんが、マイグレーションは CI 側で Direct を使って行うのが安全です。
+
+## Vercel で pgBouncer を使う場合の設定
+
+Supabase の pgBouncer（または接続プーラー）を使う場合、Prisma の prepared statement 衝突を防ぐため、**環境変数に `?pgbouncer=true` パラメータを追加**してください。
+
+手順:
+1. Vercel の Project Settings → Environment Variables
+2. `DATABASE_URL` を編集し、末尾に `?pgbouncer=true` を追加
+   ```
+   例: postgresql://postgres:PASSWORD@db.xxx.supabase.co:5432/postgres?pgbouncer=true
+   ```
+3. Production, Preview, Development すべての環境に適用
+4. 再デプロイを実行
+
+これにより Prisma が prepared statement を無効化し、pgBouncer との互換モードで動作します。エラー「prepared statement "sX" already exists (42P05)」が解消されます。
+

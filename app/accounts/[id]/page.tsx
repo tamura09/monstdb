@@ -8,8 +8,9 @@ import DeleteCharacterButton from '@/components/DeleteCharacterButton'
 export default async function AccountDetailPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
+  const { id } = await params
   const session = await getServerSession(authOptions)
 
   if (!session) {
@@ -17,7 +18,7 @@ export default async function AccountDetailPage({
   }
 
   const account = await prisma.gameAccount.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       user: true,
       ownedCharacters: {
@@ -61,12 +62,12 @@ export default async function AccountDetailPage({
 
     await prisma.ownedCharacter.create({
       data: {
-        gameAccountId: params.id,
+        gameAccountId: id,
         characterMasterId,
       },
     })
 
-    redirect(`/accounts/${params.id}`)
+    redirect(`/accounts/${id}`)
   }
 
   async function deleteCharacter(formData: FormData) {
@@ -82,7 +83,7 @@ export default async function AccountDetailPage({
       where: { id: ownedCharacterId },
     })
 
-    redirect(`/accounts/${params.id}`)
+    redirect(`/accounts/${id}`)
   }
 
   async function addWakuwaku(formData: FormData) {
@@ -102,7 +103,7 @@ export default async function AccountDetailPage({
 
     if (existingSlots.length >= 3) {
       // 既に3個ついている場合は追加しない
-      redirect(`/accounts/${params.id}`)
+      redirect(`/accounts/${id}`)
       return
     }
 
@@ -147,7 +148,7 @@ export default async function AccountDetailPage({
       })
     }
 
-    redirect(`/accounts/${params.id}`)
+    redirect(`/accounts/${id}`)
   }
 
   async function deleteWakuwaku(formData: FormData) {
@@ -201,7 +202,7 @@ export default async function AccountDetailPage({
       })
     }
 
-    redirect(`/accounts/${params.id}`)
+    redirect(`/accounts/${id}`)
   }
 
   const allCharacters = await prisma.characterMaster.findMany({
