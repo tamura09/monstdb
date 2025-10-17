@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
     }
 
     // CSV形式に変換（BOM付きUTF-8でExcel対応）
-    // オプション1: 各所持キャラを1行ずつ出力
+    // 各所持キャラを1行ずつ出力
     const bom = '\uFEFF'
     const header = '図鑑No,名前,属性,種類,アカウント,わくわく1,わくわく2,わくわく3\n'
 

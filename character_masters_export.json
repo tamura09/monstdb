@@ -5956,5 +5956,11 @@
     "element": "光",
     "type": "恒常",
     "monsterName": "ガーベラ"
+  },
+  {
+    "indexNumber": 8786,
+    "element": "光",
+    "type": "限定",
+    "monsterName": "しゅんち"
   } 
 ]

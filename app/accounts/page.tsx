@@ -8,6 +8,7 @@ import WakuwakuFilter from '@/components/WakuwakuFilter'
 import CharacterTable from '@/components/CharacterTable'
 import DownloadButton from '@/components/DownloadButton'
 import ImportButton from '@/components/ImportButton'
+import DownloadTemplateButton from '@/components/DownloadTemplateButton'
 
 export default async function AccountsPage({
   searchParams,
@@ -324,6 +325,7 @@ export default async function AccountsPage({
           <p className="text-gray-600">{user.name}さんのアカウント一覧</p>
         </div>
         <div className="flex gap-3">
+          <DownloadTemplateButton />
           <ImportButton />
           <DownloadButton type="my-characters" />
           {isAdmin && (
