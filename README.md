@@ -127,3 +127,6 @@ monstdb/
 
 
 npm run add-characters
+
+npm run export-csv -- cmgukocqd0000ju041k3qq393
+npm run import-csv -- /Users/koyotamura/Downloads/monstconv/import-template-generated.csv cmgujw1xu0000bzn4e7lqw4o9 replace

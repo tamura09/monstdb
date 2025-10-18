@@ -3,14 +3,16 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import DownloadButton from '@/components/DownloadButton'
+import CharacterSearchFilter from '@/components/CharacterSearchFilter'
+import { matchesJapanese } from '@/lib/string-utils'
 
 export default async function CharactersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ element?: string; type?: string; search?: string }>
+  searchParams: Promise<{ element?: string; type?: string; search?: string; hasEL?: string }>
 }) {
   const session = await getServerSession(authOptions)
-  const { element, type, search } = await searchParams
+  const { element, type, search, hasEL } = await searchParams
 
   // Admin権限チェック
   let isAdmin = false
@@ -21,23 +23,23 @@ export default async function CharactersPage({
     isAdmin = user?.role === 'admin'
   }
 
-  const characters = await prisma.characterMaster.findMany({
+  // まず基本的なフィルターでデータを取得
+  let characters = await prisma.characterMaster.findMany({
     where: {
       ...(element && { element }),
       ...(type && { type }),
-      ...(search && {
-        monsterName: {
-          contains: search,
-        },
-      }),
     },
     orderBy: {
       indexNumber: 'asc',
     },
   })
 
-  const elements = ['火', '水', '木', '光', '闇']
-  const types = ['限定', '恒常', 'α', 'コラボ']
+  // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング
+  if (search) {
+    characters = characters.filter((char) =>
+      matchesJapanese(char.monsterName, search)
+    )
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -67,98 +69,7 @@ export default async function CharactersPage({
       </div>
 
       {/* フィルター */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              属性
-            </label>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href="/characters"
-                className={`px-3 py-1 rounded ${
-                  !element
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                全て
-              </a>
-              {elements.map((el) => (
-                <a
-                  key={el}
-                  href={`/characters?element=${el}${type ? `&type=${type}` : ''}${
-                    search ? `&search=${search}` : ''
-                  }`}
-                  className={`px-3 py-1 rounded ${
-                    element === el
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                >
-                  {el}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              種類
-            </label>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href={`/characters${element ? `?element=${element}` : ''}${
-                  search ? `${element ? '&' : '?'}search=${search}` : ''
-                }`}
-                className={`px-3 py-1 rounded ${
-                  !type
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                全て
-              </a>
-              {types.map((t) => (
-                <a
-                  key={t}
-                  href={`/characters?type=${t}${
-                    element ? `&element=${element}` : ''
-                  }${search ? `&search=${search}` : ''}`}
-                  className={`px-3 py-1 rounded ${
-                    type === t
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                >
-                  {t}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="search"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              検索
-            </label>
-            <form action="/characters" method="get">
-              {element && <input type="hidden" name="element" value={element} />}
-              {type && <input type="hidden" name="type" value={type} />}
-              <input
-                type="text"
-                id="search"
-                name="search"
-                defaultValue={search}
-                placeholder="キャラ名で検索..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </form>
-          </div>
-        </div>
-      </div>
+      <CharacterSearchFilter />
 
       {/* キャラクター一覧 */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">

@@ -58,9 +58,13 @@ export async function POST(request: NextRequest) {
           type: values[3],
           accountName: values[4],
           wakuwaku1: values[5] || '',
-          wakuwaku2: values[6] || '',
-          wakuwaku3: values[7] || '',
-          wakuwaku4: values[8] || '',
+          level1: values[6] || 'L',
+          wakuwaku2: values[7] || '',
+          level2: values[8] || 'L',
+          wakuwaku3: values[9] || '',
+          level3: values[10] || 'L',
+          wakuwaku4: values[11] || '',
+          level4: values[12] || 'L',
         })
       }
     }

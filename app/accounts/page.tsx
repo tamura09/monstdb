@@ -4,11 +4,12 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import WakuwakuFilter from '@/components/WakuwakuFilter'
 import CharacterTable from '@/components/CharacterTable'
 import DownloadButton from '@/components/DownloadButton'
 import ImportButton from '@/components/ImportButton'
 import DownloadTemplateButton from '@/components/DownloadTemplateButton'
+import AccountSearchFilter from '@/components/AccountSearchFilter'
+import { matchesJapanese } from '@/lib/string-utils'
 
 export default async function AccountsPage({
   searchParams,
@@ -19,6 +20,7 @@ export default async function AccountsPage({
     search?: string
     wakuwaku?: string
     wakuwakuMode?: 'and' | 'or'
+    hasEL?: string
   }>
 }) {
   const session = await getServerSession(authOptions)
@@ -27,7 +29,7 @@ export default async function AccountsPage({
     redirect('/login')
   }
 
-  const { element, type, search, wakuwaku, wakuwakuMode = 'or' } = await searchParams
+  const { element, type, search, wakuwaku, wakuwakuMode = 'or', hasEL } = await searchParams
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -73,20 +75,22 @@ export default async function AccountsPage({
   const selectedWakuwaku = wakuwaku ? wakuwaku.split(',').filter(Boolean) : []
 
   // 全キャラクターマスターを取得（フィルタリング付き）
-  const allCharacterMasters = await prisma.characterMaster.findMany({
+  let allCharacterMasters = await prisma.characterMaster.findMany({
     where: {
       ...(element && { element }),
       ...(type && { type }),
-      ...(search && {
-        monsterName: {
-          contains: search,
-        },
-      }),
     },
     orderBy: {
       indexNumber: 'asc',
     },
   })
+
+  // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング
+  if (search) {
+    allCharacterMasters = allCharacterMasters.filter((char) =>
+      matchesJapanese(char.monsterName, search)
+    )
+  }
 
   // 各キャラクターマスターに対して、各アカウントの所持情報をマッピング
   let characterData = allCharacterMasters.map((charMaster) => {
@@ -133,8 +137,23 @@ export default async function AccountsPage({
     })
   }
 
-  const elements = ['火', '水', '木', '光', '闇']
-  const types = ['限定', '恒常', 'α', 'コラボ']
+  // ELフィルタリング
+  if (hasEL === 'true') {
+    characterData = characterData.filter((charData) => {
+      // 全アカウントの所持キャラクターを取得
+      const allOwnedChars: any[] = []
+      Object.values(charData.accountOwnerships).forEach((chars) => {
+        allOwnedChars.push(...chars)
+      })
+
+      if (allOwnedChars.length === 0) return false
+
+      // いずれかの所持キャラでELのわくわくを持っているかチェック
+      return allOwnedChars.some((char) =>
+        char.wakuwakuSlots.some((slot: any) => slot.level === 'EL')
+      )
+    })
+  }
 
   // Server Action: キャラクター追加
   async function addCharacter(formData: FormData) {
@@ -342,120 +361,7 @@ export default async function AccountsPage({
       </div>
 
       {/* フィルター・検索 */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          絞り込み・検索
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              属性
-            </label>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href="/accounts"
-                className={`px-3 py-1 rounded text-sm ${
-                  !element
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                全て
-              </a>
-              {elements.map((el) => (
-                <a
-                  key={el}
-                  href={`/accounts?element=${el}${type ? `&type=${type}` : ''}${
-                    search ? `&search=${search}` : ''
-                  }${wakuwaku ? `&wakuwaku=${wakuwaku}` : ''}${wakuwakuMode ? `&wakuwakuMode=${wakuwakuMode}` : ''}`}
-                  className={`px-3 py-1 rounded text-sm ${
-                    element === el
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                >
-                  {el}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              種類
-            </label>
-            <div className="flex flex-wrap gap-2">
-              <a
-                href={`/accounts${element ? `?element=${element}` : ''}${
-                  search ? `${element ? '&' : '?'}search=${search}` : ''
-                }${wakuwaku ? `${element || search ? '&' : '?'}wakuwaku=${wakuwaku}` : ''}${wakuwakuMode ? `${element || search || wakuwaku ? '&' : '?'}wakuwakuMode=${wakuwakuMode}` : ''}`}
-                className={`px-3 py-1 rounded text-sm ${
-                  !type
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                全て
-              </a>
-              {types.map((t) => (
-                <a
-                  key={t}
-                  href={`/accounts?type=${t}${
-                    element ? `&element=${element}` : ''
-                  }${search ? `&search=${search}` : ''}${wakuwaku ? `&wakuwaku=${wakuwaku}` : ''}${wakuwakuMode ? `&wakuwakuMode=${wakuwakuMode}` : ''}`}
-                  className={`px-3 py-1 rounded text-sm ${
-                    type === t
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                >
-                  {t}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="search"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              キャラ名検索
-            </label>
-            <form action="/accounts" method="get">
-              {element && <input type="hidden" name="element" value={element} />}
-              {type && <input type="hidden" name="type" value={type} />}
-              {wakuwaku && <input type="hidden" name="wakuwaku" value={wakuwaku} />}
-              {wakuwakuMode && <input type="hidden" name="wakuwakuMode" value={wakuwakuMode} />}
-              <input
-                type="text"
-                id="search"
-                name="search"
-                defaultValue={search}
-                placeholder="キャラ名で検索..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-              />
-            </form>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              ワクワクの実
-            </label>
-            <div className="text-xs text-gray-500 mb-2">
-              複数選択可能（{wakuwakuMode === 'and' ? 'AND' : 'OR'}検索）
-            </div>
-            <WakuwakuFilter
-              allWakuwaku={allWakuwaku}
-              selectedWakuwaku={selectedWakuwaku}
-              wakuwakuMode={wakuwakuMode}
-              element={element}
-              type={type}
-              search={search}
-            />
-          </div>
-        </div>
-      </div>
+      <AccountSearchFilter allWakuwaku={allWakuwaku} />
 
       {/* キャラクター一覧テーブル */}
       <CharacterTable
