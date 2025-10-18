@@ -119,12 +119,13 @@ model WakuwakuMaster {
   ownedCharacterWakuwaku OwnedCharacterWakuwaku[]
 }
 
-// 所持キャラクターに装着されたわくわくの実（最大3個）
+// 所持キャラクターに装着されたわくわくの実（最大4個）
 model OwnedCharacterWakuwaku {
   id                String          @id @default(cuid())
   ownedCharacterId  String
   wakuwakuMasterId  String
-  slotNumber        Int             // 1-3のスロット番号
+  slotNumber        Int             // 1-4のスロット番号
+  level             String          @default("L") // "L" or "EL"
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   ownedCharacter    OwnedCharacter  @relation(fields: [ownedCharacterId], references: [id], onDelete: Cascade)

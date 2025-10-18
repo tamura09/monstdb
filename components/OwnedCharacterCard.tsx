@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 
 type WakuwakuSlot = {
   id: string
+  level: string
   wakuwakuMaster: {
     id: string
     name: string
@@ -36,6 +37,8 @@ export default function OwnedCharacterCard({
 }: OwnedCharacterCardProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
+  const [isPending, startTransition] = useTransition()
+  const [deletingSlotId, setDeletingSlotId] = useState<string | null>(null)
 
   async function handleAddWakuwaku(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -56,14 +59,19 @@ export default function OwnedCharacterCard({
       return
     }
 
+    setDeletingSlotId(slotId)
     const formData = new FormData()
     formData.append('wakuwakuSlotId', slotId)
     
     try {
-      await onDeleteWakuwaku(formData)
+      startTransition(async () => {
+        await onDeleteWakuwaku(formData)
+        setDeletingSlotId(null)
+      })
     } catch (error) {
       console.error('わくわくの実削除エラー:', error)
       alert('わくわくの実の削除に失敗しました')
+      setDeletingSlotId(null)
     }
   }
 
@@ -78,7 +86,9 @@ export default function OwnedCharacterCard({
     formData.append('ownedCharacterId', ownedCharacterId)
     
     try {
-      await onDeleteOwnedCharacter(formData)
+      startTransition(async () => {
+        await onDeleteOwnedCharacter(formData)
+      })
     } catch (error) {
       console.error('所持キャラ削除エラー:', error)
       alert('所持キャラクターの削除に失敗しました')
@@ -91,10 +101,11 @@ export default function OwnedCharacterCard({
       {!readOnly && onDeleteOwnedCharacter && (
         <button
           onClick={handleDeleteOwnedCharacter}
-          className="absolute top-1 right-1 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-full w-5 h-5 flex items-center justify-center font-bold text-xs"
+          disabled={isPending}
+          className="absolute top-1 right-1 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-full w-5 h-5 flex items-center justify-center font-bold text-xs disabled:opacity-50 disabled:cursor-not-allowed"
           title="この所持キャラを削除"
         >
-          ×
+          {isPending ? '...' : '×'}
         </button>
       )}
 
@@ -125,13 +136,21 @@ export default function OwnedCharacterCard({
                   key={slot.id}
                   className="bg-green-100 text-green-800 px-2 py-1 rounded flex items-center justify-between"
                 >
-                  <span>{slot.wakuwakuMaster.name}</span>
+                  <span>
+                    {slot.wakuwakuMaster.name}
+                    {slot.level && (
+                      <span className="ml-1 text-[10px] font-semibold bg-green-200 px-1 rounded">
+                        {slot.level}
+                      </span>
+                    )}
+                  </span>
                   <button
                     onClick={() => handleDeleteWakuwaku(slot.id)}
-                    className="text-red-600 hover:text-red-800 ml-1 font-bold"
+                    disabled={deletingSlotId === slot.id || isPending}
+                    className="text-red-600 hover:text-red-800 ml-1 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     title="削除"
                   >
-                    ×
+                    {deletingSlotId === slot.id ? '...' : '×'}
                   </button>
                 </div>
               ))}
@@ -145,8 +164,8 @@ export default function OwnedCharacterCard({
             </div>
           )}
 
-          {/* わくわくの実追加フォーム（3個未満の場合） */}
-          {wakuwakuSlots.length < 3 && (
+          {/* わくわくの実追加フォーム（4個未満の場合） */}
+          {wakuwakuSlots.length < 4 && (
             <form onSubmit={handleAddWakuwaku} className="space-y-1">
               <input type="hidden" name="ownedCharacterId" value={ownedCharacterId} />
               <select
@@ -162,6 +181,27 @@ export default function OwnedCharacterCard({
                   </option>
                 ))}
               </select>
+              <div className="flex gap-1">
+                <label className="flex items-center text-xs">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="L"
+                    defaultChecked
+                    className="mr-1"
+                  />
+                  L
+                </label>
+                <label className="flex items-center text-xs">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="EL"
+                    className="mr-1"
+                  />
+                  EL
+                </label>
+              </div>
               <button
                 type="submit"
                 disabled={isAdding}
@@ -172,10 +212,10 @@ export default function OwnedCharacterCard({
             </form>
           )}
 
-          {/* 3個満タンの場合 */}
-          {wakuwakuSlots.length >= 3 && (
+          {/* 4個満タンの場合 */}
+          {wakuwakuSlots.length >= 4 && (
             <div className="text-xs text-gray-500 text-center py-1">
-              わくわくの実は最大3個です
+              わくわくの実は最大4個です
             </div>
           )}
         </div>
@@ -190,6 +230,11 @@ export default function OwnedCharacterCard({
               className="bg-green-100 text-green-800 px-2 py-1 rounded"
             >
               {slot.wakuwakuMaster.name}
+              {slot.level && (
+                <span className="ml-1 text-[10px] font-semibold bg-green-200 px-1 rounded">
+                  {slot.level}
+                </span>
+              )}
             </div>
           ))}
         </div>

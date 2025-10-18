@@ -9,6 +9,7 @@ import FriendSearchForm from '@/components/FriendSearchForm'
 import FriendRequestCard from '@/components/FriendRequestCard'
 import FriendCard from '@/components/FriendCard'
 import FriendIdDisplay from '@/components/FriendIdDisplay'
+import SendFriendRequestButton from '@/components/SendFriendRequestButton'
 
 export default async function FriendsPage({
   searchParams,
@@ -313,15 +314,10 @@ export default async function FriendsPage({
                   </div>
                 </div>
               </div>
-              <form action={sendFriendRequest}>
-                <input type="hidden" name="receiverId" value={searchResult.id} />
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-                >
-                  フレンド申請
-                </button>
-              </form>
+              <SendFriendRequestButton
+                receiverId={searchResult.id}
+                onSend={sendFriendRequest}
+              />
             </div>
           </div>
         )}

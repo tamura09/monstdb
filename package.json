@@ -11,7 +11,10 @@
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
-    "add-characters": "tsx scripts/add-new-characters.ts"
+    "add-characters": "tsx scripts/add-new-characters.ts",
+    "fix-wakuwaku-order": "tsx scripts/fix-wakuwaku-order.ts",
+    "import-csv": "tsx scripts/import-my-characters-cli.ts",
+    "export-csv": "tsx scripts/export-my-characters-cli.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

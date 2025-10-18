@@ -173,6 +173,7 @@ export default async function AccountsPage({
 
     const ownedCharacterId = formData.get('ownedCharacterId') as string
     const wakuwakuMasterId = formData.get('wakuwakuMasterId') as string
+    const level = (formData.get('level') as string) || 'L'
 
     if (!ownedCharacterId || !wakuwakuMasterId) {
       return
@@ -183,7 +184,7 @@ export default async function AccountsPage({
       where: { ownedCharacterId },
     })
 
-    if (existingSlots.length >= 3) {
+    if (existingSlots.length >= 4) {
       revalidatePath('/accounts')
       return
     }
@@ -197,6 +198,7 @@ export default async function AccountsPage({
         ownedCharacterId,
         wakuwakuMasterId,
         slotNumber: nextSlotNumber,
+        level,
       },
     })
 
@@ -268,7 +270,7 @@ export default async function AccountsPage({
       a.wakuwakuMaster.displayOrder - b.wakuwakuMaster.displayOrder
     )
 
-    // スロット番号を1,2,3に振り直す（衝突を避けるため、まず一時的に大きな値を設定）
+    // スロット番号を1,2,3,4に振り直す（衝突を避けるため、まず一時的に大きな値を設定）
     for (let i = 0; i < sortedSlots.length; i++) {
       await prisma.ownedCharacterWakuwaku.update({
         where: { id: sortedSlots[i].id },

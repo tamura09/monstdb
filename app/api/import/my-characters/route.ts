@@ -10,8 +10,13 @@ interface CSVRow {
   type: string
   accountName: string
   wakuwaku1: string
+  level1?: string
   wakuwaku2: string
+  level2?: string
   wakuwaku3: string
+  level3?: string
+  wakuwaku4: string
+  level4?: string
 }
 
 export async function POST(request: NextRequest) {
@@ -55,6 +60,7 @@ export async function POST(request: NextRequest) {
           wakuwaku1: values[5] || '',
           wakuwaku2: values[6] || '',
           wakuwaku3: values[7] || '',
+          wakuwaku4: values[8] || '',
         })
       }
     }
@@ -135,22 +141,29 @@ export async function POST(request: NextRequest) {
         })
 
         // わくわくの実を追加
-        const wakuwakuSlots = [row.wakuwaku1, row.wakuwaku2, row.wakuwaku3]
-        for (let i = 0; i < wakuwakuSlots.length; i++) {
-          const wakuwakuName = wakuwakuSlots[i]
-          if (!wakuwakuName) continue
+        // わくわくを displayOrder 順に並べ替えて slotNumber を割り当てる
+        const wakuwakuSlots = [
+          { name: row.wakuwaku1, level: row.level1 || 'L' },
+          { name: row.wakuwaku2, level: row.level2 || 'L' },
+          { name: row.wakuwaku3, level: row.level3 || 'L' },
+          { name: row.wakuwaku4, level: row.level4 || 'L' },
+        ].filter((slot) => Boolean(slot.name))
 
-          const wakuwakuMaster = wakuwakuMap.get(wakuwakuName)
-          if (!wakuwakuMaster) {
-            errors.push(`わくわくの実 "${wakuwakuName}" が見つかりません（${characterMaster.monsterName}）`)
-            continue
-          }
+        const wakuwakuMastersForChar = (
+          wakuwakuSlots
+            .map((slot) => ({ master: wakuwakuMap.get(slot.name), level: slot.level }))
+            .filter((item) => Boolean(item.master)) as any[]
+        ).sort((a, b) => a.master.displayOrder - b.master.displayOrder)
 
+        for (let i = 0; i < wakuwakuMastersForChar.length; i++) {
+          const item = wakuwakuMastersForChar[i]
+          if (!item.master) continue
           await prisma.ownedCharacterWakuwaku.create({
             data: {
               ownedCharacterId: ownedCharacter.id,
-              wakuwakuMasterId: wakuwakuMaster.id,
+              wakuwakuMasterId: item.master.id,
               slotNumber: i + 1,
+              level: item.level,
             },
           })
         }

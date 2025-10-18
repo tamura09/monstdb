@@ -1,6 +1,7 @@
 import './globals.css'
 import AuthProvider from '@/components/AuthProvider'
 import Navigation from '@/components/Navigation'
+import { LoadingProvider } from '@/components/LoadingProvider'
 
 export const metadata = {
   title: 'モンストDB - キャラクター管理アプリ',
@@ -16,10 +17,12 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <AuthProvider>
-          <div className="min-h-screen bg-gray-50">
-            <Navigation />
-            <main>{children}</main>
-          </div>
+          <LoadingProvider>
+            <div className="min-h-screen bg-gray-50">
+              <Navigation />
+              <main>{children}</main>
+            </div>
+          </LoadingProvider>
         </AuthProvider>
       </body>
     </html>

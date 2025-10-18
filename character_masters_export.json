@@ -1644,6 +1644,12 @@
     "monsterName": "エルリック兄弟"
   },
   {
+    "indexNumber": 2773,
+    "element": "闇",
+    "type": "コラボ",
+    "monsterName": "リン・ヤオ"
+  },
+  {
     "indexNumber": 2794,
     "element": "木",
     "type": "恒常",
@@ -4743,7 +4749,7 @@
     "indexNumber": 7152,
     "element": "光",
     "type": "コラボ",
-    "monsterName": "竈門炭次郎＆竈門禰??豆子"
+    "monsterName": "竈門炭次郎＆竈門禰󠄀豆子"
   },
   {
     "indexNumber": 7177,
@@ -4797,7 +4803,7 @@
     "indexNumber": 7232,
     "element": "光",
     "type": "コラボ",
-    "monsterName": "羌?"
+    "monsterName": "羌瘣"
   },
   {
     "indexNumber": 7234,
@@ -5956,11 +5962,5 @@
     "element": "光",
     "type": "恒常",
     "monsterName": "ガーベラ"
-  },
-  {
-    "indexNumber": 8786,
-    "element": "光",
-    "type": "限定",
-    "monsterName": "しゅんち"
-  } 
+  }
 ]

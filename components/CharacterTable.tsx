@@ -6,6 +6,7 @@ import OwnedCharacterCard from './OwnedCharacterCard'
 
 type WakuwakuSlot = {
   id: string
+  level: string
   wakuwakuMaster: {
     id: string
     name: string

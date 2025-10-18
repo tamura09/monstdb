@@ -110,7 +110,7 @@ export async function GET(request: NextRequest) {
     // CSV形式に変換（BOM付きUTF-8でExcel対応）
     // 各所持キャラを1行ずつ出力
     const bom = '\uFEFF'
-    const header = '図鑑No,名前,属性,種類,アカウント,わくわく1,わくわく2,わくわく3\n'
+    const header = '図鑑No,名前,属性,種類,アカウント,わくわく1,レベル1,わくわく2,レベル2,わくわく3,レベル3,わくわく4,レベル4\n'
 
     // データ行を作成（各所持キャラごとに1行）
     const rows: string[] = []
@@ -126,11 +126,16 @@ export async function GET(request: NextRequest) {
         for (const ownedChar of ownedChars) {
           const accountName = account.name || `垢${account.accountNumber}`
           const wakuwaku1 = ownedChar.wakuwakuSlots[0]?.wakuwakuMaster.name || ''
+          const level1 = ownedChar.wakuwakuSlots[0]?.level || ''
           const wakuwaku2 = ownedChar.wakuwakuSlots[1]?.wakuwakuMaster.name || ''
+          const level2 = ownedChar.wakuwakuSlots[1]?.level || ''
           const wakuwaku3 = ownedChar.wakuwakuSlots[2]?.wakuwakuMaster.name || ''
+          const level3 = ownedChar.wakuwakuSlots[2]?.level || ''
+          const wakuwaku4 = ownedChar.wakuwakuSlots[3]?.wakuwakuMaster.name || ''
+          const level4 = ownedChar.wakuwakuSlots[3]?.level || ''
           
           rows.push(
-            `${char.indexNumber},"${char.monsterName}",${char.element},${char.type},"${accountName}",${wakuwaku1},${wakuwaku2},${wakuwaku3}`
+            `${char.indexNumber},"${char.monsterName}",${char.element},${char.type},"${accountName}",${wakuwaku1},${level1},${wakuwaku2},${level2},${wakuwaku3},${level3},${wakuwaku4},${level4}`
           )
         }
       }
