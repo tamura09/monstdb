@@ -14,7 +14,9 @@ export default function WakuwakuFilter({
   element,
   type,
   search,
-  basePath = '/accounts',
+  // onApply/onClear: callbacks so parent controls when navigation/search happens
+  onApply,
+  onClear,
 }: {
   allWakuwaku: WakuwakuMaster[]
   selectedWakuwaku: string[]
@@ -22,7 +24,8 @@ export default function WakuwakuFilter({
   element?: string
   type?: string
   search?: string
-  basePath?: string
+  onApply?: (selected: string[], mode: 'and' | 'or') => void
+  onClear?: () => void
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<string[]>(selectedWakuwaku)
@@ -37,24 +40,18 @@ export default function WakuwakuFilter({
   }
 
   function applyFilter() {
-    const params = new URLSearchParams()
-    if (element) params.set('element', element)
-    if (type) params.set('type', type)
-    if (search) params.set('search', search)
-    if (selected.length > 0) {
-      params.set('wakuwaku', selected.join(','))
-      params.set('wakuwakuMode', mode)
+    // Inform parent about the selected wakuwaku and mode; parent should decide
+    // when to perform navigation/search. This avoids immediate page reloads here.
+    if (onApply) {
+      onApply(selected, mode)
     }
-    window.location.href = `${basePath}?${params.toString()}`
   }
 
   function clearFilter() {
     setSelected([])
-    const params = new URLSearchParams()
-    if (element) params.set('element', element)
-    if (type) params.set('type', type)
-    if (search) params.set('search', search)
-    window.location.href = `${basePath}?${params.toString()}`
+    if (onClear) {
+      onClear()
+    }
   }
 
   return (

@@ -1,8 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useTransition, useState, useEffect, useCallback } from 'react'
-import { useDebounce } from '@/hooks/useDebounce'
+import { useState, useCallback } from 'react'
 
 const elements = ['火', '水', '木', '光', '闇']
 const types = ['恒常', '限定', 'α', 'コラボ']
@@ -10,32 +9,26 @@ const types = ['恒常', '限定', 'α', 'コラボ']
 export default function CharacterSearchFilter() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [isPending, startTransition] = useTransition()
+  // don't use startTransition here to keep input focus responsive
 
   const [search, setSearch] = useState(searchParams.get('search') || '')
   const [element, setElement] = useState(searchParams.get('element') || '')
   const [type, setType] = useState(searchParams.get('type') || '')
-  const [hasEL, setHasEL] = useState(searchParams.get('hasEL') === 'true')
 
-  const debouncedSearch = useDebounce(search, 300)
-
-  const updateURL = useCallback((newSearch: string, newElement: string, newType: string, newHasEL: boolean) => {
+  const updateURL = useCallback((newSearch: string, newElement: string, newType: string) => {
     const params = new URLSearchParams()
     if (newElement) params.set('element', newElement)
     if (newType) params.set('type', newType)
     if (newSearch) params.set('search', newSearch)
-    if (newHasEL) params.set('hasEL', 'true')
 
     const queryString = params.toString()
-    startTransition(() => {
-      router.push(`/characters${queryString ? `?${queryString}` : ''}`)
-    })
+    router.push(`/characters${queryString ? `?${queryString}` : ''}`)
   }, [router])
 
-  // リアルタイム検索
-  useEffect(() => {
-    updateURL(debouncedSearch, element, type, hasEL)
-  }, [debouncedSearch, element, type, hasEL, updateURL])
+  // 検索ボタンハンドラ（入力確定時にのみURL更新）
+  const onSearch = useCallback(() => {
+    updateURL(search, element, type)
+  }, [search, element, type, updateURL])
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -105,61 +98,36 @@ export default function CharacterSearchFilter() {
           </div>
         </div>
 
-        {/* ELフィルター */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            わくわくレベル
-          </label>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setHasEL(!hasEL)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                hasEL
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              {hasEL ? '✓ ELのみ表示' : 'ELのみ表示'}
-            </button>
-          </div>
-        </div>
+        {/* (ELフィルターは /characters では表示しない) */}
 
         {/* 検索 */}
         <div>
-          <label
-            htmlFor="search"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            検索 {isPending && <span className="text-xs text-gray-500 ml-2">検索中...</span>}
+          <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+            キャラ名検索
           </label>
-          <div className="relative">
+          <div className="flex gap-2">
             <input
               type="text"
               id="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="キャラ名で検索..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="px-3 py-2 rounded-md bg-gray-100 text-gray-700 text-sm hover:bg-gray-200"
                 title="クリア"
               >
                 ✕
               </button>
             )}
           </div>
-          {search && (
-            <p className="text-xs text-gray-500 mt-1">
-              「{search}」で検索中
-            </p>
-          )}
         </div>
 
         {/* アクティブフィルター表示 */}
-        {(element || type || search || hasEL) && (
+  {(element || type || search) && (
           <div className="pt-2 border-t border-gray-200">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-sm text-gray-600">適用中:</span>
@@ -185,17 +153,6 @@ export default function CharacterSearchFilter() {
                   </button>
                 </span>
               )}
-              {hasEL && (
-                <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">
-                  ELのみ
-                  <button
-                    onClick={() => setHasEL(false)}
-                    className="hover:text-purple-900"
-                  >
-                    ✕
-                  </button>
-                </span>
-              )}
               {search && (
                 <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
                   検索: {search}
@@ -212,12 +169,20 @@ export default function CharacterSearchFilter() {
                   setElement('')
                   setType('')
                   setSearch('')
-                  setHasEL(false)
                 }}
                 className="text-xs text-red-600 hover:text-red-800 ml-2"
               >
                 すべてクリア
               </button>
+              {/* 検索ボタン：フィルター領域の一番下に移動 */}
+              <div className="w-full mt-3">
+                <button
+                  onClick={onSearch}
+                  className="w-full px-4 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+                >
+                  検索
+                </button>
+              </div>
             </div>
           </div>
         )}

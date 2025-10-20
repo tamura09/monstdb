@@ -1,8 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useTransition, useState, useEffect, useCallback } from 'react'
-import { useDebounce } from '@/hooks/useDebounce'
+import { useState, useCallback } from 'react'
 
 const elements = ['火', '水', '木', '光', '闇']
 const types = ['恒常', '限定', 'α', 'コラボ']
@@ -15,7 +14,7 @@ type FriendSearchFilterProps = {
 export default function FriendSearchFilter({ allWakuwaku, friendId }: FriendSearchFilterProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [isPending, startTransition] = useTransition()
+  // avoid startTransition here to keep input focus responsive
 
   const [search, setSearch] = useState(searchParams.get('search') || '')
   const [element, setElement] = useState(searchParams.get('element') || '')
@@ -25,8 +24,6 @@ export default function FriendSearchFilter({ allWakuwaku, friendId }: FriendSear
     (searchParams.get('wakuwakuMode') as 'or' | 'and') || 'or'
   )
   const [hasEL, setHasEL] = useState(searchParams.get('hasEL') === 'true')
-
-  const debouncedSearch = useDebounce(search, 300)
 
   const updateURL = useCallback(
     (
@@ -46,17 +43,14 @@ export default function FriendSearchFilter({ allWakuwaku, friendId }: FriendSear
       if (newHasEL) params.set('hasEL', 'true')
 
       const queryString = params.toString()
-      startTransition(() => {
-        router.push(`/friends/${friendId}${queryString ? `?${queryString}` : ''}`)
-      })
+      router.push(`/friends/${friendId}${queryString ? `?${queryString}` : ''}`)
     },
     [router, friendId]
   )
 
-  // リアルタイム検索
-  useEffect(() => {
-    updateURL(debouncedSearch, element, type, wakuwaku, wakuwakuMode, hasEL)
-  }, [debouncedSearch, element, type, wakuwaku, wakuwakuMode, hasEL, updateURL])
+  const onSearch = useCallback(() => {
+    updateURL(search, element, type, wakuwaku, wakuwakuMode, hasEL)
+  }, [search, element, type, wakuwaku, wakuwakuMode, hasEL, updateURL])
 
   const toggleWakuwaku = (wakuwakuName: string) => {
     setWakuwaku((prev) =>
@@ -70,9 +64,7 @@ export default function FriendSearchFilter({ allWakuwaku, friendId }: FriendSear
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">
-        絞り込み・検索 {isPending && <span className="text-xs text-gray-500 ml-2">更新中...</span>}
-      </h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-4">絞り込み・検索</h2>
       <div className="space-y-4">
         {/* 属性フィルター */}
         <div>
@@ -179,19 +171,19 @@ export default function FriendSearchFilter({ allWakuwaku, friendId }: FriendSear
           <label htmlFor="friend-search" className="block text-sm font-medium text-gray-700 mb-2">
             キャラ名検索
           </label>
-          <div className="relative">
+          <div className="flex gap-2">
             <input
               type="text"
               id="friend-search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="キャラ名で検索..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="px-3 py-2 rounded-md bg-gray-100 text-gray-700 text-sm hover:bg-gray-200"
                 title="クリア"
               >
                 ✕
@@ -276,6 +268,15 @@ export default function FriendSearchFilter({ allWakuwaku, friendId }: FriendSear
               >
                 すべてクリア
               </button>
+              {/* 検索ボタン: フィルターの下に移動 */}
+              <div className="w-full mt-3">
+                <button
+                  onClick={onSearch}
+                  className="w-full px-4 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+                >
+                  検索
+                </button>
+              </div>
             </div>
           </div>
         )}
