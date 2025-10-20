@@ -31,6 +31,29 @@ export default async function AccountsPage({
 
   const { element, type, search, wakuwaku, wakuwakuMode = 'or', hasEL } = await searchParams
 
+  // Server Action: 検索実行
+  async function performSearch(formData: FormData) {
+    'use server'
+
+    const params = new URLSearchParams()
+    const searchText = formData.get('search') as string
+    const elementValue = formData.get('element') as string
+    const typeValue = formData.get('type') as string
+    const wakuwakuValue = formData.get('wakuwaku') as string
+    const wakuwakuModeValue = formData.get('wakuwakuMode') as string
+    const hasELValue = formData.get('hasEL') as string
+
+    if (elementValue) params.set('element', elementValue)
+    if (typeValue) params.set('type', typeValue)
+    if (searchText) params.set('search', searchText)
+    if (wakuwakuValue) params.set('wakuwaku', wakuwakuValue)
+    if (wakuwakuModeValue) params.set('wakuwakuMode', wakuwakuModeValue)
+    if (hasELValue === 'true') params.set('hasEL', 'true')
+
+    const queryString = params.toString()
+    redirect(`/accounts${queryString ? `?${queryString}` : ''}`)
+  }
+
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     include: {
@@ -361,7 +384,7 @@ export default async function AccountsPage({
       </div>
 
       {/* フィルター・検索 */}
-      <AccountSearchFilter allWakuwaku={allWakuwaku} />
+      <AccountSearchFilter allWakuwaku={allWakuwaku} onSearch={performSearch} />
 
       {/* キャラクター一覧テーブル */}
       <CharacterTable

@@ -1,56 +1,54 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useFormStatus } from 'react-dom'
 
 const elements = ['火', '水', '木', '光', '闇']
 const types = ['恒常', '限定', 'α', 'コラボ']
 
 type AccountSearchFilterProps = {
   allWakuwaku: Array<{ id: string; name: string }>
+  onSearch: (formData: FormData) => Promise<void>
 }
 
-export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilterProps) {
-  const router = useRouter()
+function SearchButton() {
+  const { pending } = useFormStatus()
+  
+  return (
+    <div className="w-full mt-3">
+      <button
+        type="submit"
+        disabled={pending}
+        className="w-full px-4 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        {pending ? (
+          <>
+            <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            検索中...
+          </>
+        ) : (
+          '検索'
+        )}
+      </button>
+    </div>
+  )
+}
+
+export default function AccountSearchFilter({ allWakuwaku, onSearch }: AccountSearchFilterProps) {
   const searchParams = useSearchParams()
-  // intentionally not using startTransition to avoid delayed UI focus after navigation
 
   const [search, setSearch] = useState(searchParams.get('search') || '')
   const [element, setElement] = useState(searchParams.get('element') || '')
   const [type, setType] = useState(searchParams.get('type') || '')
-  const [wakuwaku, setWakuwaku] = useState(searchParams.get('wakuwaku')?.split(',') || [])
+  const [wakuwaku, setWakuwaku] = useState(searchParams.get('wakuwaku')?.split(',').filter(Boolean) || [])
   const [wakuwakuMode, setWakuwakuMode] = useState<'or' | 'and'>(
     (searchParams.get('wakuwakuMode') as 'or' | 'and') || 'or'
   )
   const [hasEL, setHasEL] = useState(searchParams.get('hasEL') === 'true')
-
-  const updateURL = useCallback(
-    (
-      newSearch: string,
-      newElement: string,
-      newType: string,
-      newWakuwaku: string[],
-      newWakuwakuMode: 'or' | 'and',
-      newHasEL: boolean
-    ) => {
-      const params = new URLSearchParams()
-      if (newElement) params.set('element', newElement)
-      if (newType) params.set('type', newType)
-      if (newSearch) params.set('search', newSearch)
-      if (newWakuwaku.length > 0) params.set('wakuwaku', newWakuwaku.join(','))
-      if (newWakuwaku.length > 1) params.set('wakuwakuMode', newWakuwakuMode)
-      if (newHasEL) params.set('hasEL', 'true')
-
-      const queryString = params.toString()
-      // perform immediate navigation to reduce perceived input focus delay
-      router.push(`/accounts${queryString ? `?${queryString}` : ''}`)
-    },
-    [router]
-  )
-
-  const onSearch = useCallback(() => {
-    updateURL(search, element, type, wakuwaku, wakuwakuMode, hasEL)
-  }, [search, element, type, wakuwaku, wakuwakuMode, hasEL, updateURL])
 
   const toggleWakuwaku = (wakuwakuName: string) => {
     setWakuwaku((prev) =>
@@ -63,14 +61,23 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
   const hasActiveFilters = element || type || search || wakuwaku.length > 0 || hasEL
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+    <form action={onSearch} className="bg-white rounded-lg shadow-md p-6 mb-6">
       <h2 className="text-lg font-semibold text-gray-800 mb-4">絞り込み・検索</h2>
       <div className="space-y-4">
+        {/* Hidden inputs for selected filters */}
+        <input type="hidden" name="element" value={element} />
+        <input type="hidden" name="type" value={type} />
+        <input type="hidden" name="search" value={search} />
+        <input type="hidden" name="wakuwaku" value={wakuwaku.join(',')} />
+        <input type="hidden" name="wakuwakuMode" value={wakuwakuMode} />
+        <input type="hidden" name="hasEL" value={hasEL ? 'true' : 'false'} />
+
         {/* 属性フィルター */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">属性</label>
           <div className="flex flex-wrap gap-2">
             <button
+              type="button"
               onClick={() => setElement('')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 !element ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -81,6 +88,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
             {elements.map((el) => (
               <button
                 key={el}
+                type="button"
                 onClick={() => setElement(el === element ? '' : el)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   element === el
@@ -99,6 +107,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
           <label className="block text-sm font-medium text-gray-700 mb-2">種類</label>
           <div className="flex flex-wrap gap-2">
             <button
+              type="button"
               onClick={() => setType('')}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 !type ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -109,6 +118,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
             {types.map((t) => (
               <button
                 key={t}
+                type="button"
                 onClick={() => setType(t === type ? '' : t)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   type === t
@@ -153,6 +163,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
             {allWakuwaku.map((w) => (
               <button
                 key={w.id}
+                type="button"
                 onClick={() => toggleWakuwaku(w.name)}
                 className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
                   wakuwaku.includes(w.name)
@@ -182,6 +193,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
             />
             {search && (
               <button
+                type="button"
                 onClick={() => setSearch('')}
                 className="px-3 py-2 rounded-md bg-gray-100 text-gray-700 text-sm hover:bg-gray-200"
                 title="クリア"
@@ -199,6 +211,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
           </label>
           <div className="flex gap-2">
             <button
+              type="button"
               onClick={() => setHasEL(!hasEL)}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 hasEL
@@ -219,7 +232,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
               {element && (
                 <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
                   属性: {element}
-                  <button onClick={() => setElement('')} className="hover:text-blue-900">
+                  <button type="button" onClick={() => setElement('')} className="hover:text-blue-900">
                     ✕
                   </button>
                 </span>
@@ -227,7 +240,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
               {type && (
                 <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
                   種類: {type}
-                  <button onClick={() => setType('')} className="hover:text-blue-900">
+                  <button type="button" onClick={() => setType('')} className="hover:text-blue-900">
                     ✕
                   </button>
                 </span>
@@ -235,7 +248,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
               {search && (
                 <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
                   検索: {search}
-                  <button onClick={() => setSearch('')} className="hover:text-blue-900">
+                  <button type="button" onClick={() => setSearch('')} className="hover:text-blue-900">
                     ✕
                   </button>
                 </span>
@@ -243,7 +256,7 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
               {wakuwaku.length > 0 && (
                 <span className="inline-flex items-center gap-1 bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
                   わくわく: {wakuwaku.length}個
-                  <button onClick={() => setWakuwaku([])} className="hover:text-green-900">
+                  <button type="button" onClick={() => setWakuwaku([])} className="hover:text-green-900">
                     ✕
                   </button>
                 </span>
@@ -251,12 +264,13 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
               {hasEL && (
                 <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">
                   ELのみ
-                  <button onClick={() => setHasEL(false)} className="hover:text-purple-900">
+                  <button type="button" onClick={() => setHasEL(false)} className="hover:text-purple-900">
                     ✕
                   </button>
                 </span>
               )}
               <button
+                type="button"
                 onClick={() => {
                   setElement('')
                   setType('')
@@ -269,18 +283,11 @@ export default function AccountSearchFilter({ allWakuwaku }: AccountSearchFilter
                 すべてクリア
               </button>
               {/* 検索ボタン: 下に移動 */}
-              <div className="w-full mt-3">
-                <button
-                  onClick={onSearch}
-                  className="w-full px-4 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
-                >
-                  検索
-                </button>
-              </div>
+              <SearchButton />
             </div>
           </div>
         )}
       </div>
-    </div>
+    </form>
   )
 }

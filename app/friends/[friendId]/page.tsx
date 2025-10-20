@@ -30,6 +30,29 @@ export default async function FriendAccountsPage({
   const { friendId } = await params
   const { element, type, search, wakuwaku, wakuwakuMode = 'or', hasEL } = await searchParams
 
+  // Server Action: 検索実行
+  async function performSearch(formData: FormData) {
+    'use server'
+
+    const params = new URLSearchParams()
+    const searchText = formData.get('search') as string
+    const elementValue = formData.get('element') as string
+    const typeValue = formData.get('type') as string
+    const wakuwakuValue = formData.get('wakuwaku') as string
+    const wakuwakuModeValue = formData.get('wakuwakuMode') as string
+    const hasELValue = formData.get('hasEL') as string
+
+    if (elementValue) params.set('element', elementValue)
+    if (typeValue) params.set('type', typeValue)
+    if (searchText) params.set('search', searchText)
+    if (wakuwakuValue) params.set('wakuwaku', wakuwakuValue)
+    if (wakuwakuModeValue) params.set('wakuwakuMode', wakuwakuModeValue)
+    if (hasELValue === 'true') params.set('hasEL', 'true')
+
+    const queryString = params.toString()
+    redirect(`/friends/${friendId}${queryString ? `?${queryString}` : ''}`)
+  }
+
   // フレンド関係を確認
   const friendship = await prisma.friendship.findFirst({
     where: {
@@ -198,7 +221,7 @@ export default async function FriendAccountsPage({
       </div>
 
       {/* フィルター・検索 */}
-      <FriendSearchFilter allWakuwaku={allWakuwaku} friendId={friendId} />
+      <FriendSearchFilter allWakuwaku={allWakuwaku} friendId={friendId} onSearch={performSearch} />
 
       {/* キャラクター一覧テーブル（Read-only） */}
       <CharacterTable

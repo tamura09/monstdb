@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import DownloadButton from '@/components/DownloadButton'
 import CharacterSearchFilter from '@/components/CharacterSearchFilter'
 import { matchesJapanese } from '@/lib/string-utils'
+import { redirect } from 'next/navigation'
 
 export default async function CharactersPage({
   searchParams,
@@ -13,6 +14,23 @@ export default async function CharactersPage({
 }) {
   const session = await getServerSession(authOptions)
   const { element, type, search, hasEL } = await searchParams
+
+  // Server Action: 検索実行
+  async function performSearch(formData: FormData) {
+    'use server'
+
+    const params = new URLSearchParams()
+    const searchText = formData.get('search') as string
+    const elementValue = formData.get('element') as string
+    const typeValue = formData.get('type') as string
+
+    if (elementValue) params.set('element', elementValue)
+    if (typeValue) params.set('type', typeValue)
+    if (searchText) params.set('search', searchText)
+
+    const queryString = params.toString()
+    redirect(`/characters${queryString ? `?${queryString}` : ''}`)
+  }
 
   // Admin権限チェック
   let isAdmin = false
@@ -69,7 +87,7 @@ export default async function CharactersPage({
       </div>
 
       {/* フィルター */}
-      <CharacterSearchFilter />
+      <CharacterSearchFilter onSearch={performSearch} />
 
       {/* キャラクター一覧 */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
