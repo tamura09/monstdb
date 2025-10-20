@@ -15,8 +15,11 @@ export default function WakuwakuFilter({
   type,
   search,
   // onApply/onClear: callbacks so parent controls when navigation/search happens
+  // basePath: backward-compatible fallback; if onApply/onClear not provided,
+  // this component will perform the original navigation behavior.
   onApply,
   onClear,
+  basePath,
 }: {
   allWakuwaku: WakuwakuMaster[]
   selectedWakuwaku: string[]
@@ -26,6 +29,7 @@ export default function WakuwakuFilter({
   search?: string
   onApply?: (selected: string[], mode: 'and' | 'or') => void
   onClear?: () => void
+  basePath?: string
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<string[]>(selectedWakuwaku)
@@ -40,18 +44,38 @@ export default function WakuwakuFilter({
   }
 
   function applyFilter() {
-    // Inform parent about the selected wakuwaku and mode; parent should decide
-    // when to perform navigation/search. This avoids immediate page reloads here.
+    // If parent provided an onApply handler, call it so parent controls navigation.
     if (onApply) {
       onApply(selected, mode)
+      return
     }
+
+    // Backward-compatible behavior: perform navigation using basePath (or /accounts)
+    const params = new URLSearchParams()
+    if (element) params.set('element', element)
+    if (type) params.set('type', type)
+    if (search) params.set('search', search)
+    if (selected.length > 0) {
+      params.set('wakuwaku', selected.join(','))
+      params.set('wakuwakuMode', mode)
+    }
+    const target = basePath || '/accounts'
+    window.location.href = `${target}?${params.toString()}`
   }
 
   function clearFilter() {
     setSelected([])
     if (onClear) {
       onClear()
+      return
     }
+    // Backward-compatible clear: navigate to basePath keeping element/type/search
+    const params = new URLSearchParams()
+    if (element) params.set('element', element)
+    if (type) params.set('type', type)
+    if (search) params.set('search', search)
+    const target = basePath || '/accounts'
+    window.location.href = `${target}?${params.toString()}`
   }
 
   return (
