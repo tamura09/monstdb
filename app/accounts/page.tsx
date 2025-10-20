@@ -31,29 +31,6 @@ export default async function AccountsPage({
 
   const { element, type, search, wakuwaku, wakuwakuMode = 'or', hasEL } = await searchParams
 
-  // Server Action: 検索実行
-  async function performSearch(formData: FormData) {
-    'use server'
-
-    const params = new URLSearchParams()
-    const searchText = formData.get('search') as string
-    const elementValue = formData.get('element') as string
-    const typeValue = formData.get('type') as string
-    const wakuwakuValue = formData.get('wakuwaku') as string
-    const wakuwakuModeValue = formData.get('wakuwakuMode') as string
-    const hasELValue = formData.get('hasEL') as string
-
-    if (elementValue) params.set('element', elementValue)
-    if (typeValue) params.set('type', typeValue)
-    if (searchText) params.set('search', searchText)
-    if (wakuwakuValue) params.set('wakuwaku', wakuwakuValue)
-    if (wakuwakuModeValue) params.set('wakuwakuMode', wakuwakuModeValue)
-    if (hasELValue === 'true') params.set('hasEL', 'true')
-
-    const queryString = params.toString()
-    redirect(`/accounts${queryString ? `?${queryString}` : ''}`)
-  }
-
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     include: {
@@ -369,6 +346,12 @@ export default async function AccountsPage({
           <p className="text-gray-600">{user.name}さんのアカウント一覧</p>
         </div>
         <div className="flex gap-3">
+          <Link
+            href="/accounts/view"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold flex items-center gap-2"
+          >
+            📖 閲覧専用モード
+          </Link>
           <DownloadTemplateButton />
           <ImportButton />
           <DownloadButton type="my-characters" />
@@ -383,8 +366,16 @@ export default async function AccountsPage({
         </div>
       </div>
 
+      {/* 注意書き */}
+      <div className="mb-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
+        <p className="text-sm text-amber-900">
+          <strong>⚠️ お知らせ：</strong>キャラ名検索が正常に動作しない場合は、右上の「閲覧専用モード」に切り替えてご利用ください。
+          閲覧専用モードでは編集はできませんが、検索機能がより安定して動作します。
+        </p>
+      </div>
+
       {/* フィルター・検索 */}
-      <AccountSearchFilter allWakuwaku={allWakuwaku} onSearch={performSearch} />
+      <AccountSearchFilter allWakuwaku={allWakuwaku} />
 
       {/* キャラクター一覧テーブル */}
       <CharacterTable

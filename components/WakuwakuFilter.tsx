@@ -14,12 +14,7 @@ export default function WakuwakuFilter({
   element,
   type,
   search,
-  // onApply/onClear: callbacks so parent controls when navigation/search happens
-  // basePath: backward-compatible fallback; if onApply/onClear not provided,
-  // this component will perform the original navigation behavior.
-  onApply,
-  onClear,
-  basePath,
+  basePath = '/accounts',
 }: {
   allWakuwaku: WakuwakuMaster[]
   selectedWakuwaku: string[]
@@ -27,8 +22,6 @@ export default function WakuwakuFilter({
   element?: string
   type?: string
   search?: string
-  onApply?: (selected: string[], mode: 'and' | 'or') => void
-  onClear?: () => void
   basePath?: string
 }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -44,13 +37,6 @@ export default function WakuwakuFilter({
   }
 
   function applyFilter() {
-    // If parent provided an onApply handler, call it so parent controls navigation.
-    if (onApply) {
-      onApply(selected, mode)
-      return
-    }
-
-    // Backward-compatible behavior: perform navigation using basePath (or /accounts)
     const params = new URLSearchParams()
     if (element) params.set('element', element)
     if (type) params.set('type', type)
@@ -59,23 +45,16 @@ export default function WakuwakuFilter({
       params.set('wakuwaku', selected.join(','))
       params.set('wakuwakuMode', mode)
     }
-    const target = basePath || '/accounts'
-    window.location.href = `${target}?${params.toString()}`
+    window.location.href = `${basePath}?${params.toString()}`
   }
 
   function clearFilter() {
     setSelected([])
-    if (onClear) {
-      onClear()
-      return
-    }
-    // Backward-compatible clear: navigate to basePath keeping element/type/search
     const params = new URLSearchParams()
     if (element) params.set('element', element)
     if (type) params.set('type', type)
     if (search) params.set('search', search)
-    const target = basePath || '/accounts'
-    window.location.href = `${target}?${params.toString()}`
+    window.location.href = `${basePath}?${params.toString()}`
   }
 
   return (
