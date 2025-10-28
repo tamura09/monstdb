@@ -8,6 +8,7 @@ import DownloadButton from '@/components/DownloadButton'
 import ImportButton from '@/components/ImportButton'
 import DownloadTemplateButton from '@/components/DownloadTemplateButton'
 import AccountSearchFilter from '@/components/AccountSearchFilter'
+import CharacterNameSearchBar from '@/components/CharacterNameSearchBar'
 import { matchesJapanese } from '@/lib/string-utils'
 
 export default async function AccountsViewPage({
@@ -199,6 +200,11 @@ export default async function AccountsViewPage({
           <strong>💡 ヒント：</strong>閲覧専用モードでは編集操作ができない代わりに、検索やフィルタリングがより安定して動作します。
           キャラ名検索が正常に動作しない場合は、このモードをお試しください。
         </p>
+      </div>
+
+      {/* キャラ名検索バー（独立） */}
+      <div className="mb-6 bg-white rounded-lg shadow-md p-6">
+        <CharacterNameSearchBar basePath="/accounts/view" />
       </div>
 
       {/* フィルター・検索 */}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import WakuwakuEditModal from './WakuwakuEditModal'
 
 type WakuwakuSlot = {
   id: string
@@ -22,6 +23,7 @@ type OwnedCharacterCardProps = {
   allWakuwaku: WakuwakuMaster[]
   onAddWakuwaku: (formData: FormData) => Promise<void>
   onDeleteWakuwaku: (formData: FormData) => Promise<void>
+  onUpdateWakuwakuBulk?: (formData: FormData) => Promise<void>
   onDeleteOwnedCharacter?: (formData: FormData) => Promise<void>
   readOnly?: boolean
 }
@@ -32,6 +34,7 @@ export default function OwnedCharacterCard({
   allWakuwaku,
   onAddWakuwaku,
   onDeleteWakuwaku,
+  onUpdateWakuwakuBulk,
   onDeleteOwnedCharacter,
   readOnly = false,
 }: OwnedCharacterCardProps) {
@@ -39,6 +42,7 @@ export default function OwnedCharacterCard({
   const [isAdding, setIsAdding] = useState(false)
   const [isPending, startTransition] = useTransition()
   const [deletingSlotId, setDeletingSlotId] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   async function handleAddWakuwaku(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -95,6 +99,11 @@ export default function OwnedCharacterCard({
     }
   }
 
+  async function handleSaveBulk(formData: FormData) {
+    if (!onUpdateWakuwakuBulk) return
+    await onUpdateWakuwakuBulk(formData)
+  }
+
   return (
     <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 text-left relative">
       {/* 所持キャラ削除ボタン（readOnlyでない場合のみ表示） */}
@@ -144,14 +153,6 @@ export default function OwnedCharacterCard({
                       </span>
                     )}
                   </span>
-                  <button
-                    onClick={() => handleDeleteWakuwaku(slot.id)}
-                    disabled={deletingSlotId === slot.id || isPending}
-                    className="text-red-600 hover:text-red-800 ml-1 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                    title="削除"
-                  >
-                    {deletingSlotId === slot.id ? '...' : '×'}
-                  </button>
                 </div>
               ))}
             </div>
@@ -164,59 +165,15 @@ export default function OwnedCharacterCard({
             </div>
           )}
 
-          {/* わくわくの実追加フォーム（4個未満の場合） */}
-          {wakuwakuSlots.length < 4 && (
-            <form onSubmit={handleAddWakuwaku} className="space-y-1">
-              <input type="hidden" name="ownedCharacterId" value={ownedCharacterId} />
-              <select
-                name="wakuwakuMasterId"
-                required
-                disabled={isAdding}
-                className="w-full text-xs px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-green-500"
-              >
-                <option value="">実を追加...</option>
-                {allWakuwaku.map((wakuwaku) => (
-                  <option key={wakuwaku.id} value={wakuwaku.id}>
-                    {wakuwaku.name}
-                  </option>
-                ))}
-              </select>
-              <div className="flex gap-1">
-                <label className="flex items-center text-xs">
-                  <input
-                    type="radio"
-                    name="level"
-                    value="L"
-                    defaultChecked
-                    className="mr-1"
-                  />
-                  L
-                </label>
-                <label className="flex items-center text-xs">
-                  <input
-                    type="radio"
-                    name="level"
-                    value="EL"
-                    className="mr-1"
-                  />
-                  EL
-                </label>
-              </div>
-              <button
-                type="submit"
-                disabled={isAdding}
-                className="w-full bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded font-semibold disabled:bg-gray-400"
-              >
-                {isAdding ? '追加中...' : '+ 追加'}
-              </button>
-            </form>
-          )}
-
-          {/* 4個満タンの場合 */}
-          {wakuwakuSlots.length >= 4 && (
-            <div className="text-xs text-gray-500 text-center py-1">
-              わくわくの実は最大4個です
-            </div>
+          {/* 一括編集ボタン */}
+          {onUpdateWakuwakuBulk && (
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="w-full bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded font-semibold"
+            >
+              わくわくの実を編集
+            </button>
           )}
         </div>
       )}
@@ -238,6 +195,18 @@ export default function OwnedCharacterCard({
             </div>
           ))}
         </div>
+      )}
+
+      {/* わくわくの実編集モーダル */}
+      {onUpdateWakuwakuBulk && (
+        <WakuwakuEditModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          ownedCharacterId={ownedCharacterId}
+          currentSlots={wakuwakuSlots}
+          allWakuwaku={allWakuwaku}
+          onSave={handleSaveBulk}
+        />
       )}
     </div>
   )

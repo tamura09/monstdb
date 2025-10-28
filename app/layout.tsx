@@ -2,6 +2,8 @@ import './globals.css'
 import AuthProvider from '@/components/AuthProvider'
 import Navigation from '@/components/Navigation'
 import { LoadingProvider } from '@/components/LoadingProvider'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata = {
   title: 'モンストDB - キャラクター管理アプリ',
@@ -24,6 +26,8 @@ export default function RootLayout({
             </div>
           </LoadingProvider>
         </AuthProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

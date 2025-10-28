@@ -46,6 +46,7 @@ type CharacterTableProps = {
   onAddCharacter: (formData: FormData) => Promise<void>
   onAddWakuwaku: (formData: FormData) => Promise<void>
   onDeleteWakuwaku: (formData: FormData) => Promise<void>
+  onUpdateWakuwakuBulk?: (formData: FormData) => Promise<void>
   onDeleteOwnedCharacter?: (formData: FormData) => Promise<void>
   readOnly?: boolean
 }
@@ -60,6 +61,7 @@ export default function CharacterTable({
   onAddCharacter,
   onAddWakuwaku,
   onDeleteWakuwaku,
+  onUpdateWakuwakuBulk,
   onDeleteOwnedCharacter,
   readOnly = false,
 }: CharacterTableProps) {
@@ -215,6 +217,7 @@ export default function CharacterTable({
                               allWakuwaku={allWakuwaku}
                               onAddWakuwaku={onAddWakuwaku}
                               onDeleteWakuwaku={onDeleteWakuwaku}
+                              onUpdateWakuwakuBulk={onUpdateWakuwakuBulk}
                               onDeleteOwnedCharacter={onDeleteOwnedCharacter}
                               readOnly={readOnly}
                             />

@@ -9,6 +9,7 @@ import DownloadButton from '@/components/DownloadButton'
 import ImportButton from '@/components/ImportButton'
 import DownloadTemplateButton from '@/components/DownloadTemplateButton'
 import AccountSearchFilter from '@/components/AccountSearchFilter'
+import CharacterNameSearchBar from '@/components/CharacterNameSearchBar'
 import { matchesJapanese } from '@/lib/string-utils'
 
 export default async function AccountsPage({
@@ -308,6 +309,65 @@ export default async function AccountsPage({
     revalidatePath('/accounts')
   }
 
+  // Server Action: わくわくの実一括更新
+  async function updateWakuwakuBulk(formData: FormData) {
+    'use server'
+
+    const ownedCharacterId = formData.get('ownedCharacterId') as string
+    const slotsJson = formData.get('slots') as string
+
+    if (!ownedCharacterId || !slotsJson) {
+      return
+    }
+
+    try {
+      const slots = JSON.parse(slotsJson) as Array<{
+        wakuwakuMasterId: string
+        level: string
+      }>
+
+      // 既存のわくわくの実をすべて削除
+      await prisma.ownedCharacterWakuwaku.deleteMany({
+        where: { ownedCharacterId },
+      })
+
+      // 新しいわくわくの実を追加
+      if (slots.length > 0) {
+        // まずwakuwakuMasterの情報を取得してdisplayOrderでソート
+        const wakuwakuMasters = await prisma.wakuwakuMaster.findMany({
+          where: {
+            id: { in: slots.map(s => s.wakuwakuMasterId) },
+          },
+        })
+
+        // displayOrderでソート
+        const sortedSlots = slots
+          .map(slot => ({
+            ...slot,
+            displayOrder: wakuwakuMasters.find(w => w.id === slot.wakuwakuMasterId)?.displayOrder ?? 999,
+          }))
+          .sort((a, b) => a.displayOrder - b.displayOrder)
+
+        // ソートされた順で保存
+        for (let i = 0; i < sortedSlots.length; i++) {
+          await prisma.ownedCharacterWakuwaku.create({
+            data: {
+              ownedCharacterId,
+              wakuwakuMasterId: sortedSlots[i].wakuwakuMasterId,
+              slotNumber: i + 1,
+              level: sortedSlots[i].level,
+            },
+          })
+        }
+      }
+
+      revalidatePath('/accounts')
+    } catch (error) {
+      console.error('わくわくの実一括更新エラー:', error)
+      throw error
+    }
+  }
+
   // Server Action: 所持キャラ削除
   async function deleteOwnedCharacter(formData: FormData) {
     'use server'
@@ -374,6 +434,11 @@ export default async function AccountsPage({
         </p>
       </div>
 
+      {/* キャラ名検索バー（独立） */}
+      <div className="mb-6 bg-white rounded-lg shadow-md p-6">
+        <CharacterNameSearchBar basePath="/accounts" />
+      </div>
+
       {/* フィルター・検索 */}
       <AccountSearchFilter allWakuwaku={allWakuwaku} />
 
@@ -389,6 +454,7 @@ export default async function AccountsPage({
         onAddCharacter={addCharacter}
         onAddWakuwaku={addWakuwaku}
         onDeleteWakuwaku={deleteWakuwaku}
+        onUpdateWakuwakuBulk={updateWakuwakuBulk}
         onDeleteOwnedCharacter={deleteOwnedCharacter}
       />
 

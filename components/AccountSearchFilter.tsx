@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTransition, useState, useEffect, useCallback } from 'react'
-import { useDebounce } from '@/hooks/useDebounce'
 
 const elements = ['火', '水', '木', '光', '闇']
 const types = ['恒常', '限定', 'α', 'コラボ']
@@ -17,7 +16,6 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
 
-  const [search, setSearch] = useState(searchParams.get('search') || '')
   const [element, setElement] = useState(searchParams.get('element') || '')
   const [type, setType] = useState(searchParams.get('type') || '')
   const [wakuwaku, setWakuwaku] = useState(searchParams.get('wakuwaku')?.split(',') || [])
@@ -26,37 +24,62 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
   )
   const [hasEL, setHasEL] = useState(searchParams.get('hasEL') === 'true')
 
-  const debouncedSearch = useDebounce(search, 300)
+  // 検索パラメータは表示用に取得するのみ（更新はしない）
+  const search = searchParams.get('search') || ''
 
   const updateURL = useCallback(
     (
-      newSearch: string,
       newElement: string,
       newType: string,
       newWakuwaku: string[],
       newWakuwakuMode: 'or' | 'and',
       newHasEL: boolean
     ) => {
-      const params = new URLSearchParams()
-      if (newElement) params.set('element', newElement)
-      if (newType) params.set('type', newType)
-      if (newSearch) params.set('search', newSearch)
-      if (newWakuwaku.length > 0) params.set('wakuwaku', newWakuwaku.join(','))
-      if (newWakuwaku.length > 1) params.set('wakuwakuMode', newWakuwakuMode)
-      if (newHasEL) params.set('hasEL', 'true')
+      const params = new URLSearchParams(searchParams.toString())
+      
+      // 既存のsearchパラメータを保持
+      if (newElement) {
+        params.set('element', newElement)
+      } else {
+        params.delete('element')
+      }
+      
+      if (newType) {
+        params.set('type', newType)
+      } else {
+        params.delete('type')
+      }
+      
+      if (newWakuwaku.length > 0) {
+        params.set('wakuwaku', newWakuwaku.join(','))
+      } else {
+        params.delete('wakuwaku')
+      }
+      
+      if (newWakuwaku.length > 1) {
+        params.set('wakuwakuMode', newWakuwakuMode)
+      } else {
+        params.delete('wakuwakuMode')
+      }
+      
+      if (newHasEL) {
+        params.set('hasEL', 'true')
+      } else {
+        params.delete('hasEL')
+      }
 
       const queryString = params.toString()
       startTransition(() => {
         router.push(`${basePath}${queryString ? `?${queryString}` : ''}`)
       })
     },
-    [router, basePath]
+    [router, basePath, searchParams]
   )
 
-  // リアルタイム検索
+  // リアルタイム検索（searchは除外）
   useEffect(() => {
-    updateURL(debouncedSearch, element, type, wakuwaku, wakuwakuMode, hasEL)
-  }, [debouncedSearch, element, type, wakuwaku, wakuwakuMode, hasEL, updateURL])
+    updateURL(element, type, wakuwaku, wakuwakuMode, hasEL)
+  }, [element, type, wakuwaku, wakuwakuMode, hasEL, updateURL])
 
   const toggleWakuwaku = (wakuwakuName: string) => {
     setWakuwaku((prev) =>
@@ -174,31 +197,7 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
           </div>
         </div>
 
-        {/* 検索 */}
-        <div>
-          <label htmlFor="account-search" className="block text-sm font-medium text-gray-700 mb-2">
-            キャラ名検索
-          </label>
-          <div className="relative">
-            <input
-              type="text"
-              id="account-search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="キャラ名で検索..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
-            />
-            {search && (
-              <button
-                onClick={() => setSearch('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                title="クリア"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-        </div>
+        {/* 検索バーはここから削除 - 別コンポーネントで実装 */}
 
         {/* ELフィルター */}
         <div>
@@ -243,9 +242,7 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
               {search && (
                 <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
                   検索: {search}
-                  <button onClick={() => setSearch('')} className="hover:text-blue-900">
-                    ✕
-                  </button>
+                  <span className="text-xs text-gray-500">(別の検索バーで変更)</span>
                 </span>
               )}
               {wakuwaku.length > 0 && (
@@ -268,13 +265,13 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
                 onClick={() => {
                   setElement('')
                   setType('')
-                  setSearch('')
                   setWakuwaku([])
                   setHasEL(false)
+                  // searchは別コンポーネントで管理されているため、ここでは削除しない
                 }}
                 className="text-xs text-red-600 hover:text-red-800 ml-2"
               >
-                すべてクリア
+                フィルタークリア
               </button>
             </div>
           </div>
