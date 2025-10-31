@@ -36,7 +36,7 @@ export default function FriendCard({ friend, onRemove }: FriendCardProps) {
   }
 
   return (
-    <div className="bg-gray-50 rounded-lg p-4">
+    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
       <div className="flex items-start gap-3">
         {friend.image && (
           <img
@@ -46,17 +46,17 @@ export default function FriendCard({ friend, onRemove }: FriendCardProps) {
           />
         )}
         <div className="flex-1 min-w-0">
-          <div className="font-semibold text-gray-900 mb-1">
+          <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
             {friend.name}
           </div>
-          <div className="text-sm text-gray-500 mb-2">
+          <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
             {totalCharacters}体所持
           </div>
           <div className="flex gap-2">
             <Link
               href={`/friends/${friend.id}`}
               onClick={() => setIsNavigating(true)}
-              className={`text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center gap-1 ${
+              className={`text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium inline-flex items-center gap-1 ${
                 isNavigating ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -78,7 +78,7 @@ export default function FriendCard({ friend, onRemove }: FriendCardProps) {
           <button
             onClick={() => setShowConfirm(true)}
             disabled={isPending}
-            className="text-red-600 hover:text-red-800 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
             削除
           </button>
@@ -89,7 +89,7 @@ export default function FriendCard({ friend, onRemove }: FriendCardProps) {
               <button
                 type="submit"
                 disabled={isPending}
-                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-red-600 dark:bg-red-700 text-white px-3 py-1 rounded hover:bg-red-700 dark:hover:bg-red-600 text-xs disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isPending ? '削除中...' : '削除確定'}
               </button>
@@ -97,7 +97,7 @@ export default function FriendCard({ friend, onRemove }: FriendCardProps) {
             <button
               onClick={() => setShowConfirm(false)}
               disabled={isPending}
-              className="text-gray-600 hover:text-gray-800 text-xs disabled:opacity-50"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-300 text-xs disabled:opacity-50"
             >
               キャンセル
             </button>

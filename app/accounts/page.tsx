@@ -402,13 +402,13 @@ export default async function AccountsPage({
     <div className="max-w-[1800px] mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">マイアカウント</h1>
-          <p className="text-gray-600">{user.name}さんのアカウント一覧</p>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">マイアカウント</h1>
+          <p className="text-gray-600 dark:text-gray-400">{user.name}さんのアカウント一覧</p>
         </div>
         <div className="flex gap-3">
           <Link
             href="/accounts/view"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold flex items-center gap-2"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-sm font-semibold flex items-center gap-2"
           >
             📖 閲覧専用モード
           </Link>
@@ -418,7 +418,7 @@ export default async function AccountsPage({
           {isAdmin && (
             <Link
               href="/admin/characters"
-              className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 text-sm font-semibold"
+              className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500 text-sm font-semibold"
             >
               ⚙️ キャラ管理
             </Link>
@@ -426,16 +426,8 @@ export default async function AccountsPage({
         </div>
       </div>
 
-      {/* 注意書き */}
-      <div className="mb-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
-        <p className="text-sm text-amber-900">
-          <strong>⚠️ お知らせ：</strong>キャラ名検索が正常に動作しない場合は、右上の「閲覧専用モード」に切り替えてご利用ください。
-          閲覧専用モードでは編集はできませんが、検索機能がより安定して動作します。
-        </p>
-      </div>
-
       {/* キャラ名検索バー（独立） */}
-      <div className="mb-6 bg-white rounded-lg shadow-md p-6">
+      <div className="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <CharacterNameSearchBar basePath="/accounts" />
       </div>
 
@@ -458,7 +450,7 @@ export default async function AccountsPage({
         onDeleteOwnedCharacter={deleteOwnedCharacter}
       />
 
-      <div className="mt-4 text-center text-gray-600">
+      <div className="mt-4 text-center text-gray-600 dark:text-gray-400">
         全{characterData.length}体のキャラクター
         {(element || type || search || selectedWakuwaku.length > 0) && ' (絞り込み中)'}
         {selectedWakuwaku.length > 0 && (

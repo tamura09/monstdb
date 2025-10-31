@@ -42,7 +42,7 @@ export default function FriendRequestCard({
   }
 
   return (
-    <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
+    <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
       <div className="flex items-center gap-3">
         {request.sender.image && (
           <img
@@ -52,10 +52,10 @@ export default function FriendRequestCard({
           />
         )}
         <div>
-          <div className="font-semibold text-gray-900">
+          <div className="font-semibold text-gray-900 dark:text-gray-100">
             {request.sender.name}
           </div>
-          <div className="text-sm text-gray-500">フレンド申請</div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">フレンド申請</div>
         </div>
       </div>
       <div className="flex gap-2">
@@ -64,7 +64,7 @@ export default function FriendRequestCard({
           <button
             type="submit"
             disabled={isPending}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-1"
+            className="bg-green-600 dark:bg-green-700 text-white px-4 py-2 rounded hover:bg-green-700 dark:hover:bg-green-600 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-1"
           >
             {isPending && action === 'accept' && (
               <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -80,7 +80,7 @@ export default function FriendRequestCard({
           <button
             type="submit"
             disabled={isPending}
-            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-1"
+            className="bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-400 dark:hover:bg-gray-500 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-1"
           >
             {isPending && action === 'reject' && (
               <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

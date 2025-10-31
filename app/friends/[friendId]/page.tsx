@@ -175,7 +175,7 @@ export default async function FriendAccountsPage({
       <div className="mb-6">
         <Link
           href="/friends"
-          className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
+          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-2"
         >
           ← フレンドリストに戻る
         </Link>
@@ -191,8 +191,8 @@ export default async function FriendAccountsPage({
             />
           )}
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">{friend.name}さんの所持状況</h1>
-            <p className="text-gray-600 text-sm">閲覧専用モード</p>
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">{friend.name}さんの所持状況</h1>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">閲覧専用モード</p>
           </div>
         </div>
       </div>
@@ -215,7 +215,7 @@ export default async function FriendAccountsPage({
         readOnly={true}
       />
 
-      <div className="mt-4 text-center text-gray-600">
+      <div className="mt-4 text-center text-gray-600 dark:text-gray-400">
         全{characterData.length}体のキャラクター
         {(element || type || search || selectedWakuwaku.length > 0) && ' (絞り込み中)'}
         {selectedWakuwaku.length > 0 && (

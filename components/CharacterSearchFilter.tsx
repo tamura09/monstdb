@@ -26,7 +26,7 @@ export default function CharacterSearchFilter() {
 
     const queryString = params.toString()
     startTransition(() => {
-      router.push(`/characters${queryString ? `?${queryString}` : ''}`)
+      router.push(`/characters${queryString ? `?${queryString}` : ''}`, { scroll: false })
     })
   }, [router])
 
@@ -36,12 +36,12 @@ export default function CharacterSearchFilter() {
   }, [debouncedSearch, element, type, updateURL])
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">フィルター</h2>
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+      <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">フィルター</h2>
       <div className="space-y-4">
         {/* 属性フィルター */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             属性
           </label>
           <div className="flex flex-wrap gap-2">
@@ -50,7 +50,7 @@ export default function CharacterSearchFilter() {
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 !element
                   ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
               }`}
             >
               すべて
@@ -62,7 +62,7 @@ export default function CharacterSearchFilter() {
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   element === el
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
                 }`}
               >
                 {el}
@@ -73,7 +73,7 @@ export default function CharacterSearchFilter() {
 
         {/* タイプフィルター */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             種類
           </label>
           <div className="flex flex-wrap gap-2">
@@ -82,7 +82,7 @@ export default function CharacterSearchFilter() {
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 !type
                   ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
               }`}
             >
               すべて
@@ -94,7 +94,7 @@ export default function CharacterSearchFilter() {
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   type === t
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
                 }`}
               >
                 {t}
@@ -107,9 +107,9 @@ export default function CharacterSearchFilter() {
         <div>
           <label
             htmlFor="search"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
           >
-            検索 {isPending && <span className="text-xs text-gray-500 ml-2">検索中...</span>}
+            検索 {isPending && <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">検索中...</span>}
           </label>
           <div className="relative">
             <input
@@ -118,12 +118,12 @@ export default function CharacterSearchFilter() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="キャラ名で検索..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 pr-10 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                 title="クリア"
               >
                 ✕
@@ -131,7 +131,7 @@ export default function CharacterSearchFilter() {
             )}
           </div>
           {search && (
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               「{search}」で検索中
             </p>
           )}
@@ -139,37 +139,37 @@ export default function CharacterSearchFilter() {
 
         {/* アクティブフィルター表示 */}
         {(element || type || search) && (
-          <div className="pt-2 border-t border-gray-200">
+          <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-sm text-gray-600">適用中:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">適用中:</span>
               {element && (
-                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">
                   属性: {element}
                   <button
                     onClick={() => setElement('')}
-                    className="hover:text-blue-900"
+                    className="hover:text-blue-900 dark:hover:text-blue-100"
                   >
                     ✕
                   </button>
                 </span>
               )}
               {type && (
-                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">
                   種類: {type}
                   <button
                     onClick={() => setType('')}
-                    className="hover:text-blue-900"
+                    className="hover:text-blue-900 dark:hover:text-blue-100"
                   >
                     ✕
                   </button>
                 </span>
               )}
               {search && (
-                <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">
                   検索: {search}
                   <button
                     onClick={() => setSearch('')}
-                    className="hover:text-blue-900"
+                    className="hover:text-blue-900 dark:hover:text-blue-100"
                   >
                     ✕
                   </button>
@@ -181,7 +181,7 @@ export default function CharacterSearchFilter() {
                   setType('')
                   setSearch('')
                 }}
-                className="text-xs text-red-600 hover:text-red-800 ml-2"
+                className="text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 ml-2"
               >
                 すべてクリア
               </button>

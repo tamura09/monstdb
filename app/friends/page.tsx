@@ -266,32 +266,32 @@ export default async function FriendsPage({
       <div className="mb-6">
         <Link
           href="/accounts"
-          className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
+          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-2"
         >
           ← アカウント一覧に戻る
         </Link>
       </div>
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">フレンド</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">フレンド</h1>
 
       {/* 自分のフレンドID */}
       <FriendIdDisplay friendId={user.friendId || user.id} />
 
       {/* フレンド検索 */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
           フレンド検索
         </h2>
         <FriendSearchForm />
         
         {search && !searchResult && (
-          <div className="mt-4 text-center text-gray-500">
+          <div className="mt-4 text-center text-gray-500 dark:text-gray-400">
             ユーザーが見つかりませんでした、または既にフレンド・申請済みです
           </div>
         )}
 
         {searchResult && (
-          <div className="mt-4 bg-gray-50 rounded-lg p-4">
+          <div className="mt-4 bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {searchResult.image && (
@@ -302,10 +302,10 @@ export default async function FriendsPage({
                   />
                 )}
                 <div>
-                  <div className="font-semibold text-gray-900">
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">
                     {searchResult.name}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {searchResult?.gameAccounts?.reduce(
                       (sum: number, acc: any) => sum + (acc._count?.ownedCharacters || 0),
                       0
@@ -325,8 +325,8 @@ export default async function FriendsPage({
 
       {/* 受信したフレンド申請 */}
       {user.receivedFriendRequests.length > 0 && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
             受信したフレンド申請
           </h2>
           <div className="space-y-3">
@@ -344,15 +344,15 @@ export default async function FriendsPage({
 
       {/* 送信したフレンド申請 */}
       {user.sentFriendRequests.length > 0 && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
             送信したフレンド申請
           </h2>
           <div className="space-y-3">
             {user.sentFriendRequests.map((request) => (
               <div
                 key={request.id}
-                className="flex items-center gap-3 bg-gray-50 rounded-lg p-3"
+                className="flex items-center gap-3 bg-gray-50 dark:bg-gray-700 rounded-lg p-3"
               >
                 {request.receiver.image && (
                   <img
@@ -362,10 +362,10 @@ export default async function FriendsPage({
                   />
                 )}
                 <div className="flex-1">
-                  <div className="font-semibold text-gray-900">
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">
                     {request.receiver.name}
                   </div>
-                  <div className="text-sm text-gray-500">申請中...</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">申請中...</div>
                 </div>
               </div>
             ))}
@@ -374,12 +374,12 @@ export default async function FriendsPage({
       )}
 
       {/* フレンドリスト */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
           フレンドリスト ({friends.length})
         </h2>
         {friends.length === 0 ? (
-          <div className="text-center text-gray-500 py-8">
+          <div className="text-center text-gray-500 dark:text-gray-400 py-8">
             まだフレンドがいません
           </div>
         ) : (

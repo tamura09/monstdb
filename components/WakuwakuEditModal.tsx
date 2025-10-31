@@ -121,35 +121,35 @@ export default function WakuwakuEditModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4">
-          <h3 className="text-lg font-semibold">わくわくの実を編集</h3>
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 px-6 py-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">わくわくの実を編集</h3>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6">
+        <form onSubmit={handleSubmit} className="p-6" data-form-type="other" data-lpignore="true" data-1p-ignore="true">
           {/* ショートカットボタン */}
-          <div className="mb-4 pb-4 border-b border-gray-200">
-            <p className="text-xs text-gray-600 mb-2">クイック設定:</p>
+          <div className="mb-4 pb-4 border-b border-gray-200 dark:border-gray-600">
+            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">クイック設定:</p>
             <div className="flex gap-2 mb-2">
               <button
                 type="button"
                 onClick={() => applyPreset('douzoku')}
-                className="flex-1 px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded text-sm font-medium transition-colors"
+                className="flex-1 px-3 py-2 bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-200 rounded text-sm font-medium transition-colors"
               >
                 同3
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('gekishu')}
-                className="flex-1 px-3 py-2 bg-green-100 hover:bg-green-200 text-green-800 rounded text-sm font-medium transition-colors"
+                className="flex-1 px-3 py-2 bg-green-100 dark:bg-green-900 hover:bg-green-200 dark:hover:bg-green-800 text-green-800 dark:text-green-200 rounded text-sm font-medium transition-colors"
               >
                 撃3
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('senkei')}
-                className="flex-1 px-3 py-2 bg-purple-100 hover:bg-purple-200 text-purple-800 rounded text-sm font-medium transition-colors"
+                className="flex-1 px-3 py-2 bg-purple-100 dark:bg-purple-900 hover:bg-purple-200 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-200 rounded text-sm font-medium transition-colors"
               >
                 戦3
               </button>
@@ -157,7 +157,7 @@ export default function WakuwakuEditModal({
             <button
               type="button"
               onClick={clearAll}
-              className="w-full px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm font-medium transition-colors"
+              className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded text-sm font-medium transition-colors"
             >
               オールクリア
             </button>
@@ -165,14 +165,14 @@ export default function WakuwakuEditModal({
 
           <div className="space-y-4">
             {slots.map((slot, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-2">
+              <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 space-y-2">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">スロット {index + 1}</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">スロット {index + 1}</span>
                   {slot.wakuwakuMasterId && (
                     <button
                       type="button"
                       onClick={() => clearSlot(index)}
-                      className="text-xs text-red-600 hover:text-red-800"
+                      className="text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
                     >
                       クリア
                     </button>
@@ -182,7 +182,10 @@ export default function WakuwakuEditModal({
                 <select
                   value={slot.wakuwakuMasterId}
                   onChange={(e) => handleSlotChange(index, 'wakuwakuMasterId', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  autoComplete="off"
+                  data-lpignore="true"
+                  data-1p-ignore="true"
                 >
                   <option value="">なし</option>
                   {allWakuwaku.map((wakuwaku) => (
@@ -200,8 +203,10 @@ export default function WakuwakuEditModal({
                         checked={slot.level === 'L'}
                         onChange={() => handleSlotChange(index, 'level', 'L')}
                         className="mr-2"
+                        data-lpignore="true"
+                        data-1p-ignore="true"
                       />
-                      <span className="text-sm">L</span>
+                      <span className="text-sm text-gray-900 dark:text-gray-100">L</span>
                     </label>
                     <label className="flex items-center">
                       <input
@@ -209,8 +214,10 @@ export default function WakuwakuEditModal({
                         checked={slot.level === 'EL'}
                         onChange={() => handleSlotChange(index, 'level', 'EL')}
                         className="mr-2"
+                        data-lpignore="true"
+                        data-1p-ignore="true"
                       />
-                      <span className="text-sm">EL</span>
+                      <span className="text-sm text-gray-900 dark:text-gray-100">EL</span>
                     </label>
                   </div>
                 )}
@@ -223,14 +230,14 @@ export default function WakuwakuEditModal({
               type="button"
               onClick={onClose}
               disabled={isSaving}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed bg-white dark:bg-gray-800"
             >
               キャンセル
             </button>
             <button
               type="submit"
               disabled={isSaving}
-              className="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isSaving ? '保存中...' : '保存'}
             </button>

@@ -49,11 +49,11 @@ export default function UpdateGameAccountNameForm({
     return (
       <div className="flex items-center justify-between">
         <div>
-          <div className="font-semibold text-gray-900">{currentName}</div>
+          <div className="font-semibold text-gray-900 dark:text-gray-100">{currentName}</div>
         </div>
         <button
           onClick={() => setIsEditing(true)}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium"
         >
           編集
         </button>
@@ -72,7 +72,7 @@ export default function UpdateGameAccountNameForm({
           minLength={1}
           maxLength={50}
           disabled={isLoading}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 text-sm"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-gray-600 text-sm bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100"
           placeholder="アカウント名"
         />
       </div>
@@ -81,8 +81,8 @@ export default function UpdateGameAccountNameForm({
         <div
           className={`text-sm p-2 rounded ${
             message.type === 'success'
-              ? 'bg-green-50 text-green-800'
-              : 'bg-red-50 text-red-800'
+              ? 'bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200'
+              : 'bg-red-50 dark:bg-red-900 text-red-800 dark:text-red-200'
           }`}
         >
           {message.text}
@@ -93,7 +93,7 @@ export default function UpdateGameAccountNameForm({
         <button
           type="submit"
           disabled={isLoading || name.trim().length === 0}
-          className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400 text-sm font-medium"
+          className="flex-1 bg-blue-600 dark:bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-gray-400 disabled:dark:bg-gray-600 text-sm font-medium"
         >
           {isLoading ? '更新中...' : '保存'}
         </button>
@@ -101,7 +101,7 @@ export default function UpdateGameAccountNameForm({
           type="button"
           onClick={handleCancel}
           disabled={isLoading}
-          className="flex-1 bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 disabled:bg-gray-100 text-sm font-medium"
+          className="flex-1 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-100 px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 disabled:bg-gray-100 disabled:dark:bg-gray-700 text-sm font-medium"
         >
           キャンセル
         </button>

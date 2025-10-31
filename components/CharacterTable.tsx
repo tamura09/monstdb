@@ -125,22 +125,22 @@ export default function CharacterTable({
   })
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b-2 border-gray-200">
+          <thead className="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider sticky left-0 bg-gray-50 z-10">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider sticky left-0 bg-gray-50 dark:bg-gray-700 z-10">
                 <button
                   onClick={() => handleSort('name')}
-                  className="flex items-center hover:text-blue-600"
+                  className="flex items-center hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   キャラクター
                   <SortIcon currentKey="name" />
                 </button>
                 <button
                   onClick={() => handleSort('no')}
-                  className="flex items-center hover:text-blue-600 mt-1"
+                  className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 mt-1"
                 >
                   <span className="text-[10px]">No順</span>
                   <SortIcon currentKey="no" />
@@ -149,15 +149,15 @@ export default function CharacterTable({
               {gameAccounts.map((account) => (
                 <th
                   key={account.id}
-                  className="px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider"
                 >
                   <div>{account.name}</div>
                 </th>
               ))}
-              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider bg-gray-50">
+              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider bg-gray-50 dark:bg-gray-700">
                 <button
                   onClick={() => handleSort('total')}
-                  className="flex items-center justify-center hover:text-blue-600 mx-auto"
+                  className="flex items-center justify-center hover:text-blue-600 dark:hover:text-blue-400 mx-auto"
                 >
                   所持数
                   <SortIcon currentKey="total" />
@@ -165,35 +165,35 @@ export default function CharacterTable({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
             {sortedData.map((charData) => {
               const total = getTotal(charData)
               return (
-                <tr key={charData.characterMaster.id} className="hover:bg-gray-50">
+                <tr key={charData.characterMaster.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   {/* キャラクター名 */}
-                  <td className="px-4 py-3 sticky left-0 bg-white z-10 border-r border-gray-200">
+                  <td className="px-4 py-3 sticky left-0 bg-white dark:bg-gray-800 z-10 border-r border-gray-200 dark:border-gray-600">
                     <div className="flex items-center gap-2">
                       <div>
-                        <div className="font-semibold text-gray-800 text-sm">
+                        <div className="font-semibold text-gray-800 dark:text-gray-200 text-sm">
                           {charData.characterMaster.monsterName}
                         </div>
                         <div className="flex items-center gap-2 mt-1">
                           <span
                             className={`text-xs px-2 py-0.5 rounded ${
                               charData.characterMaster.element === '火'
-                                ? 'bg-red-100 text-red-700'
+                                ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200'
                                 : charData.characterMaster.element === '水'
-                                ? 'bg-blue-100 text-blue-700'
+                                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
                                 : charData.characterMaster.element === '木'
-                                ? 'bg-green-100 text-green-700'
+                                ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200'
                                 : charData.characterMaster.element === '光'
-                                ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-purple-100 text-purple-700'
+                                ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200'
+                                : 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200'
                             }`}
                           >
                             {charData.characterMaster.element}
                           </span>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
                             No.{charData.characterMaster.indexNumber}
                           </span>
                         </div>
@@ -206,7 +206,7 @@ export default function CharacterTable({
                     const ownedChars =
                       charData.accountOwnerships[account.id] || []
                     return (
-                      <td key={account.id} className="px-2 py-2 text-center align-middle">
+                      <td key={account.id} className="px-2 py-2 text-center align-middle dark:bg-gray-800">
                         <div className="space-y-2">
                           {/* 所持済みキャラクター */}
                           {ownedChars.map((ownedChar) => (
@@ -248,8 +248,8 @@ export default function CharacterTable({
                   })}
 
                   {/* 所持数トータル */}
-                  <td className="px-4 py-3 text-center align-middle bg-gray-50 border-l border-gray-200">
-                    <div className="font-bold text-lg text-gray-800">{total}</div>
+                  <td className="px-4 py-3 text-center align-middle bg-gray-50 dark:bg-gray-700 border-l border-gray-200 dark:border-gray-600">
+                    <div className="font-bold text-lg text-gray-800 dark:text-gray-200">{total}</div>
                   </td>
                 </tr>
               )

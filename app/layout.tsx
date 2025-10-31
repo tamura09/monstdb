@@ -2,6 +2,7 @@ import './globals.css'
 import AuthProvider from '@/components/AuthProvider'
 import Navigation from '@/components/Navigation'
 import { LoadingProvider } from '@/components/LoadingProvider'
+import { ThemeProvider } from '@/components/ThemeProvider'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -16,16 +17,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <body>
-        <AuthProvider>
-          <LoadingProvider>
-            <div className="min-h-screen bg-gray-50">
-              <Navigation />
-              <main>{children}</main>
-            </div>
-          </LoadingProvider>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <LoadingProvider>
+              <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+                <Navigation />
+                <main>{children}</main>
+              </div>
+            </LoadingProvider>
+          </AuthProvider>
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

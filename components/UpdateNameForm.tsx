@@ -52,7 +52,7 @@ export default function UpdateNameForm({
       <div>
         <label
           htmlFor="name"
-          className="block text-sm font-medium text-gray-700 mb-2"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
           表示名
         </label>
@@ -63,23 +63,23 @@ export default function UpdateNameForm({
           defaultValue={currentName || ''}
           required
           maxLength={50}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           placeholder="表示名を入力"
           disabled={loading}
         />
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
           この名前はアプリ内で表示されます
         </p>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+        <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+        <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 text-green-700 dark:text-green-200 px-4 py-3 rounded">
           表示名を更新しました
         </div>
       )}
@@ -87,7 +87,7 @@ export default function UpdateNameForm({
       <button
         type="submit"
         disabled={loading}
-        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed"
+        className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white px-6 py-2 rounded-md font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
         {loading ? '保存中...' : '保存'}
       </button>
