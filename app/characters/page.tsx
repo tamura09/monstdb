@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import DownloadButton from '@/components/DownloadButton'
 import CharacterSearchFilter from '@/components/CharacterSearchFilter'
-import { matchesJapanese } from '@/lib/string-utils'
+import { matchesJapaneseOr } from '@/lib/string-utils'
 
 export default async function CharactersPage({
   searchParams,
@@ -37,7 +37,7 @@ export default async function CharactersPage({
   // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング
   if (search) {
     characters = characters.filter((char) =>
-      matchesJapanese(char.monsterName, search)
+      matchesJapaneseOr(char.monsterName, search)
     )
   }
 

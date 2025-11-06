@@ -198,6 +198,9 @@ export default function FriendSearchFilter({ allWakuwaku, friendId }: FriendSear
               </button>
             )}
           </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            スペース区切りで複数のキャラ名を同時検索できます
+          </p>
         </div>
 
         {/* ELフィルター */}

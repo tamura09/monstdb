@@ -35,3 +35,22 @@ export function matchesJapanese(text: string, query: string): boolean {
   const normalizedQuery = normalizeJapanese(query)
   return normalizedText.includes(normalizedQuery)
 }
+
+/**
+ * ひらがな・カタカナを区別せずに複数キーワードのOR検索
+ * スペース区切りで複数のキーワードを指定可能
+ */
+export function matchesJapaneseOr(text: string, query: string): boolean {
+  if (!query.trim()) return true
+  
+  // スペース（全角・半角）で分割
+  const keywords = query.split(/[\s　]+/).filter(k => k.trim().length > 0)
+  
+  const normalizedText = normalizeJapanese(text)
+  
+  // いずれかのキーワードにマッチすればtrue
+  return keywords.some(keyword => {
+    const normalizedKeyword = normalizeJapanese(keyword)
+    return normalizedText.includes(normalizedKeyword)
+  })
+}

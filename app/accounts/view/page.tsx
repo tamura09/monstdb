@@ -9,7 +9,7 @@ import ImportButton from '@/components/ImportButton'
 import DownloadTemplateButton from '@/components/DownloadTemplateButton'
 import AccountSearchFilter from '@/components/AccountSearchFilter'
 import CharacterNameSearchBar from '@/components/CharacterNameSearchBar'
-import { matchesJapanese } from '@/lib/string-utils'
+import { matchesJapaneseOr } from '@/lib/string-utils'
 
 export default async function AccountsViewPage({
   searchParams,
@@ -88,7 +88,7 @@ export default async function AccountsViewPage({
   // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング
   if (search) {
     allCharacterMasters = allCharacterMasters.filter((char) =>
-      matchesJapanese(char.monsterName, search)
+      matchesJapaneseOr(char.monsterName, search)
     )
   }
 

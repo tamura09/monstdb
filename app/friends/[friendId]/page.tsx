@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import CharacterTable from '@/components/CharacterTable'
 import FriendSearchFilter from '@/components/FriendSearchFilter'
-import { matchesJapanese } from '@/lib/string-utils'
+import { matchesJapaneseOr } from '@/lib/string-utils'
 
 export default async function FriendAccountsPage({
   params,
@@ -97,7 +97,7 @@ export default async function FriendAccountsPage({
   // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング
   if (search) {
     allCharacterMasters = allCharacterMasters.filter((char) =>
-      matchesJapanese(char.monsterName, search)
+      matchesJapaneseOr(char.monsterName, search)
     )
   }
 

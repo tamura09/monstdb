@@ -10,7 +10,7 @@ import ImportButton from '@/components/ImportButton'
 import DownloadTemplateButton from '@/components/DownloadTemplateButton'
 import AccountSearchFilter from '@/components/AccountSearchFilter'
 import CharacterNameSearchBar from '@/components/CharacterNameSearchBar'
-import { matchesJapanese } from '@/lib/string-utils'
+import { matchesJapaneseOr } from '@/lib/string-utils'
 
 export default async function AccountsPage({
   searchParams,
@@ -89,7 +89,7 @@ export default async function AccountsPage({
   // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング
   if (search) {
     allCharacterMasters = allCharacterMasters.filter((char) =>
-      matchesJapanese(char.monsterName, search)
+      matchesJapaneseOr(char.monsterName, search)
     )
   }
 
@@ -406,12 +406,13 @@ export default async function AccountsPage({
           <p className="text-gray-600 dark:text-gray-400">{user.name}さんのアカウント一覧</p>
         </div>
         <div className="flex gap-3">
-          <Link
+          {/* 一時的に無効化 */}
+          {/* <Link
             href="/accounts/view"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-sm font-semibold flex items-center gap-2"
           >
             📖 閲覧専用モード
-          </Link>
+          </Link> */}
           <DownloadTemplateButton />
           <ImportButton />
           <DownloadButton type="my-characters" />

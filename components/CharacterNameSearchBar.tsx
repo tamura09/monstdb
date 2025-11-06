@@ -69,11 +69,13 @@ export default function CharacterNameSearchBar({
           </button>
         )}
       </div>
-      {search && (
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-          「{search}」で検索中
-        </p>
-      )}
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+        {search ? (
+          <>「{search}」で検索中 - スペース区切りで複数キャラ検索可能</>
+        ) : (
+          <>スペース区切りで複数のキャラ名を同時検索できます（例: ルシファー モーセ）</>
+        )}
+      </p>
     </div>
   )
 }
