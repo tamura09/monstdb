@@ -1,0 +1,20 @@
+# Vercelビルドから除外するファイル（高速化）
+.git
+.vscode
+.idea
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+coverage
+.nyc_output
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__
+__mocks__
+README.md
+CHANGELOG.md
+docs/

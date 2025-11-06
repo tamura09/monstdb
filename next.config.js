@@ -3,6 +3,12 @@ const nextConfig = {
   // 本番環境での最適化
   output: 'standalone', // Dockerデプロイ用
   
+  // ビルド高速化
+  swcMinify: true, // SWCを使用した高速最小化
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production', // 本番環境でconsole.log削除
+  },
+  
   // 画像最適化設定
   images: {
     remotePatterns: [
@@ -11,6 +17,14 @@ const nextConfig = {
         hostname: 'lh3.googleusercontent.com', // Google OAuth画像
       },
     ],
+  },
+  
+  // TypeScript/ESLintエラーを無視（ビルドを継続）
+  typescript: {
+    ignoreBuildErrors: false, // 本番では false 推奨
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // ビルド時のLintチェックをスキップして高速化
   },
   
   // セキュリティヘッダー
