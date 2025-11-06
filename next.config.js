@@ -3,8 +3,7 @@ const nextConfig = {
   // 本番環境での最適化
   output: 'standalone', // Dockerデプロイ用
   
-  // ビルド高速化
-  swcMinify: true, // SWCを使用した高速最小化
+  // ビルド高速化（Next.js 15ではSWCがデフォルト）
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production', // 本番環境でconsole.log削除
   },
