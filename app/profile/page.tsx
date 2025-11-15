@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import Link from 'next/link'
+import Image from 'next/image'
 import UpdateNameForm from '@/components/UpdateNameForm'
 import UpdateGameAccountNameForm from '@/components/UpdateGameAccountNameForm'
 
@@ -126,9 +127,11 @@ export default async function ProfilePage() {
             <div className="space-y-3">
               <div className="flex items-center gap-4">
                 {user.image && (
-                  <img
+                  <Image
                     src={user.image}
                     alt="プロフィール画像"
+                    width={64}
+                    height={64}
                     className="w-16 h-16 rounded-full"
                   />
                 )}
