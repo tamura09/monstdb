@@ -54,8 +54,8 @@ export default function CharacterFormNew({
       }
 
       // 成功したら一覧ページにリダイレクト
-      router.push('/admin/characters?success=created')
       router.refresh()
+      router.push('/admin/characters?success=created')
     } catch (err) {
       console.error('作成エラー:', err)
       alert('キャラクターの作成に失敗しました')

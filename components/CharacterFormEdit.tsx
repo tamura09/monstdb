@@ -61,8 +61,8 @@ export default function CharacterFormEdit({
       }
 
       // 成功したら一覧ページにリダイレクト
-      router.push('/admin/characters')
       router.refresh()
+      router.push('/admin/characters?success=updated')
     } catch (err) {
       console.error('更新エラー:', err)
       alert('キャラクターの更新に失敗しました')
