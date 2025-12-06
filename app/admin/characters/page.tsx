@@ -57,7 +57,7 @@ export default async function AdminCharactersPage({
       where: { id: characterId },
     })
 
-    revalidatePath('/admin/characters', 'page')
+    revalidatePath('/admin/characters')
   }
 
   return (
