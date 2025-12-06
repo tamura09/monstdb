@@ -22,6 +22,7 @@ type CharacterMaster = {
   id: string
   monsterName: string
   element: string
+  type: string
   indexNumber: number
 }
 
@@ -177,7 +178,7 @@ export default function CharacterTable({
                         <div className="font-semibold text-gray-800 dark:text-gray-200 text-sm">
                           {charData.characterMaster.monsterName}
                         </div>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center gap-2 mt-1 flex-wrap">
                           <span
                             className={`text-xs px-2 py-0.5 rounded ${
                               charData.characterMaster.element === '火'
@@ -192,6 +193,19 @@ export default function CharacterTable({
                             }`}
                           >
                             {charData.characterMaster.element}
+                          </span>
+                          <span
+                            className={`text-xs px-2 py-0.5 rounded font-medium ${
+                              charData.characterMaster.type === '限定'
+                                ? 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-200'
+                                : charData.characterMaster.type === 'α'
+                                ? 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-200'
+                                : charData.characterMaster.type === 'コラボ'
+                                ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200'
+                                : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+                            }`}
+                          >
+                            {charData.characterMaster.type}
                           </span>
                           <span className="text-xs text-gray-500 dark:text-gray-400">
                             No.{charData.characterMaster.indexNumber}
