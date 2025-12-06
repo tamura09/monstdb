@@ -1,7 +1,8 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useDebounce } from '@/hooks/useDebounce'
 
 type CharacterNameSearchBarProps = {
   basePath?: string
@@ -15,30 +16,28 @@ export default function CharacterNameSearchBar({
   const router = useRouter()
   const searchParams = useSearchParams()
   const [search, setSearch] = useState(searchParams.get('search') || '')
+  const debouncedSearch = useDebounce(search, 300)
 
-  const handleSearch = (value: string) => {
-    setSearch(value)
+  useEffect(() => {
+    const currentSearch = searchParams.get('search') || ''
     
-    // 既存のパラメータを保持
-    const params = new URLSearchParams(searchParams.toString())
-    
-    if (value) {
-      params.set('search', value)
-    } else {
-      params.delete('search')
+    // 実際に変更があった場合のみ更新
+    if (debouncedSearch !== currentSearch) {
+      const params = new URLSearchParams(searchParams.toString())
+      
+      if (debouncedSearch) {
+        params.set('search', debouncedSearch)
+      } else {
+        params.delete('search')
+      }
+
+      const queryString = params.toString()
+      router.push(`${basePath}${queryString ? `?${queryString}` : ''}`, { scroll: false })
     }
-
-    const queryString = params.toString()
-    // useTransitionを使わず直接遷移
-    router.push(`${basePath}${queryString ? `?${queryString}` : ''}`, { scroll: false })
-  }
+  }, [debouncedSearch, searchParams, router, basePath])
 
   const handleClear = () => {
     setSearch('')
-    const params = new URLSearchParams(searchParams.toString())
-    params.delete('search')
-    const queryString = params.toString()
-    router.push(`${basePath}${queryString ? `?${queryString}` : ''}`, { scroll: false })
   }
 
   return (
@@ -51,7 +50,7 @@ export default function CharacterNameSearchBar({
           type="text"
           id="char-name-search"
           value={search}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder={placeholder}
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 pr-10 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           autoComplete="off"

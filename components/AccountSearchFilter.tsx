@@ -35,37 +35,33 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
       newWakuwakuMode: 'or' | 'and',
       newHasEL: boolean
     ) => {
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams()
+      
+      // searchパラメータを保持
+      const currentSearch = searchParams.get('search')
+      if (currentSearch) {
+        params.set('search', currentSearch)
+      }
       
       // 既存のsearchパラメータを保持
       if (newElement) {
         params.set('element', newElement)
-      } else {
-        params.delete('element')
       }
       
       if (newType) {
         params.set('type', newType)
-      } else {
-        params.delete('type')
       }
       
       if (newWakuwaku.length > 0) {
         params.set('wakuwaku', newWakuwaku.join(','))
-      } else {
-        params.delete('wakuwaku')
       }
       
       if (newWakuwaku.length > 1) {
         params.set('wakuwakuMode', newWakuwakuMode)
-      } else {
-        params.delete('wakuwakuMode')
       }
       
       if (newHasEL) {
         params.set('hasEL', 'true')
-      } else {
-        params.delete('hasEL')
       }
 
       const queryString = params.toString()
@@ -78,8 +74,25 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
 
   // リアルタイム検索（searchは除外）
   useEffect(() => {
-    updateURL(element, type, wakuwaku, wakuwakuMode, hasEL)
-  }, [element, type, wakuwaku, wakuwakuMode, hasEL, updateURL])
+    // 初期化時はスキップ
+    const currentElement = searchParams.get('element') || ''
+    const currentType = searchParams.get('type') || ''
+    const currentWakuwaku = searchParams.get('wakuwaku')?.split(',').filter(Boolean) || []
+    const currentWakuwakuMode = (searchParams.get('wakuwakuMode') as 'or' | 'and') || 'or'
+    const currentHasEL = searchParams.get('hasEL') === 'true'
+    
+    // 値が実際に変更された場合のみ更新
+    const hasChanged = 
+      element !== currentElement ||
+      type !== currentType ||
+      JSON.stringify(wakuwaku) !== JSON.stringify(currentWakuwaku) ||
+      wakuwakuMode !== currentWakuwakuMode ||
+      hasEL !== currentHasEL
+    
+    if (hasChanged) {
+      updateURL(element, type, wakuwaku, wakuwakuMode, hasEL)
+    }
+  }, [element, type, wakuwaku, wakuwakuMode, hasEL])
 
   const toggleWakuwaku = (wakuwakuName: string) => {
     setWakuwaku((prev) =>

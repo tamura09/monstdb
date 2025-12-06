@@ -3,9 +3,20 @@ const nextConfig = {
   // 本番環境での最適化
   output: 'standalone', // Dockerデプロイ用
   
+  // Next.js 16のパフォーマンス最適化
+  reactStrictMode: true,
+  
   // ビルド高速化（Next.js 15ではSWCがデフォルト）
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production', // 本番環境でconsole.log削除
+  },
+  
+  // 実験的な機能（パフォーマンス改善）
+  experimental: {
+    optimizePackageImports: ['@prisma/client', 'next-auth', 'react-icons'],
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
   
   // 画像最適化設定
@@ -22,9 +33,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false, // 本番では false 推奨
   },
-  eslint: {
-    ignoreDuringBuilds: true, // ビルド時のLintチェックをスキップして高速化
-  },
+  // Next.js 16では eslint 設定は next.config.js から削除され、
+  // ESLint設定は .eslintrc.json または eslint.config.mjs で管理
   
   // セキュリティヘッダー
   async headers() {
