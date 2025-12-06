@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import Link from 'next/link'
-aimport Image from 'next/image'
+import Image from 'next/image'
 import UpdateNameForm from '@/components/UpdateNameForm'
 import UpdateGameAccountNameForm from '@/components/UpdateGameAccountNameForm'
 
