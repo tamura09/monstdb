@@ -14,9 +14,9 @@
 
 ## 技術スタック
 
-- **フレームワーク**: Next.js 14 (App Router)
+- **フレームワーク**: Next.js 16 (App Router)
 - **言語**: TypeScript
-- **データベース**: SQLite (Prisma ORM)
+- **データベース**: PostgreSQL (Prisma ORM)
 - **スタイリング**: Tailwind CSS
 
 ## セットアップ
@@ -28,6 +28,8 @@ npm install
 \`\`\`
 
 ### 2. データベースのセットアップ
+
+`.env` に PostgreSQL の接続文字列を `DATABASE_URL`（および `DIRECT_URL`）として設定してください。
 
 \`\`\`bash
 # Prismaクライアントを生成
