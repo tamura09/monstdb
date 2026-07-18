@@ -113,72 +113,75 @@ export async function POST(request: NextRequest) {
       accountMap.set(displayName, account.id)
     }
 
-    let successCount = 0
-    let errorCount = 0
-    const errors: string[] = []
+    // 各行の処理をひとつのトランザクションにまとめて原子性を確保しつつ、
+    // わくわくの実は createMany でまとめて挿入しラウンドトリップを削減する
+    const { successCount, errorCount, errors } = await prisma.$transaction(async (tx) => {
+      let successCount = 0
+      let errorCount = 0
+      const errors: string[] = []
 
-    // 各行を処理
-    for (const row of rows) {
-      try {
-        // アカウントを取得
-        const accountId = accountMap.get(row.accountName)
-        if (!accountId) {
-          errors.push(`アカウント "${row.accountName}" が見つかりません`)
-          errorCount++
-          continue
-        }
+      for (const row of rows) {
+        try {
+          // アカウントを取得
+          const accountId = accountMap.get(row.accountName)
+          if (!accountId) {
+            errors.push(`アカウント "${row.accountName}" が見つかりません`)
+            errorCount++
+            continue
+          }
 
-        // キャラクターマスターを取得
-        const characterMaster = characterMap.get(row.indexNumber)
-        if (!characterMaster) {
-          errors.push(`図鑑No ${row.indexNumber} のキャラクターが見つかりません`)
-          errorCount++
-          continue
-        }
+          // キャラクターマスターを取得
+          const characterMaster = characterMap.get(row.indexNumber)
+          if (!characterMaster) {
+            errors.push(`図鑑No ${row.indexNumber} のキャラクターが見つかりません`)
+            errorCount++
+            continue
+          }
 
-        // 所持キャラを作成
-        const ownedCharacter = await prisma.ownedCharacter.create({
-          data: {
-            gameAccountId: accountId,
-            characterMasterId: characterMaster.id,
-          },
-        })
-
-        // わくわくの実を追加
-        // わくわくを displayOrder 順に並べ替えて slotNumber を割り当てる
-        const wakuwakuSlots = [
-          { name: row.wakuwaku1, level: row.level1 || 'L' },
-          { name: row.wakuwaku2, level: row.level2 || 'L' },
-          { name: row.wakuwaku3, level: row.level3 || 'L' },
-          { name: row.wakuwaku4, level: row.level4 || 'L' },
-        ].filter((slot) => Boolean(slot.name))
-
-        const wakuwakuMastersForChar = (
-          wakuwakuSlots
-            .map((slot) => ({ master: wakuwakuMap.get(slot.name), level: slot.level }))
-            .filter((item) => Boolean(item.master)) as any[]
-        ).sort((a, b) => a.master.displayOrder - b.master.displayOrder)
-
-        for (let i = 0; i < wakuwakuMastersForChar.length; i++) {
-          const item = wakuwakuMastersForChar[i]
-          if (!item.master) continue
-          await prisma.ownedCharacterWakuwaku.create({
+          // 所持キャラを作成
+          const ownedCharacter = await tx.ownedCharacter.create({
             data: {
-              ownedCharacterId: ownedCharacter.id,
-              wakuwakuMasterId: item.master.id,
-              slotNumber: i + 1,
-              level: item.level,
+              gameAccountId: accountId,
+              characterMasterId: characterMaster.id,
             },
           })
-        }
 
-        successCount++
-      } catch (error) {
-        console.error('Error processing row:', row, error)
-        errors.push(`行の処理エラー: ${row.monsterName} (${row.accountName})`)
-        errorCount++
+          // わくわくの実を追加
+          // わくわくを displayOrder 順に並べ替えて slotNumber を割り当てる
+          const wakuwakuSlots = [
+            { name: row.wakuwaku1, level: row.level1 || 'L' },
+            { name: row.wakuwaku2, level: row.level2 || 'L' },
+            { name: row.wakuwaku3, level: row.level3 || 'L' },
+            { name: row.wakuwaku4, level: row.level4 || 'L' },
+          ].filter((slot) => Boolean(slot.name))
+
+          const wakuwakuMastersForChar = (
+            wakuwakuSlots
+              .map((slot) => ({ master: wakuwakuMap.get(slot.name), level: slot.level }))
+              .filter((item) => Boolean(item.master)) as any[]
+          ).sort((a, b) => a.master.displayOrder - b.master.displayOrder)
+
+          if (wakuwakuMastersForChar.length > 0) {
+            await tx.ownedCharacterWakuwaku.createMany({
+              data: wakuwakuMastersForChar.map((item, i) => ({
+                ownedCharacterId: ownedCharacter.id,
+                wakuwakuMasterId: item.master.id,
+                slotNumber: i + 1,
+                level: item.level,
+              })),
+            })
+          }
+
+          successCount++
+        } catch (error) {
+          console.error('Error processing row:', row, error)
+          errors.push(`行の処理エラー: ${row.monsterName} (${row.accountName})`)
+          errorCount++
+        }
       }
-    }
+
+      return { successCount, errorCount, errors }
+    })
 
     return NextResponse.json({
       success: true,
