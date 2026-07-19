@@ -7,7 +7,7 @@ import { requireUser } from '@/lib/api/auth'
 import { ApiError } from '@/lib/api/errors'
 import { assertOwnedCharacterOwner } from '@/lib/api/ownership'
 import { MAX_WAKUWAKU_SLOTS } from '@/lib/api/constants'
-import { normalizeSlotNumbers } from '@/lib/wakuwaku/slots'
+import { acquireSlotLock, normalizeSlotNumbers } from '@/lib/wakuwaku/slots'
 
 // Next.js 16 では動的ルートの第2引数が Promise で渡ってくる
 type RouteContext = { params: Promise<{ id: string; slotNumber: string }> }
@@ -28,6 +28,10 @@ export const DELETE = withApiHandler<RouteContext>(async (request: NextRequest, 
   const slotNumber = await slotNumberParamSchema.parseAsync(slotNumberParam)
 
   await prisma.$transaction(async (tx) => {
+    // 同一ownedCharacterIdへの並行操作(このDELETEおよびPUT)を直列化する。
+    // トランザクション内で最初に実行すること。
+    await acquireSlotLock(tx, id)
+
     const slot = await tx.ownedCharacterWakuwaku.findUnique({
       where: {
         ownedCharacterId_slotNumber: {
