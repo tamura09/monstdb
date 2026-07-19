@@ -13,7 +13,7 @@ const nextConfig = {
   
   // 実験的な機能（パフォーマンス改善）
   experimental: {
-    optimizePackageImports: ['@prisma/client', 'next-auth', 'react-icons'],
+    optimizePackageImports: ['next-auth', 'react-icons'],
     serverActions: {
       bodySizeLimit: '2mb',
     },

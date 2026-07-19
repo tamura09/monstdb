@@ -1,8 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '../lib/prisma'
 
 async function main() {
   const argv = process.argv.slice(2)

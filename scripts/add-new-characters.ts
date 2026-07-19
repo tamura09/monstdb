@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../lib/prisma'
 import characterMasters from '../character_masters_export.json'
-
-const prisma = new PrismaClient()
 
 async function main() {
   console.log('🔍 Checking for new characters...')

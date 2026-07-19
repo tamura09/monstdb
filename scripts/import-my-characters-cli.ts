@@ -1,8 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '../lib/prisma'
 
 function parseCSV(text: string) {
   const lines = text.split('\n').map((l) => l.trim()).filter(Boolean)
