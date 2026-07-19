@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import DeleteCharacterMasterButton from '@/components/DeleteCharacterMasterButton'
+import AdminCharacterTable from '@/components/AdminCharacterTable'
 
 export default async function AdminCharactersPage({
   searchParams,
@@ -38,6 +38,13 @@ export default async function AdminCharactersPage({
           contains: search,
         },
       }),
+    },
+    select: {
+      id: true,
+      indexNumber: true,
+      monsterName: true,
+      element: true,
+      type: true,
     },
     orderBy: {
       indexNumber: 'asc',
@@ -192,78 +199,7 @@ export default async function AdminCharactersPage({
       </div>
 
       {/* キャラクター一覧 */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                No.
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                キャラクター名
-              </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                属性
-              </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                種類
-              </th>
-              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                操作
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
-            {characters.map((character) => (
-              <tr key={character.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
-                  {character.indexNumber}
-                </td>
-                <td className="px-4 py-3">
-                  <div className="font-semibold text-gray-800 dark:text-gray-200">
-                    {character.monsterName}
-                  </div>
-                </td>
-                <td className="px-4 py-3 text-center">
-                  <span
-                    className={`inline-block px-3 py-1 rounded text-xs ${
-                      character.element === '火'
-                        ? 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200'
-                        : character.element === '水'
-                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200'
-                        : character.element === '木'
-                        ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200'
-                        : character.element === '光'
-                        ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-200'
-                        : 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200'
-                    }`}
-                  >
-                    {character.element}
-                  </span>
-                </td>
-                <td className="px-4 py-3 text-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">{character.type}</span>
-                </td>
-                <td className="px-4 py-3 text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <Link
-                      href={`/admin/characters/${character.id}/edit`}
-                      className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-sm"
-                    >
-                      編集
-                    </Link>
-                    <DeleteCharacterMasterButton
-                      characterId={character.id}
-                      characterName={character.monsterName}
-                      onDelete={deleteCharacter}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <AdminCharacterTable characters={characters} onDelete={deleteCharacter} />
     </div>
   )
 }

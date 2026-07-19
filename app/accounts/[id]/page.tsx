@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import DeleteCharacterButton from '@/components/DeleteCharacterButton'
+import CharacterPicker from '@/components/CharacterPicker'
 
 export default async function AccountDetailPage({
   params,
@@ -208,6 +209,13 @@ export default async function AccountDetailPage({
   }
 
   const allCharacters = await prisma.characterMaster.findMany({
+    select: {
+      id: true,
+      indexNumber: true,
+      monsterName: true,
+      element: true,
+      type: true,
+    },
     orderBy: {
       indexNumber: 'asc',
     },
@@ -254,26 +262,8 @@ export default async function AccountDetailPage({
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           キャラクターを追加
         </h2>
-        <form action={addCharacter} className="flex gap-4">
-          <select
-            name="characterMasterId"
-            required
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">キャラクターを選択...</option>
-            {allCharacters.map((char) => (
-              <option key={char.id} value={char.id}>
-                {char.monsterName} ({char.element} / {char.type}) - No.
-                {char.indexNumber}
-              </option>
-            ))}
-          </select>
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold"
-          >
-            追加
-          </button>
+        <form action={addCharacter}>
+          <CharacterPicker characters={allCharacters} name="characterMasterId" submitLabel="追加" />
         </form>
       </div>
 
