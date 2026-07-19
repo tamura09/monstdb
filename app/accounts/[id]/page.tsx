@@ -55,6 +55,21 @@ export default async function AccountDetailPage({
   async function addCharacter(formData: FormData) {
     'use server'
 
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      throw new Error('Unauthorized')
+    }
+
+    // アカウントの所有者確認
+    const account = await prisma.gameAccount.findUnique({
+      where: { id },
+    })
+
+    if (!account || account.userId !== session.user.id) {
+      throw new Error('Unauthorized')
+    }
+
     const characterMasterId = formData.get('characterMasterId') as string
 
     if (!characterMasterId) {
@@ -74,10 +89,28 @@ export default async function AccountDetailPage({
   async function deleteCharacter(formData: FormData) {
     'use server'
 
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      throw new Error('Unauthorized')
+    }
+
     const ownedCharacterId = formData.get('ownedCharacterId') as string
 
     if (!ownedCharacterId) {
       return
+    }
+
+    // 所持キャラの所有者確認
+    const ownedChar = await prisma.ownedCharacter.findUnique({
+      where: { id: ownedCharacterId },
+      include: {
+        gameAccount: true,
+      },
+    })
+
+    if (!ownedChar || ownedChar.gameAccount.userId !== session.user.id) {
+      throw new Error('Unauthorized')
     }
 
     await prisma.ownedCharacter.delete({
@@ -90,12 +123,30 @@ export default async function AccountDetailPage({
   async function addWakuwaku(formData: FormData) {
     'use server'
 
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      throw new Error('Unauthorized')
+    }
+
     const ownedCharacterId = formData.get('ownedCharacterId') as string
     const wakuwakuMasterId = formData.get('wakuwakuMasterId') as string
     const level = (formData.get('level') as string) || 'L'
 
     if (!ownedCharacterId || !wakuwakuMasterId) {
       return
+    }
+
+    // 所持キャラの所有者確認
+    const ownedCharForAdd = await prisma.ownedCharacter.findUnique({
+      where: { id: ownedCharacterId },
+      include: {
+        gameAccount: true,
+      },
+    })
+
+    if (!ownedCharForAdd || ownedCharForAdd.gameAccount.userId !== session.user.id) {
+      throw new Error('Unauthorized')
     }
 
     // 既存のわくわくの実の数を確認
@@ -157,6 +208,12 @@ export default async function AccountDetailPage({
   async function deleteWakuwaku(formData: FormData) {
     'use server'
 
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      throw new Error('Unauthorized')
+    }
+
     const wakuwakuSlotId = formData.get('wakuwakuSlotId') as string
 
     if (!wakuwakuSlotId) {
@@ -165,10 +222,21 @@ export default async function AccountDetailPage({
 
     const slot = await prisma.ownedCharacterWakuwaku.findUnique({
       where: { id: wakuwakuSlotId },
+      include: {
+        ownedCharacter: {
+          include: {
+            gameAccount: true,
+          },
+        },
+      },
     })
 
     if (!slot) {
       return
+    }
+
+    if (slot.ownedCharacter.gameAccount.userId !== session.user.id) {
+      throw new Error('Unauthorized')
     }
 
     // 削除
