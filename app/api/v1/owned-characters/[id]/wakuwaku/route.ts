@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { withApiHandler } from '@/lib/api/handler'
-import { requireUser } from '@/lib/api/auth'
+import { requireScope } from '@/lib/api/auth'
 import { assertOwnedCharacterOwner } from '@/lib/api/ownership'
 import { parseJsonBody, cuidSchema } from '@/lib/api/validation'
 import { wakuwakuLevelSchema } from '@/lib/api/schemas'
@@ -44,7 +44,7 @@ const putWakuwakuSlotsSchema = z.object({
 
 // GET /api/v1/owned-characters/{id}/wakuwaku — わくわくの実セット取得
 export const GET = withApiHandler<RouteContext>(async (request: NextRequest, context) => {
-  const { userId } = await requireUser()
+  const { userId } = await requireScope(request, 'accounts:read')
   const { id } = await context.params
 
   // 所有権検証（見つからない場合・他人のものである場合は一律404）
@@ -64,7 +64,7 @@ export const GET = withApiHandler<RouteContext>(async (request: NextRequest, con
 // 実処理（検証・削除・作成・スロット番号の正規化）はlib/wakuwaku/slots.tsの
 // replaceWakuwakuSlotsに一本化されている。
 export const PUT = withApiHandler<RouteContext>(async (request: NextRequest, context) => {
-  const { userId } = await requireUser()
+  const { userId } = await requireScope(request, 'accounts:write')
   const { id } = await context.params
 
   // 所有権検証（見つからない場合・他人のものである場合は一律404）

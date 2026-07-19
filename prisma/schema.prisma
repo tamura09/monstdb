@@ -25,7 +25,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   gameAccounts  GameAccount[] // ゲーム用アカウント（旧Accountをリネーム）
-  
+  apiKeys       ApiKey[] // 発行したスコープ付きAPIキー（admin限定で発行可能）
+
   // フレンド関係
   sentFriendRequests     FriendRequest[] @relation("SentRequests")
   receivedFriendRequests FriendRequest[] @relation("ReceivedRequests")
@@ -131,6 +132,26 @@ model OwnedCharacterWakuwaku {
   wakuwakuMaster    WakuwakuMaster  @relation(fields: [wakuwakuMasterId], references: [id], onDelete: Cascade)
 
   @@unique([ownedCharacterId, slotNumber])
+}
+
+// スコープ付きAPIキーテーブル
+// 発行できるのはadminロールのユーザーのみ（lib/api/auth.tsのrequireAdmin参照）。
+// キーは発行者のユーザーとして振る舞うが、scopesで許可された操作しかできない。
+// 平文キーは絶対に保存しない（keyHashのみSHA-256で保存、検証はlib/api/api-key.ts）。
+model ApiKey {
+  id          String    @id @default(cuid())
+  userId      String
+  name        String // 用途がわかる表示名（例: "集計バッチ"）
+  keyPrefix   String    @unique // 表示・検索用の先頭部分（平文の先頭12文字程度）
+  keyHash     String // SHA-256ハッシュ。平文は絶対に保存しない
+  scopes      String[] // 許可されたスコープ（lib/api/scopes.ts参照）
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 // フレンド申請テーブル

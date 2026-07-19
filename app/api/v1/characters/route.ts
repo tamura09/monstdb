@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { withApiHandler } from '@/lib/api/handler'
-import { requireUser, requireAdmin } from '@/lib/api/auth'
+import { requireScope } from '@/lib/api/auth'
 import { ApiError } from '@/lib/api/errors'
 import { parseJsonBody, parseQuery, paginationSchema } from '@/lib/api/validation'
 import { elementSchema, characterTypeSchema, characterMasterCreateSchema } from '@/lib/api/schemas'
@@ -19,7 +19,7 @@ const listQuerySchema = paginationSchema.extend({
 
 // GET /api/v1/characters — キャラクターマスター一覧取得(ログイン済みユーザーなら誰でも可)
 export const GET = withApiHandler(async (request: NextRequest) => {
-  await requireUser()
+  await requireScope(request, 'characters:read')
 
   const { searchParams } = new URL(request.url)
   const { page, perPage, element, type, search } = await parseQuery(searchParams, listQuerySchema)
@@ -59,7 +59,7 @@ export const GET = withApiHandler(async (request: NextRequest) => {
 
 // POST /api/v1/characters — キャラクターマスター新規作成(admin限定)
 export const POST = withApiHandler(async (request: NextRequest) => {
-  await requireAdmin()
+  await requireScope(request, 'characters:write')
 
   const data = await parseJsonBody(request, characterMasterCreateSchema)
 

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { withApiHandler } from '@/lib/api/handler'
-import { requireUser, requireAdmin } from '@/lib/api/auth'
+import { requireScope } from '@/lib/api/auth'
 import { ApiError } from '@/lib/api/errors'
 import { parseJsonBody } from '@/lib/api/validation'
 import { characterMasterUpdateSchema } from '@/lib/api/schemas'
@@ -12,7 +12,7 @@ type RouteContext = { params: Promise<{ id: string }> }
 
 // GET /api/v1/characters/{id} — キャラクターマスター単体取得(ログイン済みユーザーなら誰でも可)
 export const GET = withApiHandler<RouteContext>(async (request: NextRequest, context) => {
-  await requireUser()
+  await requireScope(request, 'characters:read')
 
   const { id } = await context.params
 
@@ -27,7 +27,7 @@ export const GET = withApiHandler<RouteContext>(async (request: NextRequest, con
 
 // PATCH /api/v1/characters/{id} — キャラクターマスター部分更新(admin限定)
 export const PATCH = withApiHandler<RouteContext>(async (request: NextRequest, context) => {
-  await requireAdmin()
+  await requireScope(request, 'characters:write')
 
   const { id } = await context.params
   const data = await parseJsonBody(request, characterMasterUpdateSchema)
@@ -67,7 +67,7 @@ export const PATCH = withApiHandler<RouteContext>(async (request: NextRequest, c
 
 // DELETE /api/v1/characters/{id} — キャラクターマスター削除(admin限定)
 export const DELETE = withApiHandler<RouteContext>(async (request: NextRequest, context) => {
-  await requireAdmin()
+  await requireScope(request, 'characters:write')
 
   const { id } = await context.params
 

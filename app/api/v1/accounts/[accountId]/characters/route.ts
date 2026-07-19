@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { withApiHandler } from '@/lib/api/handler'
-import { requireUser } from '@/lib/api/auth'
+import { requireScope } from '@/lib/api/auth'
 import { ApiError } from '@/lib/api/errors'
 import { assertGameAccountOwner } from '@/lib/api/ownership'
 import { parseJsonBody, parseQuery, paginationSchema, cuidSchema } from '@/lib/api/validation'
@@ -54,7 +54,7 @@ const ownedCharacterInclude = {
 
 // GET /api/v1/accounts/{accountId}/characters — 指定アカウントの所持キャラ一覧取得
 export const GET = withApiHandler<RouteContext>(async (request: NextRequest, context) => {
-  const { userId } = await requireUser()
+  const { userId } = await requireScope(request, 'accounts:read')
   const { accountId } = await context.params
 
   // 所有権検証（見つからない場合・他人のものである場合は一律404）
@@ -98,7 +98,7 @@ export const GET = withApiHandler<RouteContext>(async (request: NextRequest, con
 // OwnedCharacterは同キャラを複数所持できる（ユニーク制約なし）ため、
 // 呼び出すたびに常に新規レコードを作成する（冪等ではない）
 export const POST = withApiHandler<RouteContext>(async (request: NextRequest, context) => {
-  const { userId } = await requireUser()
+  const { userId } = await requireScope(request, 'accounts:write')
   const { accountId } = await context.params
 
   // 所有権検証（見つからない場合・他人のものである場合は一律404）
