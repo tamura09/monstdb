@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useWindowVirtualizer } from '@tanstack/react-virtual'
 import AddCharacterButton from './AddCharacterButton'
 import OwnedCharacterCard from './OwnedCharacterCard'
 
@@ -37,6 +38,9 @@ type CharacterData = {
   accountOwnerships: Map<string, OwnedCharacter[]>
 }
 
+type SortKey = 'name' | 'no' | 'total'
+type SortOrder = 'asc' | 'desc'
+
 type CharacterTableProps = {
   characterData: Array<{
     characterMaster: CharacterMaster
@@ -50,10 +54,9 @@ type CharacterTableProps = {
   onUpdateWakuwakuBulk?: (formData: FormData) => Promise<void>
   onDeleteOwnedCharacter?: (formData: FormData) => Promise<void>
   readOnly?: boolean
+  initialSortKey?: SortKey
+  initialSortOrder?: SortOrder
 }
-
-type SortKey = 'name' | 'no' | 'total'
-type SortOrder = 'asc' | 'desc'
 
 export default function CharacterTable({
   characterData,
@@ -65,9 +68,11 @@ export default function CharacterTable({
   onUpdateWakuwakuBulk,
   onDeleteOwnedCharacter,
   readOnly = false,
+  initialSortKey = 'no',
+  initialSortOrder = 'asc',
 }: CharacterTableProps) {
-  const [sortKey, setSortKey] = useState<SortKey>('no')
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
+  const [sortKey, setSortKey] = useState<SortKey>(initialSortKey)
+  const [sortOrder, setSortOrder] = useState<SortOrder>(initialSortOrder)
 
   // ソート処理
   const handleSort = (key: SortKey) => {
@@ -125,10 +130,58 @@ export default function CharacterTable({
     return sortOrder === 'asc' ? comparison : -comparison
   })
 
+  // 仮想スクロール: 画面内の行だけを実際に描画する（約1000体でも初期表示を軽く保つ）
+  const tbodyRef = useRef<HTMLTableSectionElement>(null)
+  const totalColumns = gameAccounts.length + 2 // キャラ名 + 各アカウント + 所持数
+  const nameColWidth = 208
+  const accountColWidth = 176
+  const totalColWidth = 88
+  const tableMinWidth =
+    nameColWidth + gameAccounts.length * accountColWidth + totalColWidth
+
+  // 仮想化リスト（tbody）の文書先頭からの距離を計測して scrollMargin に渡す。
+  // table 要素では offsetTop が offsetParent 起点になりズレるため rect で計測する。
+  const [scrollMargin, setScrollMargin] = useState(0)
+  useEffect(() => {
+    const measure = () => {
+      if (tbodyRef.current) {
+        setScrollMargin(tbodyRef.current.getBoundingClientRect().top + window.scrollY)
+      }
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+
+  const rowVirtualizer = useWindowVirtualizer({
+    count: sortedData.length,
+    estimateSize: () => 96,
+    overscan: 6,
+    scrollMargin,
+  })
+
+  const virtualItems = rowVirtualizer.getVirtualItems()
+  const totalSize = rowVirtualizer.getTotalSize()
+  const paddingTop = virtualItems.length > 0 ? virtualItems[0].start : 0
+  const paddingBottom =
+    virtualItems.length > 0
+      ? totalSize - virtualItems[virtualItems.length - 1].end
+      : 0
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table
+          className="w-full"
+          style={{ tableLayout: 'fixed', minWidth: tableMinWidth }}
+        >
+          <colgroup>
+            <col style={{ width: nameColWidth }} />
+            {gameAccounts.map((account) => (
+              <col key={account.id} style={{ width: accountColWidth }} />
+            ))}
+            <col style={{ width: totalColWidth }} />
+          </colgroup>
           <thead className="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider sticky left-0 bg-gray-50 dark:bg-gray-700 z-10">
@@ -166,11 +219,29 @@ export default function CharacterTable({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
-            {sortedData.map((charData) => {
+          <tbody
+            ref={tbodyRef}
+            className="divide-y divide-gray-200 dark:divide-gray-600"
+          >
+            {paddingTop > 0 && (
+              <tr aria-hidden="true">
+                <td
+                  colSpan={totalColumns}
+                  className="p-0 border-0"
+                  style={{ height: paddingTop }}
+                />
+              </tr>
+            )}
+            {virtualItems.map((virtualRow) => {
+              const charData = sortedData[virtualRow.index]
               const total = getTotal(charData)
               return (
-                <tr key={charData.characterMaster.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <tr
+                  key={charData.characterMaster.id}
+                  data-index={virtualRow.index}
+                  ref={rowVirtualizer.measureElement}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
                   {/* キャラクター名 */}
                   <td className="px-4 py-3 sticky left-0 bg-white dark:bg-gray-800 z-10 border-r border-gray-200 dark:border-gray-600">
                     <div className="flex items-center gap-2">
@@ -236,7 +307,7 @@ export default function CharacterTable({
                               readOnly={readOnly}
                             />
                           ))}
-                          
+
                           {/* 追加ボタン（readOnlyでない場合のみ表示） */}
                           {!readOnly && (
                             <div className={ownedChars.length === 0 ? "min-h-[60px] flex items-center justify-center" : ""}>
@@ -249,7 +320,7 @@ export default function CharacterTable({
                               />
                             </div>
                           )}
-                          
+
                           {/* readOnlyで所持がない場合 */}
                           {readOnly && ownedChars.length === 0 && (
                             <div className="min-h-[60px] flex items-center justify-center text-gray-400 text-xs">
@@ -268,6 +339,15 @@ export default function CharacterTable({
                 </tr>
               )
             })}
+            {paddingBottom > 0 && (
+              <tr aria-hidden="true">
+                <td
+                  colSpan={totalColumns}
+                  className="p-0 border-0"
+                  style={{ height: paddingBottom }}
+                />
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
