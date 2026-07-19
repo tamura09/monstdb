@@ -28,7 +28,18 @@ resource "vercel_project" "monstdb" {
     repo = "tamura09/monstdb"
   }
 
-  build_command    = "npm run build"
-  install_command  = "npm install"
+  build_command    = "npm run prisma:generate && npm run build"
+  install_command  = "npm ci"
   output_directory = null
+
+  oidc_token_config = {
+    enabled = true
+  }
+
+  # 現在の値("all_except_custom_domains")は provider v1.14 の入力バリデーションが
+  # 受け付ける enum(all_deployments/only_preview_deployments/none/standard_protection)
+  # に含まれず、こちらから書き込めない。API側の実値をそのまま維持する。
+  lifecycle {
+    ignore_changes = [vercel_authentication]
+  }
 }
