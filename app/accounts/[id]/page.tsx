@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import DeleteCharacterButton from '@/components/DeleteCharacterButton'
 import CharacterPicker from '@/components/CharacterPicker'
+import { addWakuwakuSlot, removeWakuwakuSlotById } from '@/lib/wakuwaku/slots'
 
 export default async function AccountDetailPage({
   params,
@@ -149,58 +150,7 @@ export default async function AccountDetailPage({
       throw new Error('Unauthorized')
     }
 
-    // 既存のわくわくの実の数を確認
-    const existingSlots = await prisma.ownedCharacterWakuwaku.findMany({
-      where: { ownedCharacterId },
-    })
-
-    if (existingSlots.length >= 4) {
-      // 既に4個ついている場合は追加しない
-      redirect(`/accounts/${id}`)
-      return
-    }
-
-    // 次のスロット番号を決定（仮）
-    const nextSlotNumber = existingSlots.length + 1
-
-    // わくわくの実を追加
-    await prisma.ownedCharacterWakuwaku.create({
-      data: {
-        ownedCharacterId,
-        wakuwakuMasterId,
-        slotNumber: nextSlotNumber,
-        level,
-      },
-    })
-
-    // 追加後、displayOrderに基づいてソート
-    const allSlots = await prisma.ownedCharacterWakuwaku.findMany({
-      where: { ownedCharacterId },
-      include: {
-        wakuwakuMaster: true,
-      },
-    })
-
-    // displayOrderでソート
-    const sortedSlots = allSlots.sort((a, b) => 
-      a.wakuwakuMaster.displayOrder - b.wakuwakuMaster.displayOrder
-    )
-
-    // スロット番号を振り直す（衝突を避けるため、まず一時的に大きな値を設定）
-    for (let i = 0; i < sortedSlots.length; i++) {
-      await prisma.ownedCharacterWakuwaku.update({
-        where: { id: sortedSlots[i].id },
-        data: { slotNumber: 100 + i },
-      })
-    }
-
-    // 正しいスロット番号に設定
-    for (let i = 0; i < sortedSlots.length; i++) {
-      await prisma.ownedCharacterWakuwaku.update({
-        where: { id: sortedSlots[i].id },
-        data: { slotNumber: i + 1 },
-      })
-    }
+    await addWakuwakuSlot(ownedCharacterId, wakuwakuMasterId, level)
 
     redirect(`/accounts/${id}`)
   }
@@ -239,39 +189,7 @@ export default async function AccountDetailPage({
       throw new Error('Unauthorized')
     }
 
-    // 削除
-    await prisma.ownedCharacterWakuwaku.delete({
-      where: { id: wakuwakuSlotId },
-    })
-
-    // 残りのスロットを取得してdisplayOrderでソート
-    const remainingSlots = await prisma.ownedCharacterWakuwaku.findMany({
-      where: { ownedCharacterId: slot.ownedCharacterId },
-      include: {
-        wakuwakuMaster: true,
-      },
-    })
-
-    // displayOrderでソート
-    const sortedSlots = remainingSlots.sort((a, b) => 
-      a.wakuwakuMaster.displayOrder - b.wakuwakuMaster.displayOrder
-    )
-
-    // スロット番号を1,2,3,4に振り直す（衝突を避けるため、まず一時的に大きな値を設定）
-    for (let i = 0; i < sortedSlots.length; i++) {
-      await prisma.ownedCharacterWakuwaku.update({
-        where: { id: sortedSlots[i].id },
-        data: { slotNumber: 100 + i },
-      })
-    }
-
-    // 正しいスロット番号に設定
-    for (let i = 0; i < sortedSlots.length; i++) {
-      await prisma.ownedCharacterWakuwaku.update({
-        where: { id: sortedSlots[i].id },
-        data: { slotNumber: i + 1 },
-      })
-    }
+    await removeWakuwakuSlotById(wakuwakuSlotId)
 
     redirect(`/accounts/${id}`)
   }

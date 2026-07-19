@@ -140,3 +140,128 @@ export async function replaceWakuwakuSlots(
     await normalizeSlotNumbers(tx, ownedCharacterId)
   })
 }
+
+// 指定キャラにわくわくの実を1個追加する(既存Server Action
+// app/accounts/page.tsx, app/accounts/[id]/page.tsx の addWakuwaku から抽出)。
+// 既存スロットがMAX_WAKUWAKU_SLOTS個以上ある場合は、既存Server Actionの挙動を
+// 維持するため例外を投げずに何もせず戻る(呼び出し元のUIがエラー表示に
+// 対応していないため)。
+export async function addWakuwakuSlot(
+  ownedCharacterId: string,
+  wakuwakuMasterId: string,
+  level: string
+): Promise<void> {
+  await prisma.$transaction(async (tx) => {
+    // 同一ownedCharacterIdへの並行操作を直列化する。トランザクション内で
+    // 最初に実行すること。
+    await acquireSlotLock(tx, ownedCharacterId)
+
+    const existingSlots = await tx.ownedCharacterWakuwaku.findMany({
+      where: { ownedCharacterId },
+    })
+
+    if (existingSlots.length >= MAX_WAKUWAKU_SLOTS) {
+      return
+    }
+
+    // 次のスロット番号を決定(仮。正しい番号はnormalizeSlotNumbersで設定する)
+    await tx.ownedCharacterWakuwaku.create({
+      data: {
+        ownedCharacterId,
+        wakuwakuMasterId,
+        slotNumber: existingSlots.length + 1,
+        level,
+      },
+    })
+
+    await normalizeSlotNumbers(tx, ownedCharacterId)
+  })
+}
+
+// レコードのid(wakuwakuSlotId)を指定してわくわくの実を1個削除する
+// (既存Server Action app/accounts/page.tsx, app/accounts/[id]/page.tsx の
+// deleteWakuwaku から抽出)。API側のslotNumber指定の削除とは別物であることに注意。
+// 呼び出し元(Server Action)で所有権確認は済んでいる前提だが、トランザクション
+// 開始時点で対象レコードが既に削除されている(同時に別リクエストが削除した)
+// 場合は、既存Server Actionの「!slot なら静かにreturn」という挙動に倣い、
+// 例外を投げずに静かに戻る。
+//
+// ownedCharacterIdを得るための最初のfindUniqueはロック取得前の読み取りのため、
+// そこからロック取得までの間に別の並行トランザクションが同じレコードを削除する
+// 競合が起こり得る。delete()は対象が存在しないとP2025を投げてしまうため、
+// ロック取得後の実削除にはdeleteMany()を使い、0件ヒット(=既に削除済み)でも
+// 例外を投げずに静かに終える。
+export async function removeWakuwakuSlotById(wakuwakuSlotId: string): Promise<void> {
+  await prisma.$transaction(async (tx) => {
+    const slot = await tx.ownedCharacterWakuwaku.findUnique({
+      where: { id: wakuwakuSlotId },
+    })
+
+    if (!slot) {
+      return
+    }
+
+    // 同一ownedCharacterIdへの並行操作を直列化する。トランザクション内で
+    // (存在確認の直後、他の書き込みより前に)実行すること。
+    await acquireSlotLock(tx, slot.ownedCharacterId)
+
+    const { count } = await tx.ownedCharacterWakuwaku.deleteMany({
+      where: { id: wakuwakuSlotId },
+    })
+
+    if (count === 0) {
+      return
+    }
+
+    await normalizeSlotNumbers(tx, slot.ownedCharacterId)
+  })
+}
+
+// わくわくセットの一括置換(既存Server Action app/accounts/page.tsx の
+// updateWakuwakuBulk から抽出)。replaceWakuwakuSlots(API側)とは異なり、
+// 既存Server Actionは件数上限チェックや重複wakuwakuMasterIdチェックを
+// 行っていなかったため、その挙動をそのまま維持する(検証を追加しない)。
+// 存在しないwakuwakuMasterIdが含まれる場合もエラーにはせず、
+// displayOrderのソート優先度を999として扱う(既存実装と同じ)。
+export async function replaceWakuwakuSlotsUnchecked(
+  ownedCharacterId: string,
+  slots: WakuwakuSlotInput[]
+): Promise<void> {
+  await prisma.$transaction(async (tx) => {
+    // 同一ownedCharacterIdへの並行操作を直列化する。トランザクション内で
+    // 最初に実行すること。
+    await acquireSlotLock(tx, ownedCharacterId)
+
+    await tx.ownedCharacterWakuwaku.deleteMany({
+      where: { ownedCharacterId },
+    })
+
+    if (slots.length > 0) {
+      // まずwakuwakuMasterの情報を取得してdisplayOrderでソート
+      const wakuwakuMasters = await tx.wakuwakuMaster.findMany({
+        where: { id: { in: slots.map((slot) => slot.wakuwakuMasterId) } },
+      })
+
+      // displayOrderでソート
+      const sortedSlots = slots
+        .map((slot) => ({
+          ...slot,
+          displayOrder:
+            wakuwakuMasters.find((w) => w.id === slot.wakuwakuMasterId)?.displayOrder ?? 999,
+        }))
+        .sort((a, b) => a.displayOrder - b.displayOrder)
+
+      // ソートされた順で保存
+      for (let i = 0; i < sortedSlots.length; i++) {
+        await tx.ownedCharacterWakuwaku.create({
+          data: {
+            ownedCharacterId,
+            wakuwakuMasterId: sortedSlots[i].wakuwakuMasterId,
+            slotNumber: i + 1,
+            level: sortedSlots[i].level,
+          },
+        })
+      }
+    }
+  })
+}
