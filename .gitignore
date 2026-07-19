@@ -38,3 +38,6 @@ next-env.d.ts
 # prisma
 prisma/*.db
 prisma/*.db-journal
+
+# Prisma 7: generated client output (regenerated via `prisma generate`, not committed)
+/generated/prisma
