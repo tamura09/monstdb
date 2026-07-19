@@ -16,9 +16,6 @@
     "import-csv": "tsx scripts/import-my-characters-cli.ts",
     "export-csv": "tsx scripts/export-my-characters-cli.ts"
   },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
     "@prisma/client": "^6.19.0",
