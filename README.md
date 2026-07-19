@@ -4,131 +4,136 @@
 
 ## 機能
 
-- ✅ 一人につき4アカウントまで管理可能
-- ✅ 同じキャラを複数所持可能
-- ✅ 各キャラにわくわくの実を最大3個装着可能
-- ✅ アカウント間での所持状況を簡単に確認
-- ✅ 新キャラの追加が容易（JSONファイルから自動インポート）
-- ✅ 属性・種類でフィルタリング可能
-- ✅ キャラクター名で検索可能
+- Googleアカウントでのログイン(Google SSOのみ)
+- 一人につき4つのゲームアカウントまで管理可能
+- 同じキャラを複数所持可能
+- 各キャラにわくわくの実を最大3個装着可能
+- アカウント間での所持状況を簡単に確認
+- 属性・種類でのフィルタリング、キャラクター名での検索
+- フレンド機能(フレンドIDで検索・申請し、お互いの所持状況をRead Onlyで閲覧)
+- 新キャラの一括インポート・CSVエクスポート/インポート
+- 管理者による キャラクターマスターの追加・編集(`/admin/characters`)
 
 ## 技術スタック
 
 - **フレームワーク**: Next.js 16 (App Router)
 - **言語**: TypeScript
 - **データベース**: PostgreSQL (Prisma ORM)
+- **認証**: NextAuth.js (Google OAuth)
 - **スタイリング**: Tailwind CSS
+- **ホスティング**: Vercel(プロジェクト設定は[infra/](infra/)でTerraform管理)
 
 ## セットアップ
 
 ### 1. 依存関係のインストール
 
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
-### 2. データベースのセットアップ
+### 2. 環境変数の設定
 
-`.env` に PostgreSQL の接続文字列を `DATABASE_URL`（および `DIRECT_URL`）として設定してください。
+`.env.example`を`.env`にコピーして値を埋めてください。
 
-\`\`\`bash
+```bash
+cp .env.example .env
+```
+
+| 変数名 | 説明 |
+| --- | --- |
+| `DATABASE_URL` | PostgreSQL接続文字列(アプリ実行時に使用) |
+| `DIRECT_URL` | PostgreSQL直接接続文字列(マイグレーション実行時に使用。pgBouncer等のコネクションプーラー経由でない接続) |
+| `NEXTAUTH_URL` | アプリのベースURL(開発時は`http://localhost:3000`) |
+| `NEXTAUTH_SECRET` | NextAuthのセッション暗号化用シークレット(`openssl rand -base64 32`で生成) |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuthクライアント情報。取得手順は[GOOGLE_SSO_SETUP.md](GOOGLE_SSO_SETUP.md)参照 |
+
+### 3. データベースのセットアップ
+
+```bash
 # Prismaクライアントを生成
-npx prisma generate
+npm run prisma:generate
 
 # データベーススキーマをプッシュ
-npx prisma db push
+npm run prisma:push
 
-# シードデータを投入（キャラクターマスターデータをインポート）
+# シードデータを投入(キャラクターマスターデータをインポート)
 npm run seed
-\`\`\`
+```
 
-### 3. 開発サーバーの起動
+### 4. 開発サーバーの起動
 
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 ブラウザで [http://localhost:3000](http://localhost:3000) を開いてください。
 
-## データベース管理
+## スクリプト
 
-### Prisma Studioでデータを確認
-
-\`\`\`bash
-npx prisma studio
-\`\`\`
-
-ブラウザで [http://localhost:5555](http://localhost:5555) を開いてデータベースの内容を確認できます。
+| コマンド | 説明 |
+| --- | --- |
+| `npm run dev` | 開発サーバー起動 |
+| `npm run build` / `npm run start` | 本番ビルド / 起動 |
+| `npm run lint` | ESLint実行 |
+| `npm run prisma:generate` | Prisma Client生成 |
+| `npm run prisma:push` | スキーマをDBへ反映(マイグレーションファイルを作らない) |
+| `npm run prisma:studio` | Prisma StudioでDBの中身を確認 |
+| `npm run seed` | `character_masters_export.json`からキャラクターマスターを投入 |
+| `npm run add-characters` | 新キャラクターの追加を取り込み |
+| `npm run fix-wakuwaku-order` | わくわくの実の表示順を修正 |
+| `npm run export-csv -- <accountId>` | 指定アカウントの所持状況をCSVエクスポート |
+| `npm run import-csv -- <csvPath> <accountId> [replace]` | CSVから所持状況をインポート |
 
 ### 新しいキャラクターの追加
 
-1. `character_masters_export.json` にキャラクター情報を追加
-   \`\`\`json
+1. `character_masters_export.json`にキャラクター情報を追加
+   ```json
    {
      "indexNumber": 9999,
      "element": "火",
      "type": "限定",
      "monsterName": "新キャラ名"
    }
-   \`\`\`
-
-2. シードコマンドを再実行
-   \`\`\`bash
-   npm run seed
-   \`\`\`
+   ```
+2. `npm run seed`を再実行
 
 ## プロジェクト構造
 
-\`\`\`
+```
 monstdb/
 ├── app/                      # Next.js App Router
-│   ├── page.tsx             # ホームページ
-│   ├── layout.tsx           # レイアウト
-│   ├── globals.css          # グローバルスタイル
-│   ├── characters/          # キャラクター一覧
-│   │   └── page.tsx
-│   └── accounts/            # アカウント管理
-│       └── page.tsx
-├── lib/
-│   └── prisma.ts            # Prismaクライアント
+│   ├── page.tsx              # トップページ
+│   ├── login/                # ログイン
+│   ├── accounts/              # ゲームアカウント別の所持状況
+│   ├── characters/            # キャラクター一覧
+│   ├── friends/               # フレンド機能
+│   ├── profile/                # プロフィール
+│   ├── admin/                  # キャラクターマスター管理(管理者)
+│   └── api/                    # Route Handlers (auth/register/import/export等)
+├── components/                # Reactコンポーネント
+├── lib/                       # Prismaクライアント・認証設定など
 ├── prisma/
-│   ├── schema.prisma        # データベーススキーマ
-│   └── seed.ts              # シードスクリプト
+│   ├── schema.prisma          # データベーススキーマ
+│   └── seed.ts                # シードスクリプト
+├── scripts/                   # 運用スクリプト(CSV入出力など)
+├── infra/                     # Vercelプロジェクト設定のTerraform構成
 ├── character_masters_export.json  # キャラクターマスターデータ
 └── package.json
-\`\`\`
+```
 
 ## データベーススキーマ
 
-### User
-ユーザー情報を管理
+- **User**: ユーザー情報(NextAuth管理下)。フレンド検索用の`friendId`を持つ
+- **Account / Session / VerificationToken**: NextAuth(Prisma Adapter)標準テーブル
+- **GameAccount**: 各ユーザーが持つゲーム内アカウント(最大4つ)
+- **CharacterMaster**: 全キャラクターのマスターデータ(JSONから取り込み)
+- **OwnedCharacter**: アカウントごとの所持キャラクター(同キャラ複数所持可能)
+- **WakuwakuMaster**: わくわくの実のマスターデータ
+- **OwnedCharacterWakuwaku**: 所持キャラクターに装着されたわくわくの実(1キャラにつき最大3個)
+- **FriendRequest / Friendship**: フレンド申請・フレンド関係
 
-### Account
-各ユーザーが持つ4つのアカウント（1、2、3、4）
+## デプロイ
 
-### CharacterMaster
-全キャラクターのマスターデータ（JSONから取り込み）
+VercelのGit連携により`main`ブランチへのマージで自動デプロイされます。プロジェクト設定(ビルドコマンド・Git連携など)は[infra/](infra/)のTerraformで管理しているため、Vercelダッシュボードを直接変更せず`infra/main.tf`をPR経由で変更してください。
 
-### OwnedCharacter
-アカウントごとの所持キャラクター（同キャラ複数所持可能）
-
-### WakuwakuMaster
-わくわくの実のマスターデータ
-
-### OwnedCharacterWakuwaku
-所持キャラクターに装着されたわくわくの実（1キャラにつき最大3個）
-
-## 今後の拡張予定
-
-- [ ] ユーザー登録・ログイン機能
-- [ ] キャラクターの詳細情報表示
-- [ ] わくわくの実の装着・変更機能
-- [ ] アカウント間の所持状況比較機能
-- [ ] キャラクターの所持/未所持の一括確認
-- [ ] データのエクスポート機能
-
-
-npm run add-characters
-
-npm run export-csv -- cmgukocqd0000ju041k3qq393
-npm run import-csv -- /Users/koyotamura/Downloads/monstconv/import-template-generated.csv cmgujw1xu0000bzn4e7lqw4o9 replace
+DBマイグレーション(`prisma migrate deploy`)を手動で実行する場合は、`DIRECT_URL`(pgBouncer等のプーラーを経由しない接続)を使用してください。ランタイム側の`DATABASE_URL`でコネクションプーラーを使う場合は、`?pgbouncer=true`をクエリパラメータに追加するとPrismaのprepared statementの衝突(`prepared statement "sX" already exists`)を回避できます。
