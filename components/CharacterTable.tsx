@@ -162,10 +162,13 @@ export default function CharacterTable({
 
   const virtualItems = rowVirtualizer.getVirtualItems()
   const totalSize = rowVirtualizer.getTotalSize()
-  const paddingTop = virtualItems.length > 0 ? virtualItems[0].start : 0
+  // virtualItem の start/end は文書先頭からの絶対位置（scrollMargin を含む）。
+  // スペーサー行は tbody 内の相対位置なので scrollMargin を差し引く必要がある。
+  const paddingTop =
+    virtualItems.length > 0 ? virtualItems[0].start - scrollMargin : 0
   const paddingBottom =
     virtualItems.length > 0
-      ? totalSize - virtualItems[virtualItems.length - 1].end
+      ? totalSize - (virtualItems[virtualItems.length - 1].end - scrollMargin)
       : 0
 
   return (
