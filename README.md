@@ -117,6 +117,7 @@ monstdb/
 │   └── seed.ts                # シードスクリプト
 ├── scripts/                   # 運用スクリプト(CSV入出力など)
 ├── infra/                     # Vercelプロジェクト設定のTerraform構成
+├── docs/                      # APIドキュメント(api-v1.md, openapi.yaml)
 ├── character_masters_export.json  # キャラクターマスターデータ
 └── package.json
 ```
@@ -131,6 +132,12 @@ monstdb/
 - **WakuwakuMaster**: わくわくの実のマスターデータ
 - **OwnedCharacterWakuwaku**: 所持キャラクターに装着されたわくわくの実(1キャラにつき最大3個)
 - **FriendRequest / Friendship**: フレンド申請・フレンド関係
+
+## API
+
+`/api/v1/...` 配下に、キャラクターマスター・所持キャラクター・わくわくの実の装着状態をJSONベースのRESTインターフェースで操作できるAPIがあります。認証はNextAuth.jsのセッションクッキーを使用し、ブラウザから同一オリジンで呼び出す前提です。エンドポイント一覧・エラー仕様・リクエスト/レスポンス例などの詳細は[docs/api-v1.md](docs/api-v1.md)を、機械可読なOpenAPI 3.1仕様は[docs/openapi.yaml](docs/openapi.yaml)を参照してください。
+
+既存の`/api/register` `/api/import/*` `/api/export/*` `/api/admin/characters`は、後方互換のため引き続きそのまま提供されています。
 
 ## デプロイ
 

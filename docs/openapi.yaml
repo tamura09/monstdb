@@ -1,0 +1,735 @@
+openapi: 3.1.0
+info:
+  title: モンストDB REST API
+  version: "1.0.0"
+  description: |
+    モンストDBが提供する `/api/v1` 配下のREST API仕様です。
+    認証はNextAuth.jsのセッションクッキーで行われるため、ブラウザから同一オリジンで
+    呼び出す前提です。詳細な説明は [docs/api-v1.md](./api-v1.md) を参照してください。
+servers:
+  - url: /
+    description: 相対パス(呼び出し元と同一オリジン)
+security:
+  - cookieAuth: []
+tags:
+  - name: characters
+    description: キャラクターマスター
+  - name: accounts
+    description: ゲームアカウント
+  - name: owned-characters
+    description: 所持キャラクター
+  - name: wakuwaku
+    description: わくわくの実
+paths:
+  /api/v1/characters:
+    get:
+      tags: [characters]
+      summary: キャラクターマスター一覧取得
+      description: ログイン済みユーザーなら誰でも呼び出せます。
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Element'
+        - $ref: '#/components/parameters/CharacterType'
+        - $ref: '#/components/parameters/Search'
+      responses:
+        '200':
+          description: キャラクターマスター一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, pagination]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CharacterMaster'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    post:
+      tags: [characters]
+      summary: キャラクターマスター新規作成
+      description: admin限定。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterMasterCreateInput'
+      responses:
+        '201':
+          description: 作成されたキャラクターマスター
+          headers:
+            Location:
+              description: 作成されたリソースのパス
+              schema:
+                type: string
+                example: /api/v1/characters/cl0abc123def456ghi789jkl
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterMaster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /api/v1/characters/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: キャラクターマスターのID
+        schema:
+          type: string
+    get:
+      tags: [characters]
+      summary: キャラクターマスター単体取得
+      description: ログイン済みユーザーなら誰でも呼び出せます。
+      responses:
+        '200':
+          description: キャラクターマスター
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterMaster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags: [characters]
+      summary: キャラクターマスター部分更新
+      description: admin限定。空オブジェクトを渡した場合は変更せず現在のリソースを返します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterMasterUpdateInput'
+      responses:
+        '200':
+          description: 更新後のキャラクターマスター
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterMaster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    delete:
+      tags: [characters]
+      summary: キャラクターマスター削除
+      description: admin限定。紐づくOwnedCharacterはカスケード削除されます。
+      responses:
+        '204':
+          description: 削除成功(ボディなし)
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/accounts:
+    get:
+      tags: [accounts]
+      summary: 自分のゲームアカウント一覧取得
+      description: userIdで必ず絞り込まれるため他人のアカウントは返りません。作成・削除はこのAPIでは行いません。
+      responses:
+        '200':
+          description: ゲームアカウント一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GameAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/accounts/{accountId}/characters:
+    parameters:
+      - name: accountId
+        in: path
+        required: true
+        description: ゲームアカウントのID
+        schema:
+          type: string
+    get:
+      tags: [owned-characters]
+      summary: 指定アカウントの所持キャラ一覧取得
+      description: accountIdが自分のゲームアカウントでない場合は404になります。
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Element'
+        - $ref: '#/components/parameters/CharacterType'
+        - $ref: '#/components/parameters/Search'
+      responses:
+        '200':
+          description: 所持キャラ一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, pagination]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OwnedCharacter'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    post:
+      tags: [owned-characters]
+      summary: 所持キャラ登録
+      description: |
+        同じキャラを複数所持してもユニーク制約に違反しないため、呼び出すたびに常に
+        新規レコードが作成される非冪等な操作です。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOwnedCharacterInput'
+      responses:
+        '201':
+          description: 作成された所持キャラ
+          headers:
+            Location:
+              description: 作成されたリソースのパス
+              schema:
+                type: string
+                example: /api/v1/owned-characters/cl2own222def456ghi789jkl
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnedCharacter'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /api/v1/owned-characters/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: 所持キャラのID
+        schema:
+          type: string
+    get:
+      tags: [owned-characters]
+      summary: 所持キャラ単体取得
+      description: 自分のゲームアカウントに紐づく所持キャラのみ取得できます。
+      responses:
+        '200':
+          description: 所持キャラ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnedCharacter'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [owned-characters]
+      summary: 所持キャラ削除
+      description: 装着中のわくわくの実はカスケード削除されます。
+      responses:
+        '204':
+          description: 削除成功(ボディなし)
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/owned-characters/{id}/wakuwaku:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: 所持キャラのID
+        schema:
+          type: string
+    get:
+      tags: [wakuwaku]
+      summary: わくわくの実セット取得
+      responses:
+        '200':
+          description: わくわくの実セット
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WakuwakuSlotList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [wakuwaku]
+      summary: わくわくの実セット一括置換
+      description: |
+        冪等な一括置換API。渡した`slots`で装着状態を完全に置き換えます。
+        空配列`{ "slots": [] }`を渡すと全スロットを解除します。
+        1キャラにつき最大4個(`MAX_WAKUWAKU_SLOTS`)までしかセットできません。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutWakuwakuSlotsInput'
+      responses:
+        '200':
+          description: 置換後のわくわくの実セット
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WakuwakuSlotList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /api/v1/owned-characters/{id}/wakuwaku/{slotNumber}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: 所持キャラのID
+        schema:
+          type: string
+      - name: slotNumber
+        in: path
+        required: true
+        description: 解除するスロット番号(1〜4)
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 4
+    delete:
+      tags: [wakuwaku]
+      summary: わくわくの実スロット1個解除
+      description: 解除後、残りのスロットは自動的に1..Nへ詰め直されます。
+      responses:
+        '204':
+          description: 解除成功(ボディなし)
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /api/v1/wakuwaku-masters:
+    get:
+      tags: [wakuwaku]
+      summary: わくわくの実マスター一覧取得
+      description: PUT .../wakuwaku に渡すwakuwakuMasterIdを引くためのエンドポイント。ページングはありません。
+      responses:
+        '200':
+          description: わくわくの実マスター一覧
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WakuwakuMaster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: next-auth.session-token
+      description: |
+        NextAuth.jsのセッションクッキー。本番環境(HTTPS)では
+        `__Secure-next-auth.session-token`という名前になります。
+        Google OAuthでログインすると発行されます。
+  parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      description: ページ番号(1始まり)。既定値は1。
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PerPage:
+      name: perPage
+      in: query
+      required: false
+      description: 1ページあたりの件数。既定値は50、上限は100。
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    Element:
+      name: element
+      in: query
+      required: false
+      description: 属性での絞り込み
+      schema:
+        $ref: '#/components/schemas/Element'
+    CharacterType:
+      name: type
+      in: query
+      required: false
+      description: キャラ種別での絞り込み
+      schema:
+        $ref: '#/components/schemas/CharacterType'
+    Search:
+      name: search
+      in: query
+      required: false
+      description: モンスター名のあいまい検索(ひらがな・カタカナを区別しない)
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: 未ログイン、またはセッションが無効
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: unauthorized
+              message: 認証が必要です
+    Forbidden:
+      description: ログイン済みだが権限(admin)がない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: forbidden
+              message: この操作を行う権限がありません
+    NotFound:
+      description: リソースが存在しない、または自分の所有物ではない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: not_found
+              message: 指定されたリソースが見つかりません
+    Conflict:
+      description: 一意制約違反などの競合
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: conflict
+              message: 既存のデータと競合しています
+    ValidationError:
+      description: リクエストの内容が不正
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: validation_error
+              message: リクエストの内容が不正です
+              details: []
+  schemas:
+    Element:
+      type: string
+      description: キャラクターの属性
+      enum: [火, 水, 木, 光, 闇]
+    CharacterType:
+      type: string
+      description: キャラクターの種別
+      enum: [限定, 恒常]
+    WakuwakuLevel:
+      type: string
+      description: わくわくの実のレベル。既定値はL。
+      enum: [L, EL]
+      default: L
+    Pagination:
+      type: object
+      description: 一覧取得APIのページング情報
+      required: [page, perPage, total, totalPages]
+      properties:
+        page:
+          type: integer
+          example: 1
+        perPage:
+          type: integer
+          example: 50
+        total:
+          type: integer
+          description: フィルタ適用後の全件数
+          example: 123
+        totalPages:
+          type: integer
+          example: 3
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum:
+            - unauthorized
+            - forbidden
+            - not_found
+            - validation_error
+            - conflict
+            - internal_error
+        message:
+          type: string
+        details:
+          description: 追加情報。バリデーションエラー時はZodのissues配列など。
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    CharacterMaster:
+      type: object
+      description: キャラクターマスター(全フィールド)
+      required: [id, indexNumber, monsterName, element, type, createdAt]
+      properties:
+        id:
+          type: string
+          example: cl0abc123def456ghi789jkl
+        indexNumber:
+          type: integer
+          example: 1
+        monsterName:
+          type: string
+          example: サンプルモンスター
+        element:
+          $ref: '#/components/schemas/Element'
+        type:
+          $ref: '#/components/schemas/CharacterType'
+        createdAt:
+          type: string
+          format: date-time
+    CharacterMasterCreateInput:
+      type: object
+      required: [indexNumber, monsterName, element, type]
+      properties:
+        indexNumber:
+          type: integer
+          minimum: 1
+          description: 図鑑番号に相当する一意な正の整数
+        monsterName:
+          type: string
+          minLength: 1
+        element:
+          $ref: '#/components/schemas/Element'
+        type:
+          $ref: '#/components/schemas/CharacterType'
+    CharacterMasterUpdateInput:
+      type: object
+      description: CharacterMasterCreateInputの全フィールドを任意にしたもの
+      properties:
+        indexNumber:
+          type: integer
+          minimum: 1
+        monsterName:
+          type: string
+          minLength: 1
+        element:
+          $ref: '#/components/schemas/Element'
+        type:
+          $ref: '#/components/schemas/CharacterType'
+    CharacterMasterSummary:
+      type: object
+      description: 所持キャラのレスポンスに含まれるキャラクターマスターの要約
+      required: [id, indexNumber, monsterName, element, type]
+      properties:
+        id:
+          type: string
+        indexNumber:
+          type: integer
+        monsterName:
+          type: string
+        element:
+          $ref: '#/components/schemas/Element'
+        type:
+          $ref: '#/components/schemas/CharacterType'
+    GameAccount:
+      type: object
+      required: [id, accountNumber, name, ownedCharacterCount]
+      properties:
+        id:
+          type: string
+          example: cl1acc111def456ghi789jkl
+        accountNumber:
+          type: integer
+          description: 1〜4のアカウント番号
+          example: 1
+        name:
+          type: string
+          example: メインアカウント
+        ownedCharacterCount:
+          type: integer
+          description: このアカウントが所持しているキャラクターの件数
+          example: 42
+    OwnedCharacter:
+      type: object
+      description: 所持キャラクター
+      required: [id, gameAccountId, characterMasterId, createdAt, updatedAt, characterMaster, wakuwakuSlots]
+      properties:
+        id:
+          type: string
+          example: cl2own222def456ghi789jkl
+        gameAccountId:
+          type: string
+        characterMasterId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        characterMaster:
+          $ref: '#/components/schemas/CharacterMasterSummary'
+        wakuwakuSlots:
+          type: array
+          items:
+            $ref: '#/components/schemas/WakuwakuSlotSummary'
+    CreateOwnedCharacterInput:
+      type: object
+      required: [characterMasterId]
+      properties:
+        characterMasterId:
+          type: string
+          description: 登録するキャラクターマスターのID
+    WakuwakuMaster:
+      type: object
+      required: [id, name, displayOrder]
+      properties:
+        id:
+          type: string
+          example: cl4wm444def456ghi789jkl
+        name:
+          type: string
+          example: パワー
+        description:
+          type: string
+          nullable: true
+          example: 攻撃力が上昇する
+        displayOrder:
+          type: integer
+          example: 1
+    WakuwakuMasterRef:
+      type: object
+      description: 所持キャラのレスポンス(characterMaster/wakuwakuSlots)に含まれる要約
+      required: [id, name]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    WakuwakuMasterRefWithOrder:
+      type: object
+      description: わくわくの実エンドポイント配下のレスポンスに含まれる要約(displayOrder付き)
+      required: [id, name, displayOrder]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        displayOrder:
+          type: integer
+    WakuwakuSlotSummary:
+      type: object
+      description: OwnedCharacterのレスポンスに含まれるわくわくの実スロット
+      required: [id, slotNumber, level, wakuwakuMaster]
+      properties:
+        id:
+          type: string
+        slotNumber:
+          type: integer
+          minimum: 1
+          maximum: 4
+        level:
+          $ref: '#/components/schemas/WakuwakuLevel'
+        wakuwakuMaster:
+          $ref: '#/components/schemas/WakuwakuMasterRef'
+    WakuwakuSlot:
+      type: object
+      description: GET・PUT /api/v1/owned-characters/{id}/wakuwaku のレスポンスに含まれるスロット
+      required: [id, slotNumber, level, wakuwakuMaster]
+      properties:
+        id:
+          type: string
+        slotNumber:
+          type: integer
+          minimum: 1
+          maximum: 4
+        level:
+          $ref: '#/components/schemas/WakuwakuLevel'
+        wakuwakuMaster:
+          $ref: '#/components/schemas/WakuwakuMasterRefWithOrder'
+    WakuwakuSlotList:
+      type: object
+      required: [data, maxSlots]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WakuwakuSlot'
+        maxSlots:
+          type: integer
+          description: 1キャラにつき装着できる最大スロット数
+          example: 4
+    PutWakuwakuSlotsInput:
+      type: object
+      required: [slots]
+      properties:
+        slots:
+          type: array
+          maxItems: 4
+          description: 装着するわくわくの実のリスト。空配列を渡すと全解除になります。
+          items:
+            type: object
+            required: [wakuwakuMasterId]
+            properties:
+              wakuwakuMasterId:
+                type: string
+              level:
+                $ref: '#/components/schemas/WakuwakuLevel'
