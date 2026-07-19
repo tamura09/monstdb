@@ -10,36 +10,36 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <nav className="bg-blue-600 dark:bg-gray-800 text-white shadow-lg">
+    <nav className="bg-panel border-b border-line text-ink">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-12">
           {/* ロゴ */}
-          <Link href="/" className="text-xl font-bold">
+          <Link href="/" className="text-sm font-bold tracking-tight">
             モンストDB
           </Link>
 
           {/* デスクトップメニュー */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href="/characters" className="hover:text-blue-200 dark:hover:text-gray-300">
+          <div className="hidden md:flex items-center gap-4 text-sm">
+            <Link href="/characters" className="text-dim hover:text-ink transition-colors">
               キャラクター一覧
             </Link>
             {session ? (
               <>
-                <Link href="/accounts" className="hover:text-blue-200 dark:hover:text-gray-300">
+                <Link href="/accounts" className="text-dim hover:text-ink transition-colors">
                   マイアカウント
                 </Link>
-                <Link href="/friends" className="hover:text-blue-200 dark:hover:text-gray-300">
+                <Link href="/friends" className="text-dim hover:text-ink transition-colors">
                   フレンド
                 </Link>
-                <Link href="/profile" className="hover:text-blue-200 dark:hover:text-gray-300">
+                <Link href="/profile" className="text-dim hover:text-ink transition-colors">
                   マイページ
                 </Link>
-                <span className="text-sm text-blue-200 dark:text-gray-300">
+                <span className="text-xs text-faint">
                   {session.user?.name}
                 </span>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
-                  className="bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 px-3 py-1 rounded text-sm"
+                  className="bg-ink text-paper hover:opacity-90 px-3 py-1 rounded-full text-xs"
                 >
                   ログアウト
                 </button>
@@ -47,7 +47,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/login"
-                className="bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 px-3 py-1 rounded"
+                className="bg-ink text-paper hover:opacity-90 px-3 py-1 rounded-full text-xs"
               >
                 ログイン
               </Link>
@@ -60,17 +60,17 @@ export default function Navigation() {
             <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md hover:bg-blue-700 dark:hover:bg-gray-700 focus:outline-none"
+              className="p-2 rounded-md text-dim hover:text-ink hover:bg-line2 focus:outline-none"
               aria-label="メニュー"
             >
               {isMenuOpen ? (
                 // ✕アイコン
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
                 // ハンバーガーアイコン
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               )}
@@ -80,10 +80,10 @@ export default function Navigation() {
 
         {/* モバイルメニュー */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4 space-y-2">
+          <div className="md:hidden pb-4 space-y-1 text-sm border-t border-line pt-2">
             <Link
               href="/characters"
-              className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+              className="block py-2 px-4 text-dim hover:text-ink hover:bg-line2 rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               キャラクター一覧
@@ -92,26 +92,26 @@ export default function Navigation() {
               <>
                 <Link
                   href="/accounts"
-                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                  className="block py-2 px-4 text-dim hover:text-ink hover:bg-line2 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   マイアカウント
                 </Link>
                 <Link
                   href="/friends"
-                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                  className="block py-2 px-4 text-dim hover:text-ink hover:bg-line2 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   フレンド
                 </Link>
                 <Link
                   href="/profile"
-                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                  className="block py-2 px-4 text-dim hover:text-ink hover:bg-line2 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   マイページ
                 </Link>
-                <div className="py-2 px-4 text-sm text-blue-200 dark:text-gray-300">
+                <div className="py-2 px-4 text-xs text-faint">
                   {session.user?.name}
                 </div>
                 <button
@@ -119,7 +119,7 @@ export default function Navigation() {
                     setIsMenuOpen(false)
                     signOut({ callbackUrl: '/' })
                   }}
-                  className="w-full text-left py-2 px-4 bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 rounded"
+                  className="w-full text-left py-2 px-4 bg-ink text-paper hover:opacity-90 rounded-md"
                 >
                   ログアウト
                 </button>
@@ -127,7 +127,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/login"
-                className="block py-2 px-4 bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 rounded"
+                className="block py-2 px-4 bg-ink text-paper hover:opacity-90 rounded-md"
                 onClick={() => setIsMenuOpen(false)}
               >
                 ログイン

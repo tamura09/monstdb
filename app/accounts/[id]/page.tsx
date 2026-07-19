@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import DeleteCharacterButton from '@/components/DeleteCharacterButton'
+import { elementBadgeClass } from '@/lib/badge-styles'
 
 export default async function AccountDetailPage({
   params,
@@ -220,29 +221,29 @@ export default async function AccountDetailPage({
   })
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 bg-ground">
       <div className="mb-6">
         <Link
           href="/accounts"
-          className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
+          className="text-dim hover:text-ink flex items-center gap-2 text-sm"
         >
           ← アカウント一覧に戻る
         </Link>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-panel border border-line rounded-md p-6 mb-8">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-2xl font-bold text-ink">
               {account.name}
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-dim mt-2 text-sm">
               ユーザー: {account.user.name} | アカウント {account.accountNumber}
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-gray-500">所持キャラ数</p>
-            <p className="text-4xl font-bold text-blue-600">
+            <p className="text-xs text-faint">所持キャラ数</p>
+            <p className="text-3xl font-bold text-ink font-mono tabular-nums">
               {account.ownedCharacters.length}
             </p>
           </div>
@@ -250,15 +251,15 @@ export default async function AccountDetailPage({
       </div>
 
       {/* キャラクター追加フォーム */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+      <div className="bg-panel border border-line rounded-md p-6 mb-8">
+        <h2 className="text-base font-semibold text-ink mb-4">
           キャラクターを追加
         </h2>
         <form action={addCharacter} className="flex gap-4">
           <select
             name="characterMasterId"
             required
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-4 py-2 border border-line rounded-md focus:outline-none focus:ring-1 focus:ring-ink bg-ground text-ink text-sm"
           >
             <option value="">キャラクターを選択...</option>
             {allCharacters.map((char) => (
@@ -270,7 +271,7 @@ export default async function AccountDetailPage({
           </select>
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold"
+            className="bg-ink text-paper hover:opacity-90 px-6 py-2 rounded-md font-semibold text-sm"
           >
             追加
           </button>
@@ -278,13 +279,13 @@ export default async function AccountDetailPage({
       </div>
 
       {/* 所持キャラクター一覧 */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+      <div className="bg-panel border border-line rounded-md p-6">
+        <h2 className="text-base font-semibold text-ink mb-4">
           所持キャラクター一覧
         </h2>
 
         {account.ownedCharacters.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">
+          <p className="text-faint text-center py-8 text-sm">
             まだキャラクターが登録されていません
           </p>
         ) : (
@@ -292,45 +293,37 @@ export default async function AccountDetailPage({
             {account.ownedCharacters.map((ownedChar) => (
               <div
                 key={ownedChar.id}
-                className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors"
+                className="border border-line rounded-md p-4 hover:border-ink transition-colors"
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-800">
+                      <h3 className="text-base font-semibold text-ink">
                         {ownedChar.characterMaster.monsterName}
                       </h3>
                       <span
-                        className={`px-2 py-1 rounded text-sm ${
-                          ownedChar.characterMaster.element === '火'
-                            ? 'bg-red-100 text-red-800'
-                            : ownedChar.characterMaster.element === '水'
-                            ? 'bg-blue-100 text-blue-800'
-                            : ownedChar.characterMaster.element === '木'
-                            ? 'bg-green-100 text-green-800'
-                            : ownedChar.characterMaster.element === '光'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-purple-100 text-purple-800'
-                        }`}
+                        className={`px-2 py-1 rounded text-sm ${elementBadgeClass(
+                          ownedChar.characterMaster.element
+                        )}`}
                       >
                         {ownedChar.characterMaster.element}
                       </span>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-faint font-mono tabular-nums">
                         No.{ownedChar.characterMaster.indexNumber}
                       </span>
                     </div>
 
                     {/* わくわくの実 */}
-                    <div className="mt-4 border-t pt-4">
+                    <div className="mt-4 border-t border-line pt-4">
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm font-semibold text-gray-700">
+                        <span className="text-sm font-semibold text-dim">
                           わくわくの実 ({ownedChar.wakuwakuSlots.length}/3)
                         </span>
                       </div>
 
                       {/* わくわくの実一覧 */}
                       {ownedChar.wakuwakuSlots.length === 0 ? (
-                        <div className="text-sm text-gray-400 mb-3">
+                        <div className="text-sm text-faint mb-3">
                           まだわくわくの実がついていません
                         </div>
                       ) : (
@@ -338,13 +331,13 @@ export default async function AccountDetailPage({
                           {ownedChar.wakuwakuSlots.map((slot, index) => (
                             <div
                               key={slot.id}
-                              className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-3 py-2"
+                              className="flex items-center justify-between bg-line2 border border-line rounded-md px-3 py-2"
                             >
                               <div className="flex items-center gap-2">
-                                <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                                <span className="border border-line text-ink font-mono text-xs px-2 py-1 rounded-full font-semibold">
                                   {index + 1}
                                 </span>
-                                <span className="text-sm text-green-800 font-medium">
+                                <span className="text-sm text-ink font-medium">
                                   {slot.wakuwakuMaster.name}
                                 </span>
                               </div>
@@ -356,7 +349,7 @@ export default async function AccountDetailPage({
                                 />
                                 <button
                                   type="submit"
-                                  className="text-red-600 hover:text-red-800 text-xs font-semibold"
+                                  className="text-dim hover:text-ink text-xs font-semibold"
                                 >
                                   削除
                                 </button>
@@ -377,7 +370,7 @@ export default async function AccountDetailPage({
                           <select
                             name="wakuwakuMasterId"
                             required
-                            className="flex-1 text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="flex-1 text-sm px-3 py-2 border border-line rounded-md focus:outline-none focus:ring-1 focus:ring-ink bg-ground text-ink"
                           >
                             <option value="">わくわくの実を選択...</option>
                             {allWakuwaku.map((wakuwaku) => (
@@ -388,7 +381,7 @@ export default async function AccountDetailPage({
                           </select>
                           <button
                             type="submit"
-                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-semibold text-sm whitespace-nowrap"
+                            className="bg-ink text-paper hover:opacity-90 px-4 py-2 rounded-md font-semibold text-sm whitespace-nowrap"
                           >
                             + 追加
                           </button>

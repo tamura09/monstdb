@@ -399,17 +399,17 @@ export default async function AccountsPage({
   }
 
   return (
-    <div className="max-w-[1800px] mx-auto px-4 py-8">
+    <div className="max-w-[1800px] mx-auto px-4 py-8 bg-ground">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">マイアカウント</h1>
-          <p className="text-gray-600 dark:text-gray-400">{user.name}さんのアカウント一覧</p>
+          <h1 className="text-2xl font-bold text-ink mb-2">マイアカウント</h1>
+          <p className="text-dim text-sm">{user.name}さんのアカウント一覧</p>
         </div>
         <div className="flex gap-3">
           {/* 一時的に無効化 */}
           {/* <Link
             href="/accounts/view"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-sm font-semibold flex items-center gap-2"
+            className="bg-ink text-paper px-4 py-2 rounded-md hover:opacity-90 text-sm font-semibold flex items-center gap-2"
           >
             📖 閲覧専用モード
           </Link> */}
@@ -419,7 +419,7 @@ export default async function AccountsPage({
           {isAdmin && (
             <Link
               href="/admin/characters"
-              className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500 text-sm font-semibold"
+              className="border border-line text-ink px-4 py-2 rounded-md hover:bg-line2 text-sm font-semibold"
             >
               ⚙️ キャラ管理
             </Link>
@@ -428,7 +428,7 @@ export default async function AccountsPage({
       </div>
 
       {/* キャラ名検索バー（独立） */}
-      <div className="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <div className="mb-6 bg-panel border border-line rounded-md p-5">
         <CharacterNameSearchBar basePath="/accounts" />
       </div>
 
@@ -451,7 +451,7 @@ export default async function AccountsPage({
         onDeleteOwnedCharacter={deleteOwnedCharacter}
       />
 
-      <div className="mt-4 text-center text-gray-600 dark:text-gray-400">
+      <div className="mt-4 text-center text-dim text-sm">
         全{characterData.length}体のキャラクター
         {(element || type || search || selectedWakuwaku.length > 0) && ' (絞り込み中)'}
         {selectedWakuwaku.length > 0 && (

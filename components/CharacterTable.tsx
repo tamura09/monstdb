@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import AddCharacterButton from './AddCharacterButton'
 import OwnedCharacterCard from './OwnedCharacterCard'
+import { elementBadgeClass, typeBadgeClass } from '@/lib/badge-styles'
 
 type WakuwakuSlot = {
   id: string
@@ -84,12 +85,12 @@ export default function CharacterTable({
   // ソート用のアイコン
   const SortIcon = ({ currentKey }: { currentKey: SortKey }) => {
     if (sortKey !== currentKey) {
-      return <span className="text-gray-400 ml-1">⇅</span>
+      return <span className="text-faint ml-1">⇅</span>
     }
     return sortOrder === 'asc' ? (
-      <span className="text-blue-600 ml-1">↑</span>
+      <span className="text-ink ml-1">↑</span>
     ) : (
-      <span className="text-blue-600 ml-1">↓</span>
+      <span className="text-ink ml-1">↓</span>
     )
   }
 
@@ -126,22 +127,22 @@ export default function CharacterTable({
   })
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+    <div className="bg-panel border border-line rounded-md overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
+          <thead className="bg-ground border-b border-line">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider sticky left-0 bg-gray-50 dark:bg-gray-700 z-10">
+              <th className="px-3 py-2 text-left text-xs font-semibold text-dim uppercase tracking-wider sticky left-0 bg-ground z-10">
                 <button
                   onClick={() => handleSort('name')}
-                  className="flex items-center hover:text-blue-600 dark:hover:text-blue-400"
+                  className="flex items-center hover:text-ink"
                 >
                   キャラクター
                   <SortIcon currentKey="name" />
                 </button>
                 <button
                   onClick={() => handleSort('no')}
-                  className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 mt-1"
+                  className="flex items-center hover:text-ink mt-1"
                 >
                   <span className="text-[10px]">No順</span>
                   <SortIcon currentKey="no" />
@@ -150,15 +151,15 @@ export default function CharacterTable({
               {gameAccounts.map((account) => (
                 <th
                   key={account.id}
-                  className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider"
+                  className="px-3 py-2 text-center text-xs font-semibold text-dim uppercase tracking-wider"
                 >
                   <div>{account.name}</div>
                 </th>
               ))}
-              <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider bg-gray-50 dark:bg-gray-700">
+              <th className="px-3 py-2 text-center text-xs font-semibold text-dim uppercase tracking-wider bg-ground">
                 <button
                   onClick={() => handleSort('total')}
-                  className="flex items-center justify-center hover:text-blue-600 dark:hover:text-blue-400 mx-auto"
+                  className="flex items-center justify-center hover:text-ink mx-auto"
                 >
                   所持数
                   <SortIcon currentKey="total" />
@@ -166,48 +167,34 @@ export default function CharacterTable({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+          <tbody className="divide-y divide-line">
             {sortedData.map((charData) => {
               const total = getTotal(charData)
               return (
-                <tr key={charData.characterMaster.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <tr key={charData.characterMaster.id} className="hover:bg-line2">
                   {/* キャラクター名 */}
-                  <td className="px-4 py-3 sticky left-0 bg-white dark:bg-gray-800 z-10 border-r border-gray-200 dark:border-gray-600">
+                  <td className="px-3 py-2 sticky left-0 bg-panel z-10 border-r border-line">
                     <div className="flex items-center gap-2">
                       <div>
-                        <div className="font-semibold text-gray-800 dark:text-gray-200 text-sm">
+                        <div className="font-semibold text-ink text-sm">
                           {charData.characterMaster.monsterName}
                         </div>
                         <div className="flex items-center gap-2 mt-1 flex-wrap">
                           <span
-                            className={`text-xs px-2 py-0.5 rounded ${
-                              charData.characterMaster.element === '火'
-                                ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200'
-                                : charData.characterMaster.element === '水'
-                                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
-                                : charData.characterMaster.element === '木'
-                                ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200'
-                                : charData.characterMaster.element === '光'
-                                ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200'
-                                : 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-200'
-                            }`}
+                            className={`text-xs px-2 py-0.5 rounded ${elementBadgeClass(
+                              charData.characterMaster.element
+                            )}`}
                           >
                             {charData.characterMaster.element}
                           </span>
                           <span
-                            className={`text-xs px-2 py-0.5 rounded font-medium ${
-                              charData.characterMaster.type === '限定'
-                                ? 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-200'
-                                : charData.characterMaster.type === 'α'
-                                ? 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-200'
-                                : charData.characterMaster.type === 'コラボ'
-                                ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200'
-                                : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
-                            }`}
+                            className={`text-xs px-2 py-0.5 rounded font-medium ${typeBadgeClass(
+                              charData.characterMaster.type
+                            )}`}
                           >
                             {charData.characterMaster.type}
                           </span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                          <span className="text-xs text-faint font-mono tabular-nums">
                             No.{charData.characterMaster.indexNumber}
                           </span>
                         </div>
@@ -220,7 +207,7 @@ export default function CharacterTable({
                     const ownedChars =
                       charData.accountOwnerships[account.id] || []
                     return (
-                      <td key={account.id} className="px-2 py-2 text-center align-middle dark:bg-gray-800">
+                      <td key={account.id} className="px-2 py-2 text-center align-middle">
                         <div className="space-y-2">
                           {/* 所持済みキャラクター */}
                           {ownedChars.map((ownedChar) => (
@@ -236,7 +223,7 @@ export default function CharacterTable({
                               readOnly={readOnly}
                             />
                           ))}
-                          
+
                           {/* 追加ボタン（readOnlyでない場合のみ表示） */}
                           {!readOnly && (
                             <div className={ownedChars.length === 0 ? "min-h-[60px] flex items-center justify-center" : ""}>
@@ -249,10 +236,10 @@ export default function CharacterTable({
                               />
                             </div>
                           )}
-                          
+
                           {/* readOnlyで所持がない場合 */}
                           {readOnly && ownedChars.length === 0 && (
-                            <div className="min-h-[60px] flex items-center justify-center text-gray-400 text-xs">
+                            <div className="min-h-[60px] flex items-center justify-center text-faint text-xs">
                               未所持
                             </div>
                           )}
@@ -262,8 +249,8 @@ export default function CharacterTable({
                   })}
 
                   {/* 所持数トータル */}
-                  <td className="px-4 py-3 text-center align-middle bg-gray-50 dark:bg-gray-700 border-l border-gray-200 dark:border-gray-600">
-                    <div className="font-bold text-lg text-gray-800 dark:text-gray-200">{total}</div>
+                  <td className="px-3 py-2 text-center align-middle bg-ground border-l border-line">
+                    <div className="font-bold text-lg text-ink font-mono tabular-nums">{total}</div>
                   </td>
                 </tr>
               )

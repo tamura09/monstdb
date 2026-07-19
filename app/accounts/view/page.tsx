@@ -162,21 +162,21 @@ export default async function AccountsViewPage({
   }
 
   return (
-    <div className="max-w-[1800px] mx-auto px-4 py-8">
+    <div className="max-w-[1800px] mx-auto px-4 py-8 bg-ground">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-ink mb-2 flex items-center gap-3">
             マイアカウント
-            <span className="text-sm font-normal bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+            <span className="text-xs font-normal border border-line text-dim px-3 py-1 rounded-full">
               📖 閲覧専用モード
             </span>
           </h1>
-          <p className="text-gray-600">{user.name}さんのアカウント一覧</p>
+          <p className="text-dim text-sm">{user.name}さんのアカウント一覧</p>
         </div>
         <div className="flex gap-3">
           <Link
             href="/accounts"
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm font-semibold flex items-center gap-2"
+            className="bg-ink text-paper px-4 py-2 rounded-md hover:opacity-90 text-sm font-semibold flex items-center gap-2"
           >
             ✏️ 編集モードに切り替え
           </Link>
@@ -186,7 +186,7 @@ export default async function AccountsViewPage({
           {isAdmin && (
             <Link
               href="/admin/characters"
-              className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 text-sm font-semibold"
+              className="border border-line text-ink px-4 py-2 rounded-md hover:bg-line2 text-sm font-semibold"
             >
               ⚙️ キャラ管理
             </Link>
@@ -195,15 +195,15 @@ export default async function AccountsViewPage({
       </div>
 
       {/* 説明文 */}
-      <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <p className="text-sm text-blue-900">
-          <strong>💡 ヒント：</strong>閲覧専用モードでは編集操作ができない代わりに、検索やフィルタリングがより安定して動作します。
+      <div className="mb-6 bg-panel border border-line rounded-md p-4">
+        <p className="text-sm text-dim">
+          <strong className="text-ink">💡 ヒント：</strong>閲覧専用モードでは編集操作ができない代わりに、検索やフィルタリングがより安定して動作します。
           キャラ名検索が正常に動作しない場合は、このモードをお試しください。
         </p>
       </div>
 
       {/* キャラ名検索バー（独立） */}
-      <div className="mb-6 bg-white rounded-lg shadow-md p-6">
+      <div className="mb-6 bg-panel border border-line rounded-md p-6">
         <CharacterNameSearchBar basePath="/accounts/view" />
       </div>
 
@@ -226,7 +226,7 @@ export default async function AccountsViewPage({
         readOnly={true}
       />
 
-      <div className="mt-4 text-center text-gray-600">
+      <div className="mt-4 text-center text-dim text-sm">
         全{characterData.length}体のキャラクター
         {(element || type || search || selectedWakuwaku.length > 0 || hasEL) && ' (絞り込み中)'}
         {selectedWakuwaku.length > 0 && (

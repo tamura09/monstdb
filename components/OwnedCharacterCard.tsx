@@ -105,13 +105,13 @@ export default function OwnedCharacterCard({
   }
 
   return (
-    <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-2 text-left relative">
+    <div className="bg-panel border border-line rounded-md p-1.5 text-left relative">
       {/* 所持キャラ削除ボタン（readOnlyでない場合のみ表示） */}
       {!readOnly && onDeleteOwnedCharacter && (
         <button
           onClick={handleDeleteOwnedCharacter}
           disabled={isPending}
-          className="absolute top-1 right-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 hover:bg-red-100 dark:hover:bg-red-900 rounded-full w-5 h-5 flex items-center justify-center font-bold text-xs disabled:opacity-50 disabled:cursor-not-allowed"
+          className="absolute top-1 right-1 text-dim hover:text-ink hover:bg-line2 rounded-full w-5 h-5 flex items-center justify-center font-bold text-xs disabled:opacity-50 disabled:cursor-not-allowed"
           title="この所持キャラを削除"
         >
           {isPending ? '...' : '×'}
@@ -123,12 +123,12 @@ export default function OwnedCharacterCard({
         {!readOnly ? (
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full font-semibold transition-colors cursor-pointer"
+            className="border border-line text-ink font-mono text-xs px-2 py-0.5 rounded-full font-semibold hover:bg-line2 transition-colors cursor-pointer"
           >
             所持 {isOpen ? '▲' : '▼'}
           </button>
         ) : (
-          <div className="bg-blue-600 dark:bg-blue-700 text-white text-xs px-2 py-0.5 rounded-full font-semibold">
+          <div className="border border-line text-ink font-mono text-xs px-2 py-0.5 rounded-full font-semibold">
             所持
           </div>
         )}
@@ -136,19 +136,19 @@ export default function OwnedCharacterCard({
 
       {/* ドロップダウンコンテンツ（readOnlyでない場合のみ） */}
       {!readOnly && isOpen && (
-        <div className="mt-2 space-y-2 border-t border-blue-300 dark:border-blue-600 pt-2">
+        <div className="mt-2 space-y-2 border-t border-line pt-2">
           {/* わくわくの実一覧 */}
           {wakuwakuSlots.length > 0 && (
             <div className="space-y-1 text-xs">
               {wakuwakuSlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded flex items-center justify-between"
+                  className="bg-line2 text-dim px-2 py-1 rounded flex items-center justify-between"
                 >
                   <span>
                     {slot.wakuwakuMaster.name}
                     {slot.level && (
-                      <span className="ml-1 text-[10px] font-semibold bg-green-200 dark:bg-green-800 px-1 rounded">
+                      <span className="ml-1 border border-line text-faint font-mono text-[9px] px-1 rounded">
                         {slot.level}
                       </span>
                     )}
@@ -160,7 +160,7 @@ export default function OwnedCharacterCard({
 
           {/* わくわくの実が0個の場合 */}
           {wakuwakuSlots.length === 0 && (
-            <div className="text-xs text-gray-500 dark:text-gray-400 text-center py-1">
+            <div className="text-xs text-faint text-center py-1">
               わくわくの実なし
             </div>
           )}
@@ -170,7 +170,7 @@ export default function OwnedCharacterCard({
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white text-xs px-2 py-1 rounded font-semibold"
+              className="w-full bg-ink text-paper hover:opacity-90 text-xs px-2 py-1 rounded font-semibold"
             >
               わくわくの実を編集
             </button>
@@ -184,11 +184,11 @@ export default function OwnedCharacterCard({
           {wakuwakuSlots.map((slot) => (
             <div
               key={slot.id}
-              className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded"
+              className="bg-line2 text-dim px-2 py-1 rounded"
             >
               {slot.wakuwakuMaster.name}
               {slot.level && (
-                <span className="ml-1 text-[10px] font-semibold bg-green-200 dark:bg-green-800 px-1 rounded">
+                <span className="ml-1 border border-line text-faint font-mono text-[9px] px-1 rounded">
                   {slot.level}
                 </span>
               )}
