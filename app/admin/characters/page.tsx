@@ -58,6 +58,21 @@ export default async function AdminCharactersPage({
   async function deleteCharacter(formData: FormData) {
     'use server'
 
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      throw new Error('Unauthorized')
+    }
+
+    // Admin権限チェック
+    const actingUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    })
+
+    if (!actingUser || actingUser.role !== 'admin') {
+      throw new Error('Unauthorized')
+    }
+
     const characterId = formData.get('characterId') as string
 
     await prisma.characterMaster.delete({
