@@ -143,12 +143,12 @@ export default function OwnedCharacterCard({
               {wakuwakuSlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="bg-line2 text-dim px-2 py-1 rounded flex items-center justify-between"
+                  className="bg-line text-ink px-2 py-1 rounded flex items-center justify-between"
                 >
                   <span>
                     {slot.wakuwakuMaster.name}
                     {slot.level && (
-                      <span className="ml-1 border border-line text-faint font-mono text-[9px] px-1 rounded">
+                      <span className="ml-1 bg-panel text-dim font-mono text-[9px] px-1 rounded">
                         {slot.level}
                       </span>
                     )}
@@ -184,11 +184,11 @@ export default function OwnedCharacterCard({
           {wakuwakuSlots.map((slot) => (
             <div
               key={slot.id}
-              className="bg-line2 text-dim px-2 py-1 rounded"
+              className="bg-line text-ink px-2 py-1 rounded"
             >
               {slot.wakuwakuMaster.name}
               {slot.level && (
-                <span className="ml-1 border border-line text-faint font-mono text-[9px] px-1 rounded">
+                <span className="ml-1 bg-panel text-dim font-mono text-[9px] px-1 rounded">
                   {slot.level}
                 </span>
               )}
