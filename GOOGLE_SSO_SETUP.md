@@ -72,7 +72,7 @@ Google SSOでログインした新規ユーザーは、デフォルトで通常�
 
 ```bash
 # Prisma Studioを起動
-npx prisma studio
+npm run prisma:studio
 ```
 
 1. `User` テーブルを開く
@@ -80,23 +80,14 @@ npx prisma studio
 3. `role` フィールドを `"admin"` に変更
 4. 保存
 
-または、SQLiteを直接編集:
-
-```bash
-sqlite3 prisma/dev.db
-```
+または、`psql`などでPostgreSQLを直接編集:
 
 ```sql
 -- メールアドレスでユーザーを検索
-SELECT id, name, email, role FROM User WHERE email = 'your-email@example.com';
+SELECT id, name, email, role FROM "User" WHERE email = 'your-email@example.com';
 
 -- 管理者権限を付与
-UPDATE User SET role = 'admin' WHERE email = 'your-email@example.com';
-
--- 確認
-SELECT id, name, email, role FROM User WHERE email = 'your-email@example.com';
-
-.quit
+UPDATE "User" SET role = 'admin' WHERE email = 'your-email@example.com';
 ```
 
 ## 6. トラブルシューティング
@@ -112,10 +103,6 @@ SELECT id, name, email, role FROM User WHERE email = 'your-email@example.com';
 ### ログイン後にエラーが出る
 - データベースが正しく設定されているか確認してください: `npx prisma db push`
 - Prisma Clientが最新か確認してください: `npx prisma generate`
-
-### 既存のメール/パスワードアカウントも使えますか？
-- はい、メール/パスワード認証も引き続き利用可能です
-- ログインページには両方の認証方法が表示されます
 
 ## 7. 本番環境へのデプロイ
 
