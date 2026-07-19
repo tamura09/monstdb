@@ -13,6 +13,23 @@ export async function POST(request: Request) {
       )
     }
 
+    // メールアドレスの形式チェック
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: '有効なメールアドレスを入力してください' },
+        { status: 400 }
+      )
+    }
+
+    // パスワードの長さチェック
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: 'パスワードは6文字以上で入力してください' },
+        { status: 400 }
+      )
+    }
+
     // メールアドレスの重複チェック
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -28,39 +45,42 @@ export async function POST(request: Request) {
     // パスワードをハッシュ化
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // ユーザーを作成
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
-    })
+    // ユーザーと4つのアカウントを同一トランザクションで作成
+    await prisma.$transaction(async (tx) => {
+      // ユーザーを作成
+      const user = await tx.user.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+        },
+      })
 
-    // 4つのアカウントを自動作成
-    await prisma.gameAccount.createMany({
-      data: [
-        {
-          userId: user.id,
-          accountNumber: 1,
-          name: '1',
-        },
-        {
-          userId: user.id,
-          accountNumber: 2,
-          name: '2',
-        },
-        {
-          userId: user.id,
-          accountNumber: 3,
-          name: '3',
-        },
-        {
-          userId: user.id,
-          accountNumber: 4,
-          name: '4',
-        },
-      ],
+      // 4つのアカウントを自動作成
+      await tx.gameAccount.createMany({
+        data: [
+          {
+            userId: user.id,
+            accountNumber: 1,
+            name: '1',
+          },
+          {
+            userId: user.id,
+            accountNumber: 2,
+            name: '2',
+          },
+          {
+            userId: user.id,
+            accountNumber: 3,
+            name: '3',
+          },
+          {
+            userId: user.id,
+            accountNumber: 4,
+            name: '4',
+          },
+        ],
+      })
     })
 
     return NextResponse.json(
