@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { prisma } from '../lib/prisma'
+import { toCsvRow } from '../lib/csv'
 
 async function main() {
   const argv = process.argv.slice(2)
@@ -77,7 +78,7 @@ async function main() {
 
   // CSV生成
   const bom = '\uFEFF'
-  const header = '図鑑No,名前,属性,種類,アカウント,わくわく1,レベル1,わくわく2,レベル2,わくわく3,レベル3,わくわく4,レベル4\n'
+  const header = toCsvRow(['図鑑No', '名前', '属性', '種類', 'アカウント', 'わくわく1', 'レベル1', 'わくわく2', 'レベル2', 'わくわく3', 'レベル3', 'わくわく4', 'レベル4']) + '\n'
 
   const rows: string[] = []
   
@@ -101,7 +102,21 @@ async function main() {
         const level4 = ownedChar.wakuwakuSlots[3]?.level || ''
         
         rows.push(
-          `${char.indexNumber},"${char.monsterName}",${char.element},${char.type},"${accountName}",${wakuwaku1},${level1},${wakuwaku2},${level2},${wakuwaku3},${level3},${wakuwaku4},${level4}`
+          toCsvRow([
+            String(char.indexNumber),
+            char.monsterName,
+            char.element,
+            char.type,
+            accountName,
+            wakuwaku1,
+            level1,
+            wakuwaku2,
+            level2,
+            wakuwaku3,
+            level3,
+            wakuwaku4,
+            level4,
+          ])
         )
       }
     }

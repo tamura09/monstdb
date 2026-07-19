@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { toCsvRow } from '@/lib/csv'
 
 export async function GET() {
   try {
@@ -22,7 +23,7 @@ export async function GET() {
 
     // CSVヘッダー（BOM付き）
     const bom = '\uFEFF'
-    const header = [
+    const header = toCsvRow([
       '図鑑No',
       '名前',
       '属性',
@@ -36,13 +37,13 @@ export async function GET() {
       'レベル3',
       'わくわく4',
       'レベル4',
-    ].join(',')
+    ])
 
     // テンプレート行を生成（全キャラクター分の空行）
     const rows = characters.map((char) => {
-      return [
-        char.indexNumber,
-        `"${char.monsterName}"`,
+      return toCsvRow([
+        String(char.indexNumber),
+        char.monsterName,
         char.element,
         char.type,
         '', // アカウント（空）
@@ -54,7 +55,7 @@ export async function GET() {
         '', // レベル3（空）
         '', // わくわく4（空）
         '', // レベル4（空）
-      ].join(',')
+      ])
     })
 
     // ワクワクの選択肢をコメント行として追加

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { parseCsv } from '@/lib/csv'
 
 interface CSVRow {
   indexNumber: string
@@ -35,36 +36,33 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
     }
 
-    // CSVファイルを読み込む
+    // CSVファイルを読み込む（BOM除去・CRLF・クォート内カンマ/改行・エスケープに対応したRFC 4180準拠パーサ）
     const text = await file.text()
-    const lines = text.split('\n').filter(line => line.trim())
-    
+    const allRows = parseCsv(text)
+
     // ヘッダー行をスキップ
-    const dataLines = lines.slice(1)
-    
+    const dataRows = allRows.slice(1)
+
     // CSVをパース
     const rows: CSVRow[] = []
-    for (const line of dataLines) {
-      // ダブルクォートで囲まれた値を考慮してパース
-      const values = line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g)?.map(v => 
-        v.replace(/^"|"$/g, '').trim()
-      ) || []
-      
-      if (values.length >= 5) {
+    for (const values of dataRows) {
+      const trimmed = values.map(v => v.trim())
+
+      if (trimmed.length >= 5) {
         rows.push({
-          indexNumber: values[0],
-          monsterName: values[1],
-          element: values[2],
-          type: values[3],
-          accountName: values[4],
-          wakuwaku1: values[5] || '',
-          level1: values[6] || 'L',
-          wakuwaku2: values[7] || '',
-          level2: values[8] || 'L',
-          wakuwaku3: values[9] || '',
-          level3: values[10] || 'L',
-          wakuwaku4: values[11] || '',
-          level4: values[12] || 'L',
+          indexNumber: trimmed[0],
+          monsterName: trimmed[1],
+          element: trimmed[2],
+          type: trimmed[3],
+          accountName: trimmed[4],
+          wakuwaku1: trimmed[5] || '',
+          level1: trimmed[6] || 'L',
+          wakuwaku2: trimmed[7] || '',
+          level2: trimmed[8] || 'L',
+          wakuwaku3: trimmed[9] || '',
+          level3: trimmed[10] || 'L',
+          wakuwaku4: trimmed[11] || '',
+          level4: trimmed[12] || 'L',
         })
       }
     }

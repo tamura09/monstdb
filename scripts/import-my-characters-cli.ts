@@ -1,27 +1,28 @@
 import fs from 'fs'
 import path from 'path'
 import { prisma } from '../lib/prisma'
+import { parseCsv } from '../lib/csv'
 
 function parseCSV(text: string) {
-  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean)
-  if (lines.length <= 1) return []
-  const dataLines = lines.slice(1)
-  const rows = dataLines.map((line) => {
-    const values = line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g)?.map(v => v.replace(/^"|"$/g, '').trim()) || []
+  const allRows = parseCsv(text)
+  if (allRows.length <= 1) return []
+  const dataRows = allRows.slice(1)
+  const rows = dataRows.map((values) => {
+    const trimmed = values.map((v) => v.trim())
     return {
-      indexNumber: values[0],
-      monsterName: values[1],
-      element: values[2],
-      type: values[3],
-      accountName: values[4],
-      wakuwaku1: values[5] || '',
-      level1: values[6] || 'L',
-      wakuwaku2: values[7] || '',
-      level2: values[8] || 'L',
-      wakuwaku3: values[9] || '',
-      level3: values[10] || 'L',
-      wakuwaku4: values[11] || '',
-      level4: values[12] || 'L',
+      indexNumber: trimmed[0],
+      monsterName: trimmed[1],
+      element: trimmed[2],
+      type: trimmed[3],
+      accountName: trimmed[4],
+      wakuwaku1: trimmed[5] || '',
+      level1: trimmed[6] || 'L',
+      wakuwaku2: trimmed[7] || '',
+      level2: trimmed[8] || 'L',
+      wakuwaku3: trimmed[9] || '',
+      level3: trimmed[10] || 'L',
+      wakuwaku4: trimmed[11] || '',
+      level4: trimmed[12] || 'L',
     }
   })
   return rows
