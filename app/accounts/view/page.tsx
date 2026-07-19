@@ -37,11 +37,17 @@ export default async function AccountsViewPage({
       gameAccounts: {
         include: {
           ownedCharacters: {
-            include: {
-              characterMaster: true,
+            select: {
+              id: true,
+              characterMasterId: true,
               wakuwakuSlots: {
-                include: {
-                  wakuwakuMaster: true,
+                select: {
+                  id: true,
+                  level: true,
+                  slotNumber: true,
+                  wakuwakuMaster: {
+                    select: { id: true, name: true },
+                  },
                 },
                 orderBy: {
                   slotNumber: 'asc',
@@ -80,6 +86,13 @@ export default async function AccountsViewPage({
       ...(element && { element }),
       ...(type && { type }),
     },
+    select: {
+      id: true,
+      indexNumber: true,
+      monsterName: true,
+      element: true,
+      type: true,
+    },
     orderBy: {
       indexNumber: 'asc',
     },
@@ -92,18 +105,32 @@ export default async function AccountsViewPage({
     )
   }
 
+  // 所持情報を「アカウント → 図鑑IDごとの所持配列」に事前インデックス化
+  // （1000体 × アカウント × 所持の総当たりフィルタを避け、O(1)ルックアップにする）
+  const ownedByAccount = new Map<string, Map<string, typeof user.gameAccounts[number]['ownedCharacters']>>()
+  for (const account of user.gameAccounts) {
+    const byMaster = new Map<string, typeof account.ownedCharacters>()
+    for (const oc of account.ownedCharacters) {
+      const arr = byMaster.get(oc.characterMasterId)
+      if (arr) {
+        arr.push(oc)
+      } else {
+        byMaster.set(oc.characterMasterId, [oc])
+      }
+    }
+    ownedByAccount.set(account.id, byMaster)
+  }
+
   // 各キャラクターマスターに対して、各アカウントの所持情報をマッピング
   let characterData = allCharacterMasters.map((charMaster) => {
     const accountOwnerships: Record<string, any[]> = {}
-    
-    user.gameAccounts.forEach((account) => {
-      const ownedChars = account.ownedCharacters.filter(
-        (oc) => oc.characterMaster.id === charMaster.id
-      )
-      if (ownedChars.length > 0) {
+
+    for (const account of user.gameAccounts) {
+      const ownedChars = ownedByAccount.get(account.id)?.get(charMaster.id)
+      if (ownedChars && ownedChars.length > 0) {
         accountOwnerships[account.id] = ownedChars
       }
-    })
+    }
 
     return {
       characterMaster: charMaster,
