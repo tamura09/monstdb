@@ -18,12 +18,33 @@ OpenAPI 3.1形式の機械可読な仕様は [openapi.yaml](./openapi.yaml) を�
 
 ## 認証
 
-このAPIは **NextAuth.js のセッションクッキー** で認証します。専用のAPIキーやBearerトークンは発行していません。
+このAPIは **NextAuth.js のセッションクッキー** と **スコープ付きAPIキー(`Authorization: Bearer`)** の2方式で認証します。
+
+### セッションCookie(ブラウザからの利用)
 
 - ログインは Google OAuth (`/api/auth/[...nextauth]`) 経由で行います。ログインに成功すると `next-auth.session-token`(本番環境ではSecure属性付きの `__Secure-next-auth.session-token`)というCookieがブラウザに保存されます。
 - `/api/v1/...` の各エンドポイントは、リクエストにこのセッションCookieが付与されていることを前提としています。つまり **ブラウザから同一オリジンでリクエストする(または対応するCookieを明示的に付与する)ことが前提** で、サーバー間連携など別オリジンからの直接呼び出しは想定していません。
 - セッションCookieが無い、または無効な場合は `401 unauthorized` を返します。
 - エンドポイントによっては、セッションに加えてDB上の `User.role` が `admin` であることを要求します(下記「エンドポイント一覧」の「必要権限」列を参照)。admin判定は都度DBを参照して行われるため、権限が剥奪された場合は次のリクエストから即座に反映されます。
+
+### APIキー(サーバー間連携)
+
+- リクエストに `Authorization: Bearer <key>` ヘッダを付与すると、セッションCookieの代わりにAPIキーで認証できます。同一オリジン制約が無く、サーバー間連携など別オリジンからの直接呼び出しにはこちらを使います。
+- **APIキーを発行できるのは admin ロールのユーザーのみ**です(発行方法は[APIキー管理](#apiキー管理)を参照)。
+- キーは**発行者のユーザーとして振る舞います**が、発行時に指定した**スコープで許可された操作しかできません**(最小権限の原則)。キー保有者本人のゲームアカウント・所持キャラのみアクセスできる点はセッション認証と同じです(所有権チェックはスコープに関わらず常に有効です)。
+- スコープの一覧は以下の通りです。
+
+  | スコープ | 説明 |
+  | --- | --- |
+  | `characters:read` | キャラクターマスターの参照(`GET /api/v1/characters`, `/characters/{id}`, `/wakuwaku-masters`) |
+  | `characters:write` | キャラクターマスターの作成・更新・削除(admin相当の操作。`POST`/`PATCH`/`DELETE /api/v1/characters*`) |
+  | `accounts:read` | 自分のゲームアカウント・所持キャラ・わくわくの実の参照 |
+  | `accounts:write` | 所持キャラの登録・削除、わくわくの実のセット・解除 |
+
+- `characters:write` は admin相当の操作を許可するスコープです。**admin本人が発行したキーであっても、`characters:write` スコープが無ければマスターデータの書き換えはできません**(read専用キーの流出だけではマスターデータを書き換えられない設計)。
+- キーに無いスコープの操作を行おうとした場合は `403 forbidden` を返します。
+- キーが失効済み(`revokedAt` 設定済み)、または有効期限(`expiresAt`)切れの場合は `401 unauthorized` を返します。
+- **APIキーを使って新しいAPIキーを発行することはできません**(権限昇格の踏み台になるため)。[APIキー管理](#apiキー管理)の全エンドポイントはセッション認証限定です。
 
 ## 共通エラーレスポンス
 
@@ -102,8 +123,13 @@ OpenAPI 3.1形式の機械可読な仕様は [openapi.yaml](./openapi.yaml) を�
 | `PUT` | `/api/v1/owned-characters/{id}/wakuwaku` | 本人(所持キャラ所有者) | わくわくの実セット一括置換(冪等) |
 | `DELETE` | `/api/v1/owned-characters/{id}/wakuwaku/{slotNumber}` | 本人(所持キャラ所有者) | わくわくの実スロット1個解除 |
 | `GET` | `/api/v1/wakuwaku-masters` | ログイン済み | わくわくの実マスター一覧取得 |
+| `GET` | `/api/v1/api-keys` | admin(セッション限定) | 自分が発行したAPIキー一覧取得 |
+| `POST` | `/api/v1/api-keys` | admin(セッション限定) | APIキー発行 |
+| `DELETE` | `/api/v1/api-keys/{id}` | admin(セッション限定) | APIキー失効 |
 
 「本人」列のエンドポイントは、対象リソースが自分に紐づかない場合(存在しない・他人のものである)一律 `404 not_found` になります。
+
+「必要権限」欄が「◯◯(セッション限定)」のエンドポイントは、[前述の通り](#apiキー)Authorization: Bearerでの呼び出しを受け付けず、常にセッションCookieでの認証を要求します。
 
 ## わくわくの実について
 
@@ -421,6 +447,89 @@ OpenAPI 3.1形式の機械可読な仕様は [openapi.yaml](./openapi.yaml) を�
 
 **起こりうるエラー**: `401 unauthorized`
 
+---
+
+### `GET /api/v1/api-keys`
+
+自分(admin)が発行したAPIキーの一覧を取得します。**admin限定・セッション認証限定。**
+
+`keyHash`(ハッシュ値)は一切レスポンスに含まれません。平文キーは発行時(`POST`)のレスポンスでのみ一度返され、以降は二度と取得できません。
+
+**成功レスポンス例** (`200`)
+
+```json
+{
+  "data": [
+    {
+      "id": "cl5key555def456ghi789jkl",
+      "name": "集計バッチ",
+      "keyPrefix": "mdb_live_abc",
+      "scopes": ["characters:read", "accounts:read"],
+      "lastUsedAt": "2024-01-02T00:00:00.000Z",
+      "expiresAt": null,
+      "revokedAt": null,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+**起こりうるエラー**: `401 unauthorized`、`403 forbidden`(admin以外、またはAPIキーでの呼び出し)
+
+---
+
+### `POST /api/v1/api-keys`
+
+APIキーを発行します。**admin限定・セッション認証限定。**
+
+**リクエストボディ**
+
+```json
+{
+  "name": "集計バッチ",
+  "scopes": ["characters:read", "accounts:read"],
+  "expiresAt": "2025-01-01T00:00:00.000Z"
+}
+```
+
+| フィールド | 型 | 必須 | 説明 |
+| --- | --- | --- | --- |
+| `name` | 文字列(1文字以上) | 必須 | 用途がわかる表示名 |
+| `scopes` | 配列(1件以上) | 必須 | [スコープ](#apiキー)の一覧 |
+| `expiresAt` | ISO日時文字列 | 任意 | 有効期限。省略時は無期限 |
+
+**成功レスポンス例** (`201`)。**平文キー(`key`)はこのレスポンスにのみ含まれます。**忘れずに控えてください。以降はAPIから再取得できません。
+
+```json
+{
+  "key": "mdb_live_QW5kZWxpbmVfMzJfYnl0ZV9yYW5kb20",
+  "apiKey": {
+    "id": "cl5key555def456ghi789jkl",
+    "name": "集計バッチ",
+    "keyPrefix": "mdb_live_QW5",
+    "scopes": ["characters:read", "accounts:read"],
+    "lastUsedAt": null,
+    "expiresAt": "2025-01-01T00:00:00.000Z",
+    "revokedAt": null,
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+**起こりうるエラー**: `401 unauthorized`、`403 forbidden`(admin以外、またはAPIキーでの呼び出し)、`422 validation_error`(`scopes`が空・不正な値を含む等)
+
+---
+
+### `DELETE /api/v1/api-keys/{id}`
+
+APIキーを失効させます。**admin限定・セッション認証限定。** 物理削除はせず `revokedAt` を立てるのみです(発行履歴は残ります)。失効後のキーで認証しようとすると `401 unauthorized` になります。
+
+自分が発行したキー以外を指定した場合は「存在しない」場合と区別せず一律 `404 not_found` を返します。
+
+**成功レスポンス**: `204 No Content`
+
+**起こりうるエラー**: `401 unauthorized`、`403 forbidden`(admin以外、またはAPIキーでの呼び出し)、`404 not_found`(存在しない、または他人が発行したキー)
+
 ## curl実行例
 
 セッションCookieはブラウザでログイン後にDevToolsなどから取得し、`cookies.txt`(Netscape形式)として保存するか、`-b`オプションで直接渡してください。
@@ -471,5 +580,21 @@ curl -b cookies.txt -X PUT \
 curl -b cookies.txt -X POST \
   -H "Content-Type: application/json" \
   -d '{"indexNumber":9999,"monsterName":"新キャラ名","element":"火","type":"限定"}' \
+  "http://localhost:3000/api/v1/characters"
+```
+
+**APIキーを発行(admin限定・セッション認証限定)**
+
+```bash
+curl -b cookies.txt -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"name":"集計バッチ","scopes":["characters:read","accounts:read"]}' \
+  "http://localhost:3000/api/v1/api-keys"
+```
+
+**発行したAPIキーでキャラクターマスター一覧を取得**
+
+```bash
+curl -H "Authorization: Bearer mdb_live_..." \
   "http://localhost:3000/api/v1/characters"
 ```
