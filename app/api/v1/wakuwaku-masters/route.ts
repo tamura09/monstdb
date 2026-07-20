@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { prisma } from '@/lib/prisma'
 import { withApiHandler } from '@/lib/api/handler'
 import { requireScope } from '@/lib/api/auth'
+import { getCachedWakuwakuMasters } from '@/lib/cache/master-data'
 
 // GET /api/v1/wakuwaku-masters — わくわくの実マスター一覧取得
 // PUT /api/v1/owned-characters/{id}/wakuwaku に渡すwakuwakuMasterIdを
@@ -10,15 +10,13 @@ import { requireScope } from '@/lib/api/auth'
 export const GET = withApiHandler(async (request: NextRequest) => {
   await requireScope(request, 'characters:read')
 
-  const wakuwakuMasters = await prisma.wakuwakuMaster.findMany({
-    orderBy: { displayOrder: 'asc' },
-    select: {
-      id: true,
-      name: true,
-      description: true,
-      displayOrder: true,
-    },
-  })
+  const allWakuwakuMasters = await getCachedWakuwakuMasters()
+  const wakuwakuMasters = allWakuwakuMasters.map(({ id, name, description, displayOrder }) => ({
+    id,
+    name,
+    description,
+    displayOrder,
+  }))
 
   return NextResponse.json({ data: wakuwakuMasters })
 })

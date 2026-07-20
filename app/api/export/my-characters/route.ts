@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { toCsvRow } from '@/lib/csv'
+import { getCachedCharacterMasters } from '@/lib/cache/master-data'
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -52,19 +53,11 @@ export async function GET(request: NextRequest) {
     const selectedWakuwaku = wakuwaku ? wakuwaku.split(',').filter(Boolean) : []
 
     // 全キャラクターマスターを取得（フィルタリング付き）
-    const allCharacterMasters = await prisma.characterMaster.findMany({
-      where: {
-        ...(element && { element }),
-        ...(type && { type }),
-        ...(search && {
-          monsterName: {
-            contains: search,
-          },
-        }),
-      },
-      orderBy: {
-        indexNumber: 'asc',
-      },
+    const allCharacterMasters = (await getCachedCharacterMasters()).filter((character) => {
+      if (element && character.element !== element) return false
+      if (type && character.type !== type) return false
+      if (search && !character.monsterName.includes(search)) return false
+      return true
     })
 
     // 各キャラクターマスターに対して、各アカウントの所持情報をマッピング

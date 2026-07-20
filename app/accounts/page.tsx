@@ -16,6 +16,7 @@ import {
   removeWakuwakuSlotById,
   replaceWakuwakuSlotsUnchecked,
 } from '@/lib/wakuwaku/slots'
+import { getCachedCharacterMasters, getCachedWakuwakuMasters } from '@/lib/cache/master-data'
 
 export default async function AccountsPage({
   searchParams,
@@ -77,31 +78,16 @@ export default async function AccountsPage({
   const isAdmin = user.role === 'admin'
 
   // 全ワクワクの実を取得
-  const allWakuwaku = await prisma.wakuwakuMaster.findMany({
-    orderBy: {
-      displayOrder: 'asc',
-    },
-  })
+  const allWakuwaku = await getCachedWakuwakuMasters()
 
   // ワクワクの実でフィルタリングする場合の処理
   const selectedWakuwaku = wakuwaku ? wakuwaku.split(',').filter(Boolean) : []
 
   // 全キャラクターマスターを取得（フィルタリング付き）
-  let allCharacterMasters = await prisma.characterMaster.findMany({
-    where: {
-      ...(element && { element }),
-      ...(type && { type }),
-    },
-    select: {
-      id: true,
-      indexNumber: true,
-      monsterName: true,
-      element: true,
-      type: true,
-    },
-    orderBy: {
-      indexNumber: 'asc',
-    },
+  let allCharacterMasters = (await getCachedCharacterMasters()).filter((character) => {
+    if (element && character.element !== element) return false
+    if (type && character.type !== type) return false
+    return true
   })
 
   // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング

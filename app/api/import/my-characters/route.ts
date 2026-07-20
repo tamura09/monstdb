@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { parseCsv } from '@/lib/csv'
+import { getCachedCharacterMasters, getCachedWakuwakuMasters } from '@/lib/cache/master-data'
 
 interface CSVRow {
   indexNumber: string
@@ -94,8 +95,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 全てのキャラクターマスターとわくわくマスターを事前に取得
-    const allCharacterMasters = await prisma.characterMaster.findMany()
-    const allWakuwakuMasters = await prisma.wakuwakuMaster.findMany()
+    const allCharacterMasters = await getCachedCharacterMasters()
+    const allWakuwakuMasters = await getCachedWakuwakuMasters()
 
     const characterMap = new Map(
       allCharacterMasters.map(c => [c.indexNumber.toString(), c])

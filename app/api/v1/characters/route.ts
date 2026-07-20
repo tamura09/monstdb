@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { z } from 'zod'
+import { revalidateTag } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { withApiHandler } from '@/lib/api/handler'
 import { requireScope } from '@/lib/api/auth'
@@ -8,6 +9,7 @@ import { ApiError } from '@/lib/api/errors'
 import { parseJsonBody, parseQuery, paginationSchema } from '@/lib/api/validation'
 import { elementSchema, characterTypeSchema, characterMasterCreateSchema } from '@/lib/api/schemas'
 import { matchesJapaneseOr } from '@/lib/string-utils'
+import { getCachedCharacterMasters, CHARACTER_MASTER_CACHE_TAG } from '@/lib/cache/master-data'
 
 // 一覧取得のクエリパラメータ。ページングに加え、element/typeでの絞り込みと
 // モンスター名でのあいまい検索(search)を受け付ける。
@@ -24,21 +26,11 @@ export const GET = withApiHandler(async (request: NextRequest) => {
   const { searchParams } = new URL(request.url)
   const { page, perPage, element, type, search } = await parseQuery(searchParams, listQuerySchema)
 
-  // element/typeはDBレベルで絞り込む(app/accounts/page.tsxと同じ方針)
-  let characters = await prisma.characterMaster.findMany({
-    where: {
-      ...(element && { element }),
-      ...(type && { type }),
-    },
-    select: {
-      id: true,
-      indexNumber: true,
-      monsterName: true,
-      element: true,
-      type: true,
-      createdAt: true,
-    },
-    orderBy: { indexNumber: 'asc' },
+  // element/typeは全件キャッシュを取得後、JS側で絞り込む(app/accounts/page.tsxと同じ方針)
+  let characters = (await getCachedCharacterMasters()).filter((character) => {
+    if (element && character.element !== element) return false
+    if (type && character.type !== type) return false
+    return true
   })
 
   // searchはひらがな・カタカナを区別しないJS側の照合のためDBでは絞り込めない。
@@ -73,6 +65,11 @@ export const POST = withApiHandler(async (request: NextRequest) => {
   }
 
   const character = await prisma.characterMaster.create({ data })
+
+  // { expire: 0 } で即時無効化する。'max'プロファイルはstale-while-revalidate
+  // (次回アクセス時にバックグラウンドで再取得)であり、Route Handlerからの
+  // 呼び出し直後に読んでも新しいデータが返らない事故があったため。
+  revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
   return NextResponse.json(character, {
     status: 201,

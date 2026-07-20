@@ -7,6 +7,7 @@ import DeleteCharacterButton from '@/components/DeleteCharacterButton'
 import CharacterPicker from '@/components/CharacterPicker'
 import { addWakuwakuSlot, removeWakuwakuSlotById } from '@/lib/wakuwaku/slots'
 import { MAX_WAKUWAKU_SLOTS } from '@/lib/api/constants'
+import { getCachedCharacterMasters, getCachedWakuwakuMasters } from '@/lib/cache/master-data'
 
 export default async function AccountDetailPage({
   params,
@@ -195,24 +196,9 @@ export default async function AccountDetailPage({
     redirect(`/accounts/${id}`)
   }
 
-  const allCharacters = await prisma.characterMaster.findMany({
-    select: {
-      id: true,
-      indexNumber: true,
-      monsterName: true,
-      element: true,
-      type: true,
-    },
-    orderBy: {
-      indexNumber: 'asc',
-    },
-  })
+  const allCharacters = await getCachedCharacterMasters()
 
-  const allWakuwaku = await prisma.wakuwakuMaster.findMany({
-    orderBy: {
-      displayOrder: 'asc',
-    },
-  })
+  const allWakuwaku = await getCachedWakuwakuMasters()
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

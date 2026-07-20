@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { getCachedCharacterMasters, getCachedWakuwakuMasters } from '@/lib/cache/master-data'
 
 interface CSVRow {
   indexNumber: string
@@ -61,11 +62,14 @@ export async function POST(request: NextRequest) {
     const indexNumbers = Array.from(new Set(rows.map((r) => Number(r.indexNumber)).filter(Boolean)))
   const wakuwakuNames = Array.from(new Set(rows.flatMap((r) => [r.wakuwaku1, r.wakuwaku2, r.wakuwaku3, r.wakuwaku4]).filter((v): v is string => Boolean(v))))
 
+    const indexNumberSet = new Set(indexNumbers)
+    const wakuwakuNameSet = new Set(wakuwakuNames as string[])
+
     const characterMasters = indexNumbers.length > 0
-      ? await prisma.characterMaster.findMany({ where: { indexNumber: { in: indexNumbers } } })
+      ? (await getCachedCharacterMasters()).filter((c) => indexNumberSet.has(c.indexNumber))
       : []
     const wakuwakuMasters = wakuwakuNames.length > 0
-      ? await prisma.wakuwakuMaster.findMany({ where: { name: { in: wakuwakuNames as string[] } } })
+      ? (await getCachedWakuwakuMasters()).filter((w) => wakuwakuNameSet.has(w.name))
       : []
 
     const characterMap = new Map(characterMasters.map((c) => [c.indexNumber.toString(), c]))

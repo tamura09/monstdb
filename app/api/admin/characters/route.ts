@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { revalidateTag } from 'next/cache'
+import { CHARACTER_MASTER_CACHE_TAG } from '@/lib/cache/master-data'
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
@@ -43,6 +45,9 @@ export async function POST(request: Request) {
         type,
       },
     })
+
+    // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
     return NextResponse.json({ success: true, character })
   } catch (error) {
@@ -101,6 +106,9 @@ export async function PUT(request: Request) {
       },
     })
 
+    // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
+
     return NextResponse.json({ success: true, character })
   } catch (error) {
     console.error('キャラクター更新エラー:', error)
@@ -138,6 +146,9 @@ export async function DELETE(request: Request) {
     await prisma.characterMaster.delete({
       where: { id: characterId },
     })
+
+    // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
     return NextResponse.json({ success: true })
   } catch (error) {

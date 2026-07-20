@@ -1,22 +1,14 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 import { toCsvRow } from '@/lib/csv'
+import { getCachedCharacterMasters, getCachedWakuwakuMasters } from '@/lib/cache/master-data'
 
 export async function GET() {
   try {
     // 全キャラクターマスターを取得
-    const characters = await prisma.characterMaster.findMany({
-      orderBy: {
-        indexNumber: 'asc',
-      },
-    })
+    const characters = await getCachedCharacterMasters()
 
     // 全ワクワクマスターを取得
-    const wakuwakus = await prisma.wakuwakuMaster.findMany({
-      orderBy: {
-        displayOrder: 'asc',
-      },
-    })
+    const wakuwakus = await getCachedWakuwakuMasters()
 
     // ワクワク名のリストを作成（最大4個分）
     const wakuwakuNames = wakuwakus.map((w) => w.name)
