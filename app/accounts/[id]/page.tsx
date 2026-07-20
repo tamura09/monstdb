@@ -6,6 +6,7 @@ import { authOptions } from '@/lib/auth'
 import DeleteCharacterButton from '@/components/DeleteCharacterButton'
 import CharacterPicker from '@/components/CharacterPicker'
 import { addWakuwakuSlot, removeWakuwakuSlotById } from '@/lib/wakuwaku/slots'
+import { MAX_WAKUWAKU_SLOTS } from '@/lib/api/constants'
 
 export default async function AccountDetailPage({
   params,
@@ -300,7 +301,7 @@ export default async function AccountDetailPage({
                     <div className="mt-4 border-t pt-4">
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-sm font-semibold text-gray-700">
-                          わくわくの実 ({ownedChar.wakuwakuSlots.length}/3)
+                          わくわくの実 ({ownedChar.wakuwakuSlots.length}/{MAX_WAKUWAKU_SLOTS})
                         </span>
                       </div>
 
@@ -343,7 +344,7 @@ export default async function AccountDetailPage({
                       )}
 
                       {/* わくわくの実追加フォーム */}
-                      {ownedChar.wakuwakuSlots.length < 3 && (
+                      {ownedChar.wakuwakuSlots.length < MAX_WAKUWAKU_SLOTS && (
                         <form action={addWakuwaku} className="flex gap-2">
                           <input
                             type="hidden"
