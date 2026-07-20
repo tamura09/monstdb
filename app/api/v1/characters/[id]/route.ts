@@ -64,7 +64,8 @@ export const PATCH = withApiHandler<RouteContext>(async (request: NextRequest, c
     data,
   })
 
-  revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+  // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+  revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
   return NextResponse.json(character)
 })
@@ -77,7 +78,8 @@ export const DELETE = withApiHandler<RouteContext>(async (request: NextRequest, 
 
   await prisma.characterMaster.delete({ where: { id } })
 
-  revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+  // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+  revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
   return new NextResponse(null, { status: 204 })
 })

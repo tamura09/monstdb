@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath, updateTag } from 'next/cache'
 import AdminCharacterTable from '@/components/AdminCharacterTable'
 import { getCachedCharacterMasters, CHARACTER_MASTER_CACHE_TAG } from '@/lib/cache/master-data'
 
@@ -66,7 +66,12 @@ export default async function AdminCharactersPage({
       where: { id: characterId },
     })
 
-    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+    // Server Action内なのでupdateTagを使う。revalidateTagの'max'プロファイルは
+    // stale-while-revalidate(次回アクセス時にバックグラウンドで再取得)であり
+    // 即時性が無いため、削除した本人がこの後すぐ一覧を見ても反映されない事故が
+    // あった。updateTagはread-your-own-writesを保証し、直後の再読み込みで
+    // 確実に新しいデータが返る。
+    updateTag(CHARACTER_MASTER_CACHE_TAG)
     revalidatePath('/admin/characters')
   }
 

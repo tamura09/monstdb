@@ -46,7 +46,8 @@ export async function POST(request: Request) {
       },
     })
 
-    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+    // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
     return NextResponse.json({ success: true, character })
   } catch (error) {
@@ -105,7 +106,8 @@ export async function PUT(request: Request) {
       },
     })
 
-    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+    // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
     return NextResponse.json({ success: true, character })
   } catch (error) {
@@ -145,7 +147,8 @@ export async function DELETE(request: Request) {
       where: { id: characterId },
     })
 
-    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+    // 即時無効化(revalidateTagの詳細はapp/api/v1/characters/route.tsのコメント参照)
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
     return NextResponse.json({ success: true })
   } catch (error) {

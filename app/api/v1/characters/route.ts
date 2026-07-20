@@ -66,7 +66,10 @@ export const POST = withApiHandler(async (request: NextRequest) => {
 
   const character = await prisma.characterMaster.create({ data })
 
-  revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+  // { expire: 0 } で即時無効化する。'max'プロファイルはstale-while-revalidate
+  // (次回アクセス時にバックグラウンドで再取得)であり、Route Handlerからの
+  // 呼び出し直後に読んでも新しいデータが返らない事故があったため。
+  revalidateTag(CHARACTER_MASTER_CACHE_TAG, { expire: 0 })
 
   return NextResponse.json(character, {
     status: 201,
