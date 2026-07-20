@@ -25,7 +25,15 @@ const createApiKeySchema = z.object({
   scopes: z
     .array(apiKeyScopeSchema)
     .min(1, 'スコープを1つ以上指定してください'),
-  expiresAt: z.coerce.date().optional(),
+  // z.coerce.date() は内部で new Date() を呼ぶため、boolean や数値まで
+  // 日時に変換してしまう(new Date(true) === 1970-01-01T00:00:00.001Z)。
+  // その結果 expiresAt: true で「発行直後に期限切れの使えないキー」が
+  // 黙って作られてしまうため、ISO 8601 の文字列のみを受け付ける。
+  expiresAt: z
+    .string()
+    .datetime({ message: 'expiresAtはISO 8601形式の日時文字列で指定してください' })
+    .transform((value) => new Date(value))
+    .optional(),
 })
 
 // GET /api/v1/api-keys — 自分が発行したAPIキーの一覧取得

@@ -314,3 +314,39 @@ describe('非adminはキーを扱えない', () => {
     expect(response.status).toBe(401)
   })
 })
+
+// z.coerce.date() は new Date(true) === 1970-01-01T00:00:00.001Z のように
+// 真偽値や数値まで日時へ変換してしまうため、そのままだと
+// expiresAt: true で「発行直後に期限切れの、黙って使えないキー」が作られた。
+// ISO 8601 文字列のみを受け付けるようにした回帰防止テスト。
+describe('expiresAt のバリデーション', () => {
+  it('日時へ強制変換され得る型(真偽値・数値)を422で拒否する', async () => {
+    for (const expiresAt of [true, false, 0, 1]) {
+      const response = await adminUser.client.post('/api-keys', {
+        json: { name: '不正な期限', scopes: ['characters:read'], expiresAt },
+      })
+
+      expect(response.status, `expiresAt=${JSON.stringify(expiresAt)} は拒否されるべき`).toBe(422)
+    }
+  })
+
+  it('日時として解釈できない文字列を422で拒否する', async () => {
+    const response = await adminUser.client.post('/api-keys', {
+      json: { name: '不正な期限', scopes: ['characters:read'], expiresAt: 'abc' },
+    })
+
+    expect(response.status).toBe(422)
+  })
+
+  it('ISO 8601形式の文字列は受け入れる', async () => {
+    const response = await adminUser.client.post('/api-keys', {
+      json: {
+        name: '正しい期限',
+        scopes: ['characters:read'],
+        expiresAt: '2099-12-31T00:00:00.000Z',
+      },
+    })
+
+    expect(response.status).toBe(201)
+  })
+})

@@ -223,6 +223,21 @@ describe('5. バリデーション', () => {
     expect(response.status).toBe(422)
   })
 
+  // z.coerce.number() は Number(true) === 1 / Number([5]) === 5 のように
+  // 真偽値や配列まで数値へ変換してしまい、これらが indexNumber として
+  // 受理されていた。HTTP経由でも拒否されることを固定する。
+  it('POST /characters indexNumber=真偽値・配列 は422', async () => {
+    for (const indexNumber of [true, false, [5], []]) {
+      const response = await admin.client.post('/characters', {
+        json: { indexNumber, monsterName: 'X', element: '火', type: '恒常' },
+      })
+
+      expect(response.status, `indexNumber=${JSON.stringify(indexNumber)} は拒否されるべき`).toBe(
+        422
+      )
+    }
+  })
+
   it('POST /characters element=不正 は422', async () => {
     const response = await admin.client.post('/characters', {
       json: { indexNumber: uniqueIndexNumber(), monsterName: 'X', element: '雷', type: '恒常' },

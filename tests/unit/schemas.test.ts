@@ -63,22 +63,24 @@ describe('characterMasterCreateSchema — indexNumber (parseIntのNaN素通り�
     }
   })
 
-  // ここは「現在の挙動を固定するテスト」であって、望ましい仕様を表明するものではない。
-  //
-  // z.coerce.number() は内部で Number(value) を呼ぶため、JSONの true や [5] が
-  // それぞれ 1 / 5 に変換され、int().positive() を通過してしまう。
-  // つまり `{"indexNumber": true}` は 422 ではなく indexNumber=1 として
-  // 受理される。実装を変更しない方針のため、まずは実挙動を記録しておく。
-  //
-  // 直す場合は z.coerce.number() を
-  //   z.union([z.number(), z.string().regex(/^\d+$/).transform(Number)])
-  // のような「文字列と数値のみを受け付ける」形にするのが素直。
-  it('【既知の緩さ】真偽値 true / 単一要素配列は数値へ強制変換されて通過する', () => {
-    expect(characterMasterCreateSchema.safeParse({ ...validBody, indexNumber: true })).toMatchObject(
-      { success: true, data: { indexNumber: 1 } }
-    )
-    expect(characterMasterCreateSchema.safeParse({ ...validBody, indexNumber: [5] })).toMatchObject(
-      { success: true, data: { indexNumber: 5 } }
+  // かつて z.coerce.number() を使っていたため、内部の Number(value) によって
+  // JSONの true や [5] がそれぞれ 1 / 5 に変換され通過してしまっていた。
+  // strictPositiveIntSchema で「numberと数値文字列のみ」を受け付けるようにした
+  // ため、これらは拒否される。その回帰防止テスト。
+  it('数値へ強制変換され得る型(真偽値・配列・オブジェクト)を拒否する', () => {
+    const coercibleValues: unknown[] = [true, false, [5], [], {}, [['7']]]
+
+    for (const indexNumber of coercibleValues) {
+      const result = characterMasterCreateSchema.safeParse({ ...validBody, indexNumber })
+      expect(result.success, `indexNumber=${JSON.stringify(indexNumber)} は拒否されるべき`).toBe(
+        false
+      )
+    }
+  })
+
+  it('数値文字列は受け入れる(クエリ経由の互換のため)', () => {
+    expect(characterMasterCreateSchema.safeParse({ ...validBody, indexNumber: '191' })).toMatchObject(
+      { success: true, data: { indexNumber: 191 } }
     )
   })
 
