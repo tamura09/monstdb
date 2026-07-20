@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useTransition } from 'react'
 
 type FriendRequestCardProps = {
@@ -45,9 +46,11 @@ export default function FriendRequestCard({
     <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
       <div className="flex items-center gap-3">
         {request.sender.image && (
-          <img
+          <Image
             src={request.sender.image}
             alt={request.sender.name || ''}
+            width={40}
+            height={40}
             className="w-10 h-10 rounded-full"
           />
         )}

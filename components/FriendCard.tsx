@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useTransition } from 'react'
 
 type FriendCardProps = {
@@ -39,9 +40,11 @@ export default function FriendCard({ friend, onRemove }: FriendCardProps) {
     <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
       <div className="flex items-start gap-3">
         {friend.image && (
-          <img
+          <Image
             src={friend.image}
             alt={friend.name || ''}
+            width={48}
+            height={48}
             className="w-12 h-12 rounded-full"
           />
         )}
