@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { toCsvRow } from '@/lib/csv'
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -110,7 +111,7 @@ export async function GET(request: NextRequest) {
     // CSV形式に変換（BOM付きUTF-8でExcel対応）
     // 各所持キャラを1行ずつ出力
     const bom = '\uFEFF'
-    const header = '図鑑No,名前,属性,種類,アカウント,わくわく1,レベル1,わくわく2,レベル2,わくわく3,レベル3,わくわく4,レベル4\n'
+    const header = toCsvRow(['図鑑No', '名前', '属性', '種類', 'アカウント', 'わくわく1', 'レベル1', 'わくわく2', 'レベル2', 'わくわく3', 'レベル3', 'わくわく4', 'レベル4']) + '\n'
 
     // データ行を作成（各所持キャラごとに1行）
     const rows: string[] = []
@@ -135,7 +136,21 @@ export async function GET(request: NextRequest) {
           const level4 = ownedChar.wakuwakuSlots[3]?.level || ''
           
           rows.push(
-            `${char.indexNumber},"${char.monsterName}",${char.element},${char.type},"${accountName}",${wakuwaku1},${level1},${wakuwaku2},${level2},${wakuwaku3},${level3},${wakuwaku4},${level4}`
+            toCsvRow([
+              String(char.indexNumber),
+              char.monsterName,
+              char.element,
+              char.type,
+              accountName,
+              wakuwaku1,
+              level1,
+              wakuwaku2,
+              level2,
+              wakuwaku3,
+              level3,
+              wakuwaku4,
+              level4,
+            ])
           )
         }
       }
