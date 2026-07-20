@@ -4,7 +4,7 @@
 
 このAPIは既存の `/api/register` `/api/import/*` `/api/export/*` `/api/admin/characters` とは独立した新設のAPI群で、キャラクターマスター・所持キャラクター・わくわくの実の装着状態をJSONベースのRESTインターフェースで操作できます。既存APIは後方互換のためそのまま残っています(詳細はリポジトリルートの[README.md](../README.md#api)を参照してください)。
 
-OpenAPI 3.1形式の機械可読な仕様は [openapi.yaml](./openapi.yaml) を参照してください。
+OpenAPI 3.0.3形式の機械可読な仕様は [openapi.yaml](./openapi.yaml) を参照してください。
 
 ## 目次
 
