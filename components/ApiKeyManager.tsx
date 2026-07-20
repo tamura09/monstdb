@@ -44,6 +44,33 @@ function getStatus(key: ApiKeySummary): { label: string; className: string } {
   }
 }
 
+// 有効期限の選択肢。日数で持ち、発行時に「現在時刻 + 日数」のISO 8601文字列へ
+// 変換して送る。null は無期限(expiresAtを送らない)。
+const EXPIRY_OPTIONS = [
+  { value: '1', label: '1日', days: 1 },
+  { value: '7', label: '7日', days: 7 },
+  { value: '30', label: '30日', days: 30 },
+  { value: '180', label: '180日', days: 180 },
+  { value: 'never', label: '無期限', days: null },
+] as const
+
+type ExpiryValue = (typeof EXPIRY_OPTIONS)[number]['value']
+
+// 選択値から送信用のISO 8601文字列を作る。無期限の場合は undefined を返し、
+// 呼び出し側でリクエストボディから expiresAt ごと省く。
+function resolveExpiresAt(value: ExpiryValue): string | undefined {
+  const option = EXPIRY_OPTIONS.find((candidate) => candidate.value === value)
+
+  if (!option || option.days === null) {
+    return undefined
+  }
+
+  const expiry = new Date()
+  expiry.setDate(expiry.getDate() + option.days)
+
+  return expiry.toISOString()
+}
+
 export default function ApiKeyManager() {
   const [apiKeys, setApiKeys] = useState<ApiKeySummary[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -52,7 +79,7 @@ export default function ApiKeyManager() {
   // 発行フォームの状態
   const [name, setName] = useState('')
   const [selectedScopes, setSelectedScopes] = useState<ApiKeyScope[]>([])
-  const [expiresAt, setExpiresAt] = useState('')
+  const [expiry, setExpiry] = useState<ExpiryValue>('30')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
 
@@ -107,13 +134,16 @@ export default function ApiKeyManager() {
 
     setIsSubmitting(true)
     try {
+      const resolvedExpiresAt = resolveExpiresAt(expiry)
+
       const res = await fetch('/api/v1/api-keys', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: name.trim(),
           scopes: selectedScopes,
-          ...(expiresAt && { expiresAt: new Date(expiresAt).toISOString() }),
+          // 無期限の場合は expiresAt ごと省く(nullを送ると型が合わない)
+          ...(resolvedExpiresAt && { expiresAt: resolvedExpiresAt }),
         }),
       })
 
@@ -128,7 +158,7 @@ export default function ApiKeyManager() {
       setCopied(false)
       setName('')
       setSelectedScopes([])
-      setExpiresAt('')
+      setExpiry('30')
       await loadApiKeys()
     } catch (error) {
       setFormError(error instanceof Error ? error.message : 'APIキーの発行に失敗しました')
@@ -263,18 +293,27 @@ export default function ApiKeyManager() {
 
           <div>
             <label
-              htmlFor="api-key-expires-at"
+              htmlFor="api-key-expiry"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
             >
-              有効期限(任意。未指定の場合は無期限)
+              有効期限
             </label>
-            <input
-              id="api-key-expires-at"
-              type="date"
-              value={expiresAt}
-              onChange={(e) => setExpiresAt(e.target.value)}
+            <select
+              id="api-key-expiry"
+              value={expiry}
+              onChange={(e) => setExpiry(e.target.value as ExpiryValue)}
               className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-            />
+            >
+              {EXPIRY_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              発行時点からの期間です。無期限のキーは漏洩時の影響が大きいため、用途が
+              限定されるなら期限付きを選んでください。
+            </p>
           </div>
 
           {formError && (

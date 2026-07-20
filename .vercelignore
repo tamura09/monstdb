@@ -17,4 +17,8 @@ __tests__
 __mocks__
 README.md
 CHANGELOG.md
-docs/
+
+# docs/ は除外しないこと。
+# /api/v1/openapi が実行時に docs/openapi.yaml を読み込むため、ここに docs/ を
+# 追加するとデプロイ環境でのみ ENOENT になり、/admin/api-docs が
+# 「OpenAPI仕様の取得に失敗しました」で真っ白になる(ローカルでは再現しない)。
