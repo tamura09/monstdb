@@ -23,6 +23,18 @@
 - **スタイリング**: Tailwind CSS
 - **ホスティング**: Vercel(プロジェクト設定は[infra/](infra/)でTerraform管理)
 
+### TypeScriptバージョンについて
+
+メインの`typescript`は5.9系を使用しています。2026年7月にGoで書き直された高速なTypeScript 7.0がGAしましたが、現時点(執筆時点でGAから2週間程度)では以下の理由でメイン依存の切り替えは見送っています。
+
+- TypeScript 7.0のプログラマティックAPIは7.1まで安定版として提供されない
+- Next.jsのビルド時型チェック(`next build`)がこのAPIを直接呼んでおり、7.0では失敗する
+- `typescript-eslint`(`npm run lint`が依存)は`peerDependencies`で`typescript: ">=4.8.4 <6.1.0"`と7系を明示的に除外しており、実際に動かすとESLintごとクラッシュする
+
+そのため、`typescript-go`という別名(npmエイリアス)でTypeScript 7を追加し、`npm run typecheck:fast`による補助的な高速型チェックとしてのみ利用しています(詳細はPRを参照)。メインの`tsc --noEmit`・`next build`・`typescript-eslint`には一切影響しません。
+
+**Next.js・typescript-eslintを含む依存パッケージ側がTypeScript 7系に正式対応したら、メインの`typescript`依存を7系へ切り替えることを検討してください。** その際は`typescript-go`のエイリアス依存と`typecheck:fast`スクリプトは不要になるため削除できます。
+
 ## セットアップ
 
 ### 0. Node.jsバージョン
@@ -79,6 +91,7 @@ npm run dev
 | `npm run dev` | 開発サーバー起動 |
 | `npm run build` / `npm run start` | 本番ビルド / 起動 |
 | `npm run lint` | ESLint実行 |
+| `npm run typecheck:fast` | TypeScript 7 (Go実装)による補助的な高速型チェック([技術スタック](#技術スタック)参照) |
 | `npm run prisma:generate` | Prisma Client生成 |
 | `npm run prisma:push` | スキーマをDBへ反映(マイグレーションファイルを作らない) |
 | `npm run prisma:studio` | Prisma StudioでDBの中身を確認 |
