@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import 'swagger-ui-dist/swagger-ui.css'
+import './ApiSpecViewer.dark.css'
 
 export default function ApiSpecViewer() {
   const [spec, setSpec] = useState<object | null>(null)
@@ -70,8 +71,9 @@ export default function ApiSpecViewer() {
 
   return (
     // swagger-ui-dist自体はダークモードに対応していないため、
-    // 常に白背景のカードで囲み、周囲(ダークモード時)との境界を明確にする。
-    <div className="bg-white rounded-lg shadow-md overflow-hidden p-2">
+    // ./ApiSpecViewer.dark.css で `html.dark .swagger-ui ...` 配下のスタイルを
+    // 上書きしている。カード自体もページ他部分と同じ dark:bg-gray-800 に揃える。
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden p-2">
       <div ref={containerRef} />
     </div>
   )
