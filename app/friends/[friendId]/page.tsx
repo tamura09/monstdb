@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import CharacterTable from '@/components/CharacterTable'
 import FriendSearchFilter from '@/components/FriendSearchFilter'
 import { matchesJapaneseOr } from '@/lib/string-utils'
@@ -211,9 +212,11 @@ export default async function FriendAccountsPage({
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
           {friend.image && (
-            <img
+            <Image
               src={friend.image}
               alt={friend.name || ''}
+              width={48}
+              height={48}
               className="w-12 h-12 rounded-full"
             />
           )}

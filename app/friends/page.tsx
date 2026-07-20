@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import Link from 'next/link'
+import Image from 'next/image'
 import FriendSearchForm from '@/components/FriendSearchForm'
 import FriendRequestCard from '@/components/FriendRequestCard'
 import FriendCard from '@/components/FriendCard'
@@ -295,9 +296,11 @@ export default async function FriendsPage({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {searchResult.image && (
-                  <img
+                  <Image
                     src={searchResult.image}
                     alt={searchResult.name || ''}
+                    width={48}
+                    height={48}
                     className="w-12 h-12 rounded-full"
                   />
                 )}
@@ -355,9 +358,11 @@ export default async function FriendsPage({
                 className="flex items-center gap-3 bg-gray-50 dark:bg-gray-700 rounded-lg p-3"
               >
                 {request.receiver.image && (
-                  <img
+                  <Image
                     src={request.receiver.image}
                     alt={request.receiver.name || ''}
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full"
                   />
                 )}
