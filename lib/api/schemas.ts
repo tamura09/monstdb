@@ -4,9 +4,13 @@ import { z } from 'zod'
 // 「火、水、木、光、闇」に準拠した属性のenum
 export const elementSchema = z.enum(['火', '水', '木', '光', '闇'])
 
-// prisma/schema.prisma の CharacterMaster.type コメント
-// 「限定、恒常」に準拠したキャラ種別のenum
-export const characterTypeSchema = z.enum(['限定', '恒常'])
+// キャラ種別のenum。実データ(character_masters_export.json)・
+// 各UIコンポーネント(CharacterFormNew/Edit, *SearchFilter等)では
+// 限定・恒常・コラボ・αの4種類が使われている。
+// このスキーマだけ限定・恒常の2種類しか許可していなかったため、
+// コラボ・α のキャラ(合計341体)がAPI経由での作成・更新・
+// typeによる絞り込みで422になっていた。
+export const characterTypeSchema = z.enum(['限定', '恒常', 'コラボ', 'α'])
 
 // prisma/schema.prisma の OwnedCharacterWakuwaku.level コメント
 // 「"L" or "EL"」に準拠したわくわくの実のレベル。既定値は'L'

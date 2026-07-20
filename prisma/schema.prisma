@@ -90,7 +90,7 @@ model CharacterMaster {
   id              String           @id @default(cuid())
   indexNumber     Int              @unique
   element         String           // 火、水、木、光、闇
-  type            String           // 限定、恒常
+  type            String           // 限定、恒常、コラボ、α
   monsterName     String
   createdAt       DateTime         @default(now())
   ownedCharacters OwnedCharacter[]
