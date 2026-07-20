@@ -39,6 +39,16 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
+      # TypeScript 7 (Go実装)による高速型チェック。プログラマティックAPIが
+      # 7.1まで未安定なため、typescript本体は5.9系のまま据え置き、
+      # typescript-go という別名の依存としてのみ追加している
+      # (Next.jsのビルド時型チェック・typescript-eslintを壊さないため)。
+      # 参考: 上記の本チェック(tsc --noEmit)と結果を突き合わせる位置づけで、
+      # 現時点では失敗してもCI全体は落とさない。
+      - name: Typecheck (TypeScript 7 fast path, informational)
+        run: npm run typecheck:fast
+        continue-on-error: true
+
       - name: Lint
         run: npm run lint
 
