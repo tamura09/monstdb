@@ -19,7 +19,15 @@ export default function ApiSpecViewer() {
     fetch('/api/v1/openapi')
       .then(async (res) => {
         if (!res.ok) {
-          throw new Error('OpenAPI仕様の取得に失敗しました')
+          // 原因の切り分けができるようステータスコードとサーバーからの
+          // メッセージを表示に含める(汎用文言だけだと権限の問題なのか
+          // 配備の問題なのか判別できないため)。
+          const body = await res.json().catch(() => null)
+          const detail = body?.error?.message
+
+          throw new Error(
+            `OpenAPI仕様の取得に失敗しました (HTTP ${res.status}${detail ? `: ${detail}` : ''})`
+          )
         }
         return res.json()
       })

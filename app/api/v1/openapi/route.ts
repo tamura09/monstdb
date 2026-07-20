@@ -18,7 +18,26 @@ export const GET = withApiHandler(async () => {
   await requireAdmin()
 
   const filePath = path.join(process.cwd(), 'docs', 'openapi.yaml')
-  const yamlContent = await readFile(filePath, 'utf8')
+
+  let yamlContent: string
+  try {
+    yamlContent = await readFile(filePath, 'utf8')
+  } catch (error) {
+    // 実行時にファイルを読むため、デプロイ環境でのみ落ちる形の事故が起きやすい。
+    // 汎用の500に潰してしまうと原因の特定が難しいので、配備上の問題だと
+    // 分かるログを残す。過去に .vercelignore の docs/ で実際に踏んでいる。
+    if ((error as NodeJS.ErrnoException)?.code === 'ENOENT') {
+      console.error(
+        `OpenAPI仕様が見つかりません: ${filePath}\n` +
+          'デプロイ成果物に docs/openapi.yaml が含まれているか確認してください。' +
+          '(.vercelignore で docs/ を除外していないか、next.config.js の ' +
+          'outputFileTracingIncludes に docs/openapi.yaml があるか)'
+      )
+    }
+
+    throw error
+  }
+
   const spec = parseYaml(yamlContent)
 
   return NextResponse.json(spec)
