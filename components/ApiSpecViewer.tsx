@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import 'swagger-ui-react/swagger-ui.css'
+import './ApiSpecViewer.dark.css'
 
 // swagger-ui-reactはクライアントコンポーネントでのみ動作する
 // (内部でdocument等のブラウザAPIに依存しているため)。
@@ -47,8 +48,9 @@ export default function ApiSpecViewer() {
 
   return (
     // swagger-ui-react自体はダークモードに対応していないため、
-    // 常に白背景のカードで囲み、周囲(ダークモード時)との境界を明確にする。
-    <div className="bg-white rounded-lg shadow-md overflow-hidden p-2">
+    // ./ApiSpecViewer.dark.css で `html.dark .swagger-ui ...` 配下のスタイルを
+    // 上書きしている。カード自体もページ他部分と同じ dark:bg-gray-800 に揃える。
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden p-2">
       <SwaggerUI spec={spec} docExpansion="list" />
     </div>
   )
