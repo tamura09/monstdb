@@ -8,6 +8,7 @@ import ThemeToggle from './ThemeToggle'
 export default function Navigation() {
   const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const isAdmin = session?.user?.role === 'admin'
 
   return (
     <nav className="bg-blue-600 dark:bg-gray-800 text-white shadow-lg">
@@ -34,6 +35,14 @@ export default function Navigation() {
                 <Link href="/profile" className="hover:text-blue-200 dark:hover:text-gray-300">
                   マイページ
                 </Link>
+                {isAdmin && (
+                  <Link
+                    href="/admin/api-docs"
+                    className="hover:text-blue-200 dark:hover:text-gray-300"
+                  >
+                    APIドキュメント
+                  </Link>
+                )}
                 <span className="text-sm text-blue-200 dark:text-gray-300">
                   {session.user?.name}
                 </span>
@@ -111,6 +120,15 @@ export default function Navigation() {
                 >
                   マイページ
                 </Link>
+                {isAdmin && (
+                  <Link
+                    href="/admin/api-docs"
+                    className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    APIドキュメント
+                  </Link>
+                )}
                 <div className="py-2 px-4 text-sm text-blue-200 dark:text-gray-300">
                   {session.user?.name}
                 </div>
