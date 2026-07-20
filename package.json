@@ -30,14 +30,14 @@
     "pg": "^8.22.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "swagger-ui-react": "^5.32.9",
+    "swagger-ui-dist": "^5.32.9",
     "yaml": "^2.9.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^22",
     "@types/react": "^19.2.7",
-    "@types/swagger-ui-react": "^5.18.0",
+    "@types/swagger-ui-dist": "^3.30.6",
     "autoprefixer": "^10.4.22",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.2.10",

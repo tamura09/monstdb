@@ -1,18 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
-import 'swagger-ui-react/swagger-ui.css'
+import { useEffect, useRef, useState } from 'react'
+import 'swagger-ui-dist/swagger-ui.css'
 import './ApiSpecViewer.dark.css'
-
-// swagger-ui-reactはクライアントコンポーネントでのみ動作する
-// (内部でdocument等のブラウザAPIに依存しているため)。
-// next/dynamicでssr: falseにし、サーバー側では一切評価されないようにする。
-const SwaggerUI = dynamic(() => import('swagger-ui-react'), { ssr: false })
 
 export default function ApiSpecViewer() {
   const [spec, setSpec] = useState<object | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -38,6 +33,34 @@ export default function ApiSpecViewer() {
     }
   }, [])
 
+  useEffect(() => {
+    if (!spec || !containerRef.current) return
+
+    let disposed = false
+    const domNode = containerRef.current
+
+    // swagger-ui-distはブラウザ専用のバンドルであり、window/document等の
+    // ブラウザAPIに依存している。SSR時に評価されないよう、動的importで
+    // クライアント側(このuseEffect内)でのみ読み込む。
+    import('swagger-ui-dist').then(({ SwaggerUIBundle }) => {
+      if (disposed) return
+
+      SwaggerUIBundle({
+        domNode,
+        spec,
+        presets: [SwaggerUIBundle.presets.apis],
+        plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+        layout: 'BaseLayout',
+        docExpansion: 'list',
+      })
+    })
+
+    return () => {
+      disposed = true
+      domNode.replaceChildren()
+    }
+  }, [spec])
+
   if (error) {
     return <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
   }
@@ -47,11 +70,11 @@ export default function ApiSpecViewer() {
   }
 
   return (
-    // swagger-ui-react自体はダークモードに対応していないため、
+    // swagger-ui-dist自体はダークモードに対応していないため、
     // ./ApiSpecViewer.dark.css で `html.dark .swagger-ui ...` 配下のスタイルを
     // 上書きしている。カード自体もページ他部分と同じ dark:bg-gray-800 に揃える。
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden p-2">
-      <SwaggerUI spec={spec} docExpansion="list" />
+      <div ref={containerRef} />
     </div>
   )
 }
