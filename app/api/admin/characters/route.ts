@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { revalidateTag } from 'next/cache'
+import { CHARACTER_MASTER_CACHE_TAG } from '@/lib/cache/master-data'
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
@@ -43,6 +45,8 @@ export async function POST(request: Request) {
         type,
       },
     })
+
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
 
     return NextResponse.json({ success: true, character })
   } catch (error) {
@@ -101,6 +105,8 @@ export async function PUT(request: Request) {
       },
     })
 
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+
     return NextResponse.json({ success: true, character })
   } catch (error) {
     console.error('キャラクター更新エラー:', error)
@@ -138,6 +144,8 @@ export async function DELETE(request: Request) {
     await prisma.characterMaster.delete({
       where: { id: characterId },
     })
+
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
 
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import AdminCharacterTable from '@/components/AdminCharacterTable'
+import { getCachedCharacterMasters, CHARACTER_MASTER_CACHE_TAG } from '@/lib/cache/master-data'
 
 export default async function AdminCharactersPage({
   searchParams,
@@ -28,27 +29,13 @@ export default async function AdminCharactersPage({
     redirect('/accounts')
   }
 
-  // 全キャラクターマスターを取得
-  const characters = await prisma.characterMaster.findMany({
-    where: {
-      ...(element && { element }),
-      ...(type && { type }),
-      ...(search && {
-        monsterName: {
-          contains: search,
-        },
-      }),
-    },
-    select: {
-      id: true,
-      indexNumber: true,
-      monsterName: true,
-      element: true,
-      type: true,
-    },
-    orderBy: {
-      indexNumber: 'asc',
-    },
+  // 全キャラクターマスターを取得（キャッシュから全件取得し、絞り込みはJS側で行う）
+  const allCharacterMasters = await getCachedCharacterMasters()
+  const characters = allCharacterMasters.filter((character) => {
+    if (element && character.element !== element) return false
+    if (type && character.type !== type) return false
+    if (search && !character.monsterName.includes(search)) return false
+    return true
   })
 
   const elements = ['火', '水', '木', '光', '闇']
@@ -79,6 +66,7 @@ export default async function AdminCharactersPage({
       where: { id: characterId },
     })
 
+    revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
     revalidatePath('/admin/characters')
   }
 

@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { revalidateTag } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { withApiHandler } from '@/lib/api/handler'
 import { requireScope } from '@/lib/api/auth'
 import { ApiError } from '@/lib/api/errors'
 import { parseJsonBody } from '@/lib/api/validation'
 import { characterMasterUpdateSchema } from '@/lib/api/schemas'
+import { CHARACTER_MASTER_CACHE_TAG } from '@/lib/cache/master-data'
 
 // Next.js 16 では動的ルートの第2引数が Promise で渡ってくる
 type RouteContext = { params: Promise<{ id: string }> }
@@ -62,6 +64,8 @@ export const PATCH = withApiHandler<RouteContext>(async (request: NextRequest, c
     data,
   })
 
+  revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
+
   return NextResponse.json(character)
 })
 
@@ -72,6 +76,8 @@ export const DELETE = withApiHandler<RouteContext>(async (request: NextRequest, 
   const { id } = await context.params
 
   await prisma.characterMaster.delete({ where: { id } })
+
+  revalidateTag(CHARACTER_MASTER_CACHE_TAG, 'max')
 
   return new NextResponse(null, { status: 204 })
 })

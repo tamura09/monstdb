@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { getCachedCharacterMasters } from '@/lib/cache/master-data'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -8,19 +8,11 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get('search')
 
   try {
-    const characters = await prisma.characterMaster.findMany({
-      where: {
-        ...(element && { element }),
-        ...(type && { type }),
-        ...(search && {
-          monsterName: {
-            contains: search,
-          },
-        }),
-      },
-      orderBy: {
-        indexNumber: 'asc',
-      },
+    const characters = (await getCachedCharacterMasters()).filter((character) => {
+      if (element && character.element !== element) return false
+      if (type && character.type !== type) return false
+      if (search && !character.monsterName.includes(search)) return false
+      return true
     })
 
     // CSV形式に変換（BOM付きUTF-8でExcel対応）

@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import DownloadButton from '@/components/DownloadButton'
 import CharacterSearchFilter from '@/components/CharacterSearchFilter'
 import { matchesJapaneseOr } from '@/lib/string-utils'
+import { getCachedCharacterMasters } from '@/lib/cache/master-data'
 
 export default async function CharactersPage({
   searchParams,
@@ -24,14 +25,10 @@ export default async function CharactersPage({
   }
 
   // まず基本的なフィルターでデータを取得
-  let characters = await prisma.characterMaster.findMany({
-    where: {
-      ...(element && { element }),
-      ...(type && { type }),
-    },
-    orderBy: {
-      indexNumber: 'asc',
-    },
+  let characters = (await getCachedCharacterMasters()).filter((character) => {
+    if (element && character.element !== element) return false
+    if (type && character.type !== type) return false
+    return true
   })
 
   // 検索文字列がある場合、ひらがな・カタカナを区別せずにフィルタリング
