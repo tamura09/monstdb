@@ -477,7 +477,7 @@ components:
     CharacterType:
       type: string
       description: キャラクターの種別
-      enum: [限定, 恒常]
+      enum: [限定, 恒常, コラボ, α]
     WakuwakuLevel:
       type: string
       description: わくわくの実のレベル。既定値はL。
