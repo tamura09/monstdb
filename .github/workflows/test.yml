@@ -1,0 +1,101 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  # DBを必要としない静的チェック。テストジョブと並行して走る。
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # tsc / eslint は generated/prisma の型を参照するため、
+      # 型チェックの前に必ず Prisma Client を生成する。
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: monstdb_test
+        ports:
+          - 5432:5432
+        # コンテナが受付可能になるまでジョブの開始を待たせる
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      # CI用のローカルサービスコンテナを指す。本番の接続情報は絶対に使わない。
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/monstdb_test
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/monstdb_test
+      # セッションJWTの署名にのみ使うCI専用のダミー値。
+      # 本番の NEXTAUTH_SECRET とは無関係であり、秘密情報ではない。
+      NEXTAUTH_SECRET: ci-dummy-secret-not-used-in-production
+      # lib/auth.ts の GoogleProvider が非空を要求するためのダミー値。
+      # テストは NextAuth の JWT を直接生成するため OAuth 通信は発生しない。
+      GOOGLE_CLIENT_ID: ci-dummy-client-id
+      GOOGLE_CLIENT_SECRET: ci-dummy-client-secret
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Push schema to test database
+        run: npx prisma db push
+
+      # キャラクターマスター・わくわくの実マスターを投入する。
+      # 統合テストはこれらのマスターを参照のみ行い、作成はしない。
+      - name: Seed master data
+        run: npm run seed
+
+      # ユニットテスト + 統合テスト。
+      # 統合テストは vitest の globalSetup が next dev を起動し、
+      # 実際にHTTPリクエストを投げて検証する。
+      - name: Run tests
+        run: npm run test
