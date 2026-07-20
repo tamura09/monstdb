@@ -13,7 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: "22"
+  # Vercelのビルド環境(Node 24)とローカル開発環境(.nvmrc)に合わせる
+  NODE_VERSION: "24"
 
 jobs:
   # DBを必要としない静的チェック。テストジョブと並行して走る。
