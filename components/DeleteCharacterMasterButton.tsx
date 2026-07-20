@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function DeleteCharacterMasterButton({
   characterId,
@@ -11,6 +12,7 @@ export default function DeleteCharacterMasterButton({
   characterName: string
   onDelete: (formData: FormData) => Promise<void>
 }) {
+  const router = useRouter()
   const [isDeleting, setIsDeleting] = useState(false)
 
   async function handleDelete(e: React.FormEvent<HTMLFormElement>) {
@@ -24,6 +26,9 @@ export default function DeleteCharacterMasterButton({
     try {
       const formData = new FormData(e.currentTarget)
       await onDelete(formData)
+      // Server Actionをフォームのaction経由でなく手動呼び出ししているため、
+      // 完了後に明示的にrefreshしないとRouter Cacheが更新されない
+      router.refresh()
     } catch (error) {
       console.error('削除エラー:', error)
       alert('削除に失敗しました')
