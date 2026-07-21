@@ -5,7 +5,7 @@ info:
   description: |
     モンストDBが提供する `/api/v1` 配下のREST API仕様です。
     認証はNextAuth.jsのセッションクッキーで行われるため、ブラウザから同一オリジンで
-    呼び出す前提です。詳細な説明は [docs/api-v1.md](./api-v1.md) を参照してください。
+    呼び出す前提です。詳細な説明は [APIリファレンス(Markdown)をダウンロード](/api/v1/docs) してください。
 servers:
   - url: /
     description: 相対パス(呼び出し元と同一オリジン)

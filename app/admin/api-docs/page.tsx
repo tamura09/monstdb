@@ -149,7 +149,13 @@ export default async function AdminApiDocsPage() {
               (既定値50、上限100) のクエリパラメータでページングでき、レスポンスには{' '}
               <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">{'{ page, perPage, total, totalPages }'}</code>{' '}
               が含まれます。詳細・エンドポイント一覧・curl実行例は下記のSwagger UI、または{' '}
-              <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">docs/api-v1.md</code> を参照してください。
+              <a
+                href="/api/v1/docs"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                APIリファレンス(Markdown)をダウンロード
+              </a>{' '}
+              して参照してください。
             </p>
           </div>
         </div>

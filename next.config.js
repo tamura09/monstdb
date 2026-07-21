@@ -11,11 +11,13 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production', // 本番環境でconsole.log削除
   },
   
-  // /api/v1/openapi は実行時に docs/openapi.yaml を読み込むため、
-  // サーバーレス環境（Vercel）のバンドルに同梱されるよう明示的に指定する。
+  // /api/v1/openapi, /api/v1/docs は実行時にそれぞれ docs/openapi.yaml,
+  // docs/api-v1.md を読み込むため、サーバーレス環境（Vercel）のバンドルに
+  // 同梱されるよう明示的に指定する。
   // 指定しないとファイルトレースから漏れ、本番でのみ ENOENT になる。
   outputFileTracingIncludes: {
     '/api/v1/openapi': ['./docs/openapi.yaml'],
+    '/api/v1/docs': ['./docs/api-v1.md'],
   },
 
   // 実験的な機能（パフォーマンス改善）
