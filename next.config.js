@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // 本番環境での最適化
-  output: 'standalone', // Dockerデプロイ用
+  // Dockerデプロイ用。ただしVercel上では無効にする。
+  // Next.js 16.3 の Turbopack はアダプタ構成時に next-server.js.nft.json を
+  // 出力しなくなった (vercel/next.js#93684) 一方、Vercel の onBuildComplete と
+  // standalone の copyTracedFiles は従来どおりこのファイルを読むため、
+  // output: 'standalone' のままだとVercelのビルドが ENOENT で必ず失敗する。
+  // 16.2系では発生しない。修正され次第この分岐は削除してよい。
+  // 参考: https://github.com/vercel/next.js/issues/96646
+  output: process.env.VERCEL ? undefined : 'standalone',
   
   // Next.js 16のパフォーマンス最適化
   reactStrictMode: true,
