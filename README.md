@@ -25,15 +25,21 @@
 
 ### TypeScriptバージョンについて
 
-メインの`typescript`は5.9系を使用しています。2026年7月にGoで書き直された高速なTypeScript 7.0がGAしましたが、現時点(執筆時点でGAから2週間程度)では以下の理由でメイン依存の切り替えは見送っています。
+TypeScript公式が案内している[TypeScript 6.0とのside-by-side構成](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0)を採用しています。
 
-- TypeScript 7.0のプログラマティックAPIは7.1まで安定版として提供されない
-- Next.jsのビルド時型チェック(`next build`)がこのAPIを直接呼んでおり、7.0では失敗する
-- `typescript-eslint`(`npm run lint`が依存)は`peerDependencies`で`typescript: ">=4.8.4 <6.1.0"`と7系を明示的に除外しており、実際に動かすとESLintごとクラッシュする
+```jsonc
+"@typescript/native": "npm:typescript@^7.0.2",      // tsc  → TypeScript 7 (Go実装)
+"typescript": "npm:@typescript/typescript6@^6.0.2"  // tsc6 → TypeScript 6 (JS API提供)
+```
 
-そのため、`typescript-go`という別名(npmエイリアス)でTypeScript 7を追加し、`npm run typecheck:fast`による補助的な高速型チェックとしてのみ利用しています(詳細はPRを参照)。メインの`tsc --noEmit`・`next build`・`typescript-eslint`には一切影響しません。
+TypeScript 7.0はコマンドラインの`tsc`のみを提供し、プログラマティックAPI(JS API)を同梱していません(新APIは7.1予定)。そのため、APIを必要とするツールのために`typescript`パッケージは6系のまま残す必要があります。
 
-**Next.js・typescript-eslintを含む依存パッケージ側がTypeScript 7系に正式対応したら、メインの`typescript`依存を7系へ切り替えることを検討してください。** その際は`typescript-go`のエイリアス依存と`typecheck:fast`スクリプトは不要になるため削除できます。
+- `npm run typecheck` … `tsc --noEmit`。TypeScript 7で実行され、CIの型チェックもこれを使う(本リポジトリでは約8倍高速)
+- `npm run typecheck:ts6` … `tsc6 --noEmit`。TypeScript 6での確認用
+- `npm run lint` … `typescript-eslint`がJS APIを使うため`typescript`(6系)で動作する。TS7を直接使わせるとESLintごとクラッシュする([対応状況](https://github.com/typescript-eslint/typescript-eslint/issues/10940))
+- `npm run build` … Next.js 16.3はTypeScript 7に対応済み(既定でtscのCLIを起動する`experimental.useTypeScriptCli`)だが、この構成では`typescript`パッケージ側に`tsc`が無いため、`next.config.js`で`useTypeScriptCli: false`を指定してJS API方式に固定している
+
+**`typescript-eslint`がTypeScript 7に対応したら(7.1の新API待ち)、`typescript`依存を7系一本に統一できます。** その際は`@typescript/native`のエイリアス依存、`typecheck:ts6`スクリプト、`next.config.js`の`useTypeScriptCli: false`をまとめて削除できます。
 
 ## セットアップ
 
@@ -91,7 +97,8 @@ npm run dev
 | `npm run dev` | 開発サーバー起動 |
 | `npm run build` / `npm run start` | 本番ビルド / 起動 |
 | `npm run lint` | ESLint実行 |
-| `npm run typecheck:fast` | TypeScript 7 (Go実装)による補助的な高速型チェック([技術スタック](#技術スタック)参照) |
+| `npm run typecheck` | TypeScript 7 (Go実装)による型チェック([技術スタック](#技術スタック)参照) |
+| `npm run typecheck:ts6` | TypeScript 6での型チェック(比較・切り分け用) |
 | `npm run prisma:generate` | Prisma Client生成 |
 | `npm run prisma:push` | スキーマをDBへ反映(マイグレーションファイルを作らない) |
 | `npm run prisma:studio` | Prisma StudioでDBの中身を確認 |

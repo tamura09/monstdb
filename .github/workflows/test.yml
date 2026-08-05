@@ -36,18 +36,12 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
+      # TypeScript公式のside-by-side構成により、tsc は TypeScript 7 (Go実装)。
+      # typescript パッケージ本体は @typescript/typescript6 のままで、
+      # TS7 が未提供のJS APIを必要とする typescript-eslint と
+      # next build の型チェックがそちらを使う (詳細は README を参照)。
       - name: Typecheck
-        run: npx tsc --noEmit
-
-      # TypeScript 7 (Go実装)による高速型チェック。プログラマティックAPIが
-      # 7.1まで未安定なため、typescript本体は5.9系のまま据え置き、
-      # typescript-go という別名の依存としてのみ追加している
-      # (Next.jsのビルド時型チェック・typescript-eslintを壊さないため)。
-      # 参考: 上記の本チェック(tsc --noEmit)と結果を突き合わせる位置づけで、
-      # 現時点では失敗してもCI全体は落とさない。
-      - name: Typecheck (TypeScript 7 fast path, informational)
-        run: npm run typecheck:fast
-        continue-on-error: true
+        run: npm run typecheck
 
       - name: Lint
         run: npm run lint

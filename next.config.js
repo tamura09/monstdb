@@ -20,6 +20,14 @@ const nextConfig = {
 
   // 実験的な機能（パフォーマンス改善）
   experimental: {
+    // Next.js 16.3 の既定は tsc の CLI を起動する方式（useTypeScriptCli: true）だが、
+    // それは typescript パッケージが bin.tsc を持つ前提になっている。
+    // 本プロジェクトは TypeScript 公式の side-by-side 構成を採っており、
+    // typescript = @typescript/typescript6（bin 名は tsc6 / TS7 未対応の
+    // typescript-eslint 用に JS API を提供）、tsc = TypeScript 7 という配置のため、
+    // CLI 方式では tsc が見つからずビルドが落ちる。JS API 方式に固定する。
+    // typescript-eslint が TS7 に対応したら（TS 7.1 の新API待ち）この設定は不要になる。
+    useTypeScriptCli: false,
     optimizePackageImports: ['next-auth', 'react-icons'],
     serverActions: {
       bodySizeLimit: '2mb',
