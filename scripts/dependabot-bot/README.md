@@ -143,7 +143,8 @@ draft の PR、fork からの PR、Dependabot の PR はスキップする。
 - **消費するのはサブスクリプションの利用枠。** Dependabot 側は候補が0件のときは
   Claude を呼ばない。人間の PR 側は push のたびに走るので (同じ PR への連続 push は
   `concurrency` で古い実行をキャンセルする)、利用枠の消費はこちらの方が大きい。
-  モデルを固定したい場合は `claude_args` に `--model` を追加する。
+  どちらも `claude-sonnet-5` を使う。変更する場合、Dependabot 側は `claude_args` の
+  `--model`、人間の PR 側は呼び出し側の `with: model:` で指定する。
 - **Secret を登録する前にこの2本を main に入れると、PR のチェックが赤くなる。**
   `CLAUDE_CODE_OAUTH_TOKEN` が無い状態で `pr-review.yml` が走ると認証エラーで
   落ちるため、Secret の登録を先に済ませること。

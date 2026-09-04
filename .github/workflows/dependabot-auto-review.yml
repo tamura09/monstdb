@@ -67,6 +67,7 @@ jobs:
           claude_args: |
             --allowedTools "Read,Grep,Glob,Write"
             --max-turns 30
+            --model claude-sonnet-5
           prompt: |
             このリポジトリの Dependabot PR をレビューし、自動マージしてよいかを判定してください。
 
