@@ -1,0 +1,31 @@
+# 人間が作った PR を Claude がレビューする。
+#
+# 実体は再利用可能ワークフローに切り出してある。
+#   https://github.com/tamura09/claude-pr-review
+#
+# マージはしない。自動マージは Dependabot の PR に限定していて、そちらは
+# .github/workflows/dependabot-auto-review.yml が担当する。
+# (Dependabot が作成した PR の pull_request イベントは Secrets を読めないため、
+#  この経路では Claude を起動できない。既定の skip_authors で除外される)
+name: PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+# 呼び出される側の permissions は呼び出し側を超えられないため、ここで明示する
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+# 連続 push のたびに走らせず、最新のコミットだけレビューする
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    uses: tamura09/claude-pr-review/.github/workflows/pr-review.yml@v1
+    secrets:
+      claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
