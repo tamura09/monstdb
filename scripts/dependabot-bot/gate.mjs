@@ -251,28 +251,70 @@ function analyzeLockfile(pr) {
 
   const basePkgs = base.packages ?? {};
   const headPkgs = head.packages ?? {};
+  const found = new Map();
+  const add = (name, before, after) => {
+    found.set(`${name}\u0000${before}\u0000${after}`, { name, before, after });
+  };
+
+  // (a) 同じパスでメジャーが変わったもの。
+  //     ツリー上の同じ位置にいる依存の破壊的更新を捉える。
   for (const [path, entry] of Object.entries(headPkgs)) {
-    // "" はプロジェクト自身。依存の追加・削除は許容する (メジャー更新のみを見る)。
-    if (path === "") continue;
+    if (path === "" || typeof entry?.version !== "string") continue;
     const before = basePkgs[path]?.version;
-    const after = entry.version;
-    if (before === undefined || after === undefined || before === after) continue;
+    if (typeof before !== "string" || before === entry.version) continue;
     const kb = compatKey(before);
-    const ka = compatKey(after);
+    const ka = compatKey(entry.version);
     if (kb === null || ka === null) {
-      result.problems.push(`${path}: ${before} -> ${after} を解釈できない`);
+      result.problems.push(`${path}: ${before} -> ${entry.version} を解釈できない`);
       continue;
     }
-    if (kb !== ka) {
-      result.majorBumps.push({
-        name: path.replace(/^node_modules\//, ""),
-        before,
-        after,
-      });
+    if (kb !== ka) add(packageNameOf(path), before, entry.version);
+  }
+
+  // (b) ツリー全体で見て、そのパッケージに新しいメジャーが入ったもの。
+  //     メジャー更新と同時にホイスティング位置が変わると (a) では
+  //     旧パスが消えて新パスが「新規追加」に見えるため取りこぼす。
+  const baseVersions = versionsByName(basePkgs, result);
+  const headVersions = versionsByName(headPkgs, result);
+  for (const [name, after] of headVersions) {
+    const before = baseVersions.get(name);
+    if (before === undefined) continue; // 新規に入った依存は追加であって更新ではない
+    const beforeKeys = new Set([...before].map(compatKey));
+    for (const version of after) {
+      if (beforeKeys.has(compatKey(version))) continue;
+      add(name, [...before].sort().join(", "), version);
     }
   }
 
+  result.majorBumps.push(...found.values());
   return result;
+}
+
+/** package-lock.json の packages のパスからパッケージ名を取り出す。 */
+function packageNameOf(path) {
+  const idx = path.lastIndexOf("node_modules/");
+  return idx === -1 ? path : path.slice(idx + "node_modules/".length);
+}
+
+/**
+ * package-lock.json の packages から、パッケージ名 -> 解決済みバージョン集合を作る。
+ * 同じパッケージがツリー内の複数箇所に別バージョンで入ることがあるため集合で持つ。
+ */
+function versionsByName(packages, result) {
+  const map = new Map();
+  for (const [path, entry] of Object.entries(packages)) {
+    // "" はプロジェクト自身
+    if (path === "" || typeof entry?.version !== "string") continue;
+    if (!path.includes("node_modules/")) continue;
+    const name = packageNameOf(path);
+    if (compatKey(entry.version) === null) {
+      result.problems.push(`${name}@${entry.version} を解釈できない`);
+      continue;
+    }
+    if (!map.has(name)) map.set(name, new Set());
+    map.get(name).add(entry.version);
+  }
+  return map;
 }
 
 /**
