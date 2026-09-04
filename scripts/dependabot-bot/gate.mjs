@@ -45,14 +45,22 @@ function gh(args, { json = true } = {}) {
   return json ? JSON.parse(out) : out;
 }
 
-/** 指定のcommit-ishにあるファイル内容を取得する。存在しなければ null。 */
+/**
+ * 指定のcommit-ishにあるファイル内容を取得する。存在しなければ null。
+ * package-lock.json は数百KBあり、contents API の base64 応答には
+ * サイズ上限があるため raw で取る。
+ */
 function fileAtRef(path, ref) {
   try {
-    const res = gh([
-      "api",
-      `repos/${process.env.GITHUB_REPOSITORY}/contents/${path}?ref=${ref}`,
-    ]);
-    return Buffer.from(res.content, "base64").toString("utf8");
+    return gh(
+      [
+        "api",
+        `repos/${process.env.GITHUB_REPOSITORY}/contents/${path}?ref=${ref}`,
+        "-H",
+        "Accept: application/vnd.github.raw",
+      ],
+      { json: false },
+    );
   } catch {
     return null;
   }
@@ -217,6 +225,57 @@ function curatedDiff(number) {
 }
 
 /**
+ * package-lock.json の差分を解析する。
+ *
+ * package.json が変わらない (＝直接依存の範囲指定はそのままの) PR でも、
+ * 推移的依存のメジャーが上がることがある。analyzeManifest は package.json を
+ * 見ていないためこれを検出できないので、ロックファイル側でも独立に確認する。
+ */
+function analyzeLockfile(pr) {
+  const result = { checked: false, majorBumps: [], problems: [] };
+  if (!pr.files.some((f) => f.path === "package-lock.json")) return result;
+
+  const base = parseJsonSafe(fileAtRef("package-lock.json", pr.baseRefOid) ?? "");
+  const head = parseJsonSafe(fileAtRef("package-lock.json", pr.headRefOid) ?? "");
+  if (!base || !head) {
+    result.problems.push("package-lock.json を base/head のどちらかで取得できなかった");
+    return result;
+  }
+  result.checked = true;
+
+  if (base.lockfileVersion !== head.lockfileVersion) {
+    result.problems.push(
+      `lockfileVersion が ${base.lockfileVersion} から ${head.lockfileVersion} に変わっている`,
+    );
+  }
+
+  const basePkgs = base.packages ?? {};
+  const headPkgs = head.packages ?? {};
+  for (const [path, entry] of Object.entries(headPkgs)) {
+    // "" はプロジェクト自身。依存の追加・削除は許容する (メジャー更新のみを見る)。
+    if (path === "") continue;
+    const before = basePkgs[path]?.version;
+    const after = entry.version;
+    if (before === undefined || after === undefined || before === after) continue;
+    const kb = compatKey(before);
+    const ka = compatKey(after);
+    if (kb === null || ka === null) {
+      result.problems.push(`${path}: ${before} -> ${after} を解釈できない`);
+      continue;
+    }
+    if (kb !== ka) {
+      result.majorBumps.push({
+        name: path.replace(/^node_modules\//, ""),
+        before,
+        after,
+      });
+    }
+  }
+
+  return result;
+}
+
+/**
  * ワークフローファイルの差分が `uses:` のバージョン更新だけか、
  * かつメジャーが変わっていないかを確認する。
  */
@@ -362,6 +421,18 @@ function evaluate(number) {
     blockers.push(`バージョン指定を解釈できない: ${manifest.unparsable.join(", ")}`);
   }
 
+  const lockfile = analyzeLockfile(pr);
+  if (lockfile.majorBumps.length > 0) {
+    blockers.push(
+      `ロックファイル内のメジャー更新: ${lockfile.majorBumps
+        .map((d) => `${d.name} ${d.before} -> ${d.after}`)
+        .join(", ")}`,
+    );
+  }
+  if (lockfile.problems.length > 0) {
+    blockers.push(`package-lock.json: ${lockfile.problems.join(", ")}`);
+  }
+
   const workflows = analyzeWorkflows(pr);
   if (workflows.problems.length > 0) {
     blockers.push(`ワークフロー差分: ${workflows.problems.join(", ")}`);
@@ -395,6 +466,7 @@ function evaluate(number) {
     checks,
     files: pr.files.map((f) => f.path),
     manifest,
+    lockfile,
     workflows,
   };
 }
@@ -453,7 +525,7 @@ function comment(number, body) {
   });
 }
 
-function merge(verdictPath) {
+function merge(verdictPath, factsPath = "dependabot-facts.json") {
   const dryRun = process.env.DRY_RUN === "true";
   const verdicts = JSON.parse(readFileSync(verdictPath, "utf8"));
   const list = Array.isArray(verdicts) ? verdicts : (verdicts.verdicts ?? []);
@@ -462,10 +534,19 @@ function merge(verdictPath) {
     return;
   }
 
+  // collect が候補にした PR 以外は触らない。ゲートは evaluate で再適用されるので
+  // 安全性の問題ではないが、レビューしていない PR に判定コメントが付くのを防ぐ。
+  const facts = JSON.parse(readFileSync(factsPath, "utf8"));
+  const candidateNumbers = new Set(facts.candidates.map((c) => c.number));
+
   for (const v of list) {
     const number = Number(v.pr);
     if (!Number.isInteger(number)) {
       console.log(`不正なPR番号をスキップ: ${JSON.stringify(v.pr)}`);
+      continue;
+    }
+    if (!candidateNumbers.has(number)) {
+      console.log(`#${number} は候補一覧にないのでスキップ`);
       continue;
     }
     const reason = String(v.reason ?? "").slice(0, 1500);
@@ -519,7 +600,7 @@ const [, , command, arg] = process.argv;
 if (command === "collect") {
   collect(arg ?? "dependabot-facts.json");
 } else if (command === "merge") {
-  merge(arg ?? "verdicts.json");
+  merge(arg ?? "verdicts.json", process.argv[4] ?? "dependabot-facts.json");
 } else if (command === "inspect") {
   console.log(JSON.stringify(evaluate(Number(arg)), null, 2));
 } else {
