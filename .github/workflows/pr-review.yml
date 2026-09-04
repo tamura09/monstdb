@@ -18,6 +18,8 @@ permissions:
   contents: read
   pull-requests: write
   issues: write
+  # claude-review チェックを PR のチェック一覧に出すため
+  statuses: write
 
 # 連続 push のたびに走らせず、最新のコミットだけレビューする
 concurrency:
