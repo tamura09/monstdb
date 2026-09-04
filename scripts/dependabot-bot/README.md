@@ -159,9 +159,9 @@ draft の PR、fork からの PR、Dependabot の PR はスキップする。
   `CLAUDE_CODE_OAUTH_TOKEN` が無い状態で `pr-review.yml` が走ると認証エラーで
   落ちるため、Secret の登録を先に済ませること。
 - **再利用可能ワークフローは `@v1` の可変タグで参照している。** 参照先で `v1` が
-  指す内容が変わると、次の PR イベントで新しいコードが `pull-requests: write` と
-  トークンを持った状態で実行される。同一オーナーの private リポジトリで、参照も
-  自分のリポジトリからに限定しているため許容しているが、厳密に固定したい場合は
-  コミット SHA を指定する。
+  指す内容が変わると、次の PR イベントで新しいコードが `pull-requests: write` /
+  `issues: write` / `statuses: write` と `CLAUDE_CODE_OAUTH_TOKEN` を持った状態で
+  実行される。同一オーナーの private リポジトリで、参照も自分のリポジトリからに
+  限定しているため許容しているが、厳密に固定したい場合はコミット SHA を指定する。
 - **fork からの PR はスキップされる。** Secrets を読めないため。外部から PR を
   受ける運用にする場合は `pull_request_target` への切り替えと権限の見直しが必要。
