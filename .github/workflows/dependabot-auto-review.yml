@@ -64,15 +64,19 @@ jobs:
       # (/claude-pr-review/oauth-token) に1本だけ置いてあり、OIDC で読む。
       # pr-review.yml が呼ぶ再利用ワークフローと同じ1本を共有している。
       - name: Configure AWS credentials
-        if: steps.collect.outputs.count != '0'
+        if: ${{ steps.collect.outputs.count != '0' || github.event.inputs.dry_run == 'true' }}
         uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::222165754930:role/github-actions-claude-pr-review
           aws-region: ap-northeast-1
 
+      # dry_run のときは候補が0件でも実行します。このワークフローは schedule で
+      # main 上から走るため OIDC の subject が ref:refs/heads/main になり、PR 用の
+      # 経路とは別に信頼ポリシーの一致が要ります。候補が出るまで確かめられないと、
+      # 壊れていることに Dependabot の PR が来て初めて気づくことになります。
       - name: Claude の OAuth トークンを SSM から読む
         id: oauth_token
-        if: steps.collect.outputs.count != '0'
+        if: ${{ steps.collect.outputs.count != '0' || github.event.inputs.dry_run == 'true' }}
         run: |
           set -euo pipefail
 
