@@ -29,6 +29,9 @@ permissions:
   pull-requests: write
   checks: read
   statuses: read
+  # gh pr view --json statusCheckRollup は内部で checkSuite.workflowRun まで辿るため、
+  # これが無いと GraphQL が "Resource not accessible by integration" で失敗する。
+  actions: read
 
 # マージが直列になるよう、同時に1本しか走らせない
 concurrency:

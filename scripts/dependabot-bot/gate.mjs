@@ -530,9 +530,35 @@ function listDependabotPrNumbers() {
     .sort((a, b) => a - b);
 }
 
+/**
+ * 1件の評価が失敗しても他のPRの処理を止めない。
+ * 評価できなかったPRは blocked 扱いにして、理由を残す。
+ */
+function evaluateSafely(number) {
+  try {
+    return evaluate(number);
+  } catch (err) {
+    const detail = String(err?.stderr || err?.message || err).trim().slice(0, 300);
+    return {
+      number,
+      title: "(取得できませんでした)",
+      url: "",
+      headRefName: "",
+      state: "blocked",
+      blockers: [`評価に失敗した: ${detail}`],
+      notes: [],
+      checks: [],
+      files: [],
+      manifest: null,
+      lockfile: null,
+      workflows: null,
+    };
+  }
+}
+
 function collect(outPath) {
   const numbers = listDependabotPrNumbers();
-  const results = numbers.map(evaluate);
+  const results = numbers.map(evaluateSafely);
   const candidates = results.filter((r) => r.state === "ready");
 
   // Claudeにはリポジトリ内のファイルだけを読ませる (ネットワークもghも与えない)。
@@ -607,7 +633,8 @@ function merge(verdictPath, factsPath = "dependabot-facts.json") {
 
     // Claudeが MERGE と言っても、直前にもう一度ゲートを通す。
     // 先行するマージで状態が変わっている場合はここで落ちる。
-    const fresh = evaluate(number);
+    // 評価に失敗した場合も blocked が返るので、そのPRはマージされない
+    const fresh = evaluateSafely(number);
     if (fresh.state !== "ready") {
       console.log(
         `#${number} はゲート再検査で ${fresh.state}: ` +
