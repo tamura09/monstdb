@@ -32,6 +32,8 @@ permissions:
   # gh pr view --json statusCheckRollup は内部で checkSuite.workflowRun まで辿るため、
   # これが無いと GraphQL が "Resource not accessible by integration" で失敗する。
   actions: read
+  # Claude の OAuth トークンを SSM から読むための OIDC トークン発行
+  id-token: write
 
 # マージが直列になるよう、同時に1本しか走らせない
 concurrency:
@@ -58,11 +60,43 @@ jobs:
           count=$(node -p "require('./dependabot-facts.json').candidates.length")
           echo "count=${count}" >> "$GITHUB_OUTPUT"
 
+      # トークンはこのリポジトリの secret には置かない。AWS の SSM
+      # (/claude-pr-review/oauth-token) に1本だけ置いてあり、OIDC で読む。
+      # pr-review.yml が呼ぶ再利用ワークフローと同じ1本を共有している。
+      - name: Configure AWS credentials
+        if: steps.collect.outputs.count != '0'
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::222165754930:role/github-actions-claude-pr-review
+          aws-region: ap-northeast-1
+
+      - name: Claude の OAuth トークンを SSM から読む
+        id: oauth_token
+        if: steps.collect.outputs.count != '0'
+        run: |
+          set -euo pipefail
+
+          token="$(aws ssm get-parameter \
+            --name /claude-pr-review/oauth-token \
+            --with-decryption \
+            --query 'Parameter.Value' \
+            --output text)"
+
+          if [ -z "${token}" ] || [ "${token}" = "MANAGED_OUTSIDE_TERRAFORM" ]; then
+            echo "::error::/claude-pr-review/oauth-token (ap-northeast-1) はまだ実際の" \
+                 "トークンで埋められていません。claude setup-token で発行し、" \
+                 "aws ssm put-parameter --region ap-northeast-1 --overwrite で投入してください。"
+            exit 1
+          fi
+
+          echo "::add-mask::${token}"
+          echo "token=${token}" >> "${GITHUB_OUTPUT}"
+
       - name: Claude によるレビュー
         if: steps.collect.outputs.count != '0'
         uses: anthropics/claude-code-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_code_oauth_token: ${{ steps.oauth_token.outputs.token }}
           # 明示しないと Claude GitHub App のトークンを OIDC で取りにいき、
           # id-token: write と App のインストールが必要になる。
           github_token: ${{ secrets.GITHUB_TOKEN }}
