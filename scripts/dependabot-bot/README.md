@@ -73,16 +73,27 @@ claude setup-token
 
 API キーではなく、Claude の Pro / Max サブスクリプションの枠を使う。
 
-### 2. リポジトリの Secret に登録する
+### 2. SSM に登録する
 
-**トークンは自分で登録すること。** GitHub の
-Settings > Secrets and variables > Actions > New repository secret から、
-名前を `CLAUDE_CODE_OAUTH_TOKEN` として値を貼り付ける。
+**このリポジトリの Secret には置かない。** トークンは AWS の SSM Parameter Store に
+1本だけ置いてあり、両方のワークフローが OIDC で読む。
 
-Dependabot Secrets ではなく **Actions Secrets** に入れる。このワークフローは
-`pull_request` ではなく `schedule` で main 上から走るため、通常の Actions Secrets を読む。
+```bash
+aws ssm put-parameter --region ap-northeast-1 \
+  --name /claude-pr-review/oauth-token \
+  --type SecureString --overwrite --value "$(pbpaste)"
+```
 
-このトークンは両方のワークフローが使う。
+`--region` を省くと CLI の既定リージョンに同名のパラメータが新しく作られて成功する
+ので、必ず付けること。
+
+読むのは `github-actions-claude-pr-review` ロール経由で、定義は
+[tamura09/aws-terraform](https://github.com/tamura09/aws-terraform) の `base/iam.tf`。
+このパラメータ1本の `ssm:GetParameter` と、SSM 経由に限定した `kms:Decrypt` しか
+持っていない。ワークフロー側は `permissions` に `id-token: write` が要る。
+
+トークンを再発行したときに更新するのはこのパラメータ1本だけで、使っている
+リポジトリの数には依らない。
 
 ### 3. 動作確認
 
@@ -149,19 +160,20 @@ draft の PR、fork からの PR、Dependabot の PR はスキップする。
 - **メジャー更新は常に人間が判断する。** ゲートで機械的に除外され、Claude には
   渡らない。PR にはコメントも付かないので、Dependabot の PR 一覧を定期的に見ること。
 - **OAuth トークンは失効する。** 失効するとワークフローが認証エラーで落ちるので、
-  `claude setup-token` で再発行して Secret を更新する。
+  `claude setup-token` で再発行して SSM パラメータを上書きする。
 - **消費するのはサブスクリプションの利用枠。** Dependabot 側は候補が0件のときは
   Claude を呼ばない。人間の PR 側は push のたびに走るので (同じ PR への連続 push は
   `concurrency` で古い実行をキャンセルする)、利用枠の消費はこちらの方が大きい。
   どちらも `claude-sonnet-5` を使う。変更する場合、Dependabot 側は `claude_args` の
   `--model`、人間の PR 側は呼び出し側の `with: model:` で指定する。
-- **Secret を登録する前にこの2本を main に入れると、PR のチェックが赤くなる。**
-  `CLAUDE_CODE_OAUTH_TOKEN` が無い状態で `pr-review.yml` が走ると認証エラーで
-  落ちるため、Secret の登録を先に済ませること。
+- **SSM にトークンを入れる前にこの2本を main に入れると、PR のチェックが赤くなる。**
+  パラメータがプレースホルダのままだとその旨のエラーで落ちるため、投入を先に
+  済ませること。
 - **再利用可能ワークフローは `@v1` の可変タグで参照している。** 参照先で `v1` が
   指す内容が変わると、次の PR イベントで新しいコードが `pull-requests: write` /
-  `issues: write` / `statuses: write` と `CLAUDE_CODE_OAUTH_TOKEN` を持った状態で
-  実行される。同一オーナーの private リポジトリで、参照も自分のリポジトリからに
-  限定しているため許容しているが、厳密に固定したい場合はコミット SHA を指定する。
-- **fork からの PR はスキップされる。** Secrets を読めないため。外部から PR を
-  受ける運用にする場合は `pull_request_target` への切り替えと権限の見直しが必要。
+  `issues: write` / `statuses: write` / `id-token: write` を持った状態で実行される。
+  同一オーナーのリポジトリで、タグを書き換えられる相手はこのファイル自体も書き換え
+  られるため許容しているが、厳密に固定したい場合はコミット SHA を指定する。
+- **fork からの PR はスキップされる。** Secrets も id-token も渡されないため。外部
+  から PR を受ける運用にする場合は `pull_request_target` への切り替えと権限の
+  見直しが必要。
