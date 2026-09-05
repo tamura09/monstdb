@@ -20,6 +20,11 @@ permissions:
   issues: write
   # claude-review チェックを PR のチェック一覧に出すため
   statuses: write
+  # 呼び出す reusable workflow が OAuth トークンを SSM から読む経路のために
+  # id-token: write を宣言している。呼び出し側が与えていないと、要求が
+  # 呼び出し側の権限を超えるためジョブが起動しない。このリポジトリは
+  # secrets.CLAUDE_CODE_OAUTH_TOKEN を渡していて SSM は使わないが、宣言は要る
+  id-token: write
 
 # 連続 push のたびに走らせず、最新のコミットだけレビューする
 concurrency:
