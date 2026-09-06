@@ -151,7 +151,7 @@ PR の作成・更新・再オープン・draft解除で走り、次の観点で
 `contents: read` しか与えていないため、Claude はコードを push できない。
 既存ファイルの編集系ツールも `--disallowedTools` で落としてある
 (判定ファイルの書き出しに `Write` だけ許可)。
-draft の PR、fork からの PR、`renovate/` で始まるブランチの PR はスキップする。
+draft の PR、fork からの PR、持ち主が出した `renovate/` ブランチの PR はスキップする。
 Renovate の PR をスキップするのは、こちらでレビューすると
 [`renovate-auto-review.yml`](../../.github/workflows/renovate-auto-review.yml) と
 二重になるため。呼び出し側のジョブに `if:` を書いて止めている。

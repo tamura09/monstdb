@@ -33,6 +33,13 @@ concurrency:
 
 jobs:
   review:
-    # renovate/ で始まるブランチは renovate-auto-review.yml が見る
-    if: ${{ !startsWith(github.event.pull_request.head.ref, 'renovate/') }}
+    # Renovate の PR は renovate-auto-review.yml が見る。判定は gate.mjs の
+    # isRenovatePr と同じで、持ち主が出した renovate/ ブランチだけを外す。
+    # ブランチ名だけで判定すると、renovate/ で始まるブランチを切るだけで
+    # レビューを回避できてしまう。
+    if: >-
+      ${{
+        !(github.event.pull_request.user.login == github.repository_owner &&
+          startsWith(github.event.pull_request.head.ref, 'renovate/'))
+      }}
     uses: tamura09/claude-pr-review/.github/workflows/pr-review.yml@v1
