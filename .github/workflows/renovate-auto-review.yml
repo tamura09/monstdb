@@ -1,8 +1,7 @@
 # Renovate の PR を自動でレビューし、問題がなければマージする。
 #
-# 対象は「作成者がリポジトリの持ち主で、ブランチが renovate/ で始まる PR」。
-# 自前ホストの Renovate は GitHub App ではなく PAT で動かしているので、作成者は
-# renovate[bot] ではなく持ち主自身になる。実行役は tamura09/renovate-runner。
+# 対象は tamura09-renovate[bot] が作った PR。実行役は tamura09/renovate-runner で、
+# 同名の GitHub App として動いている。
 #
 # なぜ pull_request ではなく schedule なのか:
 #   ゲートが「CI が全て成功していること」を条件にするため。pull_request で走らせると
@@ -13,8 +12,8 @@
 #   pull_request イベントでは Actions Secrets を読めない)。Renovate の PR は通常の
 #   PR なのでその制約は無いが、CI を待つ必要は変わらない。
 #
-#   通常の PR なので pr-review.yml の方も起動してしまう。Claude が二重に走らないよう、
-#   あちらは renovate/ で始まるブランチをスキップする。
+#   通常の PR なので pr-review.yml の方も起動しうる。Claude が二重に走らないよう、
+#   切り出し先の既定の skip_authors に tamura09-renovate[bot] が入っている。
 #
 # 判断の二段構え:
 #   1. scripts/renovate-bot/gate.mjs (決定論的) が候補を絞る。
@@ -133,7 +132,7 @@ jobs:
               `.github/workflows/` などを必要に応じて読んでください。
 
             ## 前段で機械的に確認済みのこと (再確認は不要)
-            - Renovate が作った PR であること (作成者が持ち主で、ブランチが renovate/ で始まる)
+            - 作成者が Renovate (tamura09-renovate[bot]) であること
             - CI が全て成功していること、コンフリクトがないこと
             - 変更ファイルが package.json / package-lock.json /
               infra/.terraform.lock.hcl / .github/workflows/*.yml に限られること
