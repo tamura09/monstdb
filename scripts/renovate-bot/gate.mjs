@@ -424,9 +424,7 @@ function evaluate(number) {
   const notes = [];
 
   if (!isRenovatePr(pr)) {
-    blockers.push(
-      `Renovate の PR ではない (${pr.author?.login} / ${pr.headRefName})`,
-    );
+    blockers.push(`作成者が Renovate ではない (${pr.author?.login})`);
   }
   if (pr.mergeable === "CONFLICTING") {
     blockers.push("ベースブランチとコンフリクトしている");
@@ -518,21 +516,19 @@ function evaluate(number) {
 /**
  * Renovate が作った PR かどうか。
  *
- * Renovate は自前ホストで、GitHub App ではなく PAT で動かしている。つまり PR の
- * 作成者はリポジトリの持ち主自身で、`renovate[bot]` にはならない。作成者だけでは
- * 手で作った PR と区別できないので、ブランチ名の接頭辞と併せて見る。
+ * Renovate は自前ホストで、tamura09/renovate-runner が GitHub App
+ * (tamura09-renovate) として動かしている。PR の作成者は必ずこの bot になる。
  *
- * 接頭辞は Renovate の branchPrefix の既定値。変えるなら
- * tamura09/renovate-runner の presets/default.json5 と揃えること。
- *
- * 持ち主以外が `renovate/` のブランチを押し込んでも候補にならないよう、作成者も
- * 見る。owner は CI では GITHUB_REPOSITORY_OWNER から取れる。
+ * 表記が2つあるのは、gh CLI が Bot に `app/<slug>` を返すのに対し、REST API は
+ * `<slug>[bot]` を返すため。どちらで来ても拾う。
  */
+const RENOVATE_BOT_LOGINS = new Set([
+  "app/tamura09-renovate",
+  "tamura09-renovate[bot]",
+]);
+
 function isRenovatePr(pr) {
-  const owner = process.env.GITHUB_REPOSITORY_OWNER || "tamura09";
-  return (
-    pr.author?.login === owner && (pr.headRefName || "").startsWith("renovate/")
-  );
+  return Boolean(pr.author?.is_bot) && RENOVATE_BOT_LOGINS.has(pr.author.login);
 }
 
 function listRenovatePrNumbers() {
@@ -542,7 +538,7 @@ function listRenovatePrNumbers() {
     "--state",
     "open",
     "--json",
-    "number,author,headRefName",
+    "number,author",
     "--limit",
     "50",
   ]);

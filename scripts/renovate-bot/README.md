@@ -13,10 +13,11 @@ PR だけ**で、人間が作った PR はレビューを投稿するだけ。�
 判定できない。main 上の定期実行にして、結果が出揃った PR だけを見ている。
 
 以前は Secrets の制約が理由だった。Dependabot が作成した PR の `pull_request`
-イベントでは Actions Secrets を読めず、Claude の認証情報を渡せなかった。Renovate は
-GitHub App ではなく PAT で動かしているので、作られるのは通常の PR で、この制約は無い。
-そのため `pr-review.yml` の方も Renovate の PR で走ってしまう。Claude が二重に走るのを
-避けるため、あちらは `renovate/` で始まるブランチをスキップしている。
+イベントでは Actions Secrets を読めず、Claude の認証情報を渡せなかった。Renovate の
+PR は通常の PR なので、この制約は無い。
+
+そのため `pr-review.yml` の方も起動しうる。Claude が二重に走らないよう、切り出し先の
+既定の `skip_authors` に `tamura09-renovate[bot]` が入っている。
 
 以下は Renovate 側の詳細。
 
@@ -35,8 +36,7 @@ Renovate が作った PR を定期的に走査し、安全と判断できるも�
 
 1. **決定論的ゲート** (`gate.mjs collect`)
    OPEN な Renovate PR を全件評価し、次の条件を満たすものだけを候補にする。
-   - 作成者がリポジトリの持ち主で、ブランチが `renovate/` で始まる
-     (自前ホストの Renovate は PAT で動かしているので `renovate[bot]` にはならない)
+   - 作成者が `tamura09-renovate[bot]`
    - CI が全て成功、コンフリクトなし
    - 変更ファイルが `package.json` / `package-lock.json` /
      `infra/.terraform.lock.hcl` / `.github/workflows/*.yml` のみ
@@ -151,10 +151,10 @@ PR の作成・更新・再オープン・draft解除で走り、次の観点で
 `contents: read` しか与えていないため、Claude はコードを push できない。
 既存ファイルの編集系ツールも `--disallowedTools` で落としてある
 (判定ファイルの書き出しに `Write` だけ許可)。
-draft の PR、fork からの PR、持ち主が出した `renovate/` ブランチの PR はスキップする。
-Renovate の PR をスキップするのは、こちらでレビューすると
+draft の PR、fork からの PR、`skip_authors` に載っている bot の PR はスキップする。
+`tamura09-renovate[bot]` は切り出し先の既定に入っている。こちらでレビューすると
 [`renovate-auto-review.yml`](../../.github/workflows/renovate-auto-review.yml) と
-二重になるため。呼び出し側のジョブに `if:` を書いて止めている。
+二重になるため。
 
 観点を変えたい場合やリポジトリ固有の指示を足したい場合は、呼び出し側に `with:` を
 書く。入力の一覧は切り出し先の README を参照。
