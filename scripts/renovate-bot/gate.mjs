@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Dependabot 自動レビューBotの決定論的ゲート。
+ * Renovate 自動レビューBotの決定論的ゲート。
  *
  * Claudeに判断させる前段で、機械的に判定できる条件をここで弾く。
  * Claudeの出力（LLMの判断）だけでマージが決まらないようにするのが目的で、
@@ -184,7 +184,7 @@ function analyzeManifest(pr) {
 }
 
 /** Claudeに渡す差分。package-lock.json はバージョン行だけに絞って量を抑える。 */
-const DIFF_DIR = ".dependabot-bot";
+const DIFF_DIR = ".renovate-bot";
 const LOCK_DIFF_MAX_LINES = 400;
 
 function curatedDiff(number) {
@@ -423,8 +423,10 @@ function evaluate(number) {
   const blockers = [];
   const notes = [];
 
-  if (!pr.author?.is_bot || pr.author.login !== "app/dependabot") {
-    blockers.push(`作成者が Dependabot ではない (${pr.author?.login})`);
+  if (!isRenovatePr(pr)) {
+    blockers.push(
+      `Renovate の PR ではない (${pr.author?.login} / ${pr.headRefName})`,
+    );
   }
   if (pr.mergeable === "CONFLICTING") {
     blockers.push("ベースブランチとコンフリクトしている");
@@ -513,19 +515,39 @@ function evaluate(number) {
   };
 }
 
-function listDependabotPrNumbers() {
+/**
+ * Renovate が作った PR かどうか。
+ *
+ * Renovate は自前ホストで、GitHub App ではなく PAT で動かしている。つまり PR の
+ * 作成者はリポジトリの持ち主自身で、`renovate[bot]` にはならない。作成者だけでは
+ * 手で作った PR と区別できないので、ブランチ名の接頭辞と併せて見る。
+ *
+ * 接頭辞は Renovate の branchPrefix の既定値。変えるなら
+ * tamura09/renovate-runner の presets/default.json5 と揃えること。
+ *
+ * 持ち主以外が `renovate/` のブランチを押し込んでも候補にならないよう、作成者も
+ * 見る。owner は CI では GITHUB_REPOSITORY_OWNER から取れる。
+ */
+function isRenovatePr(pr) {
+  const owner = process.env.GITHUB_REPOSITORY_OWNER || "tamura09";
+  return (
+    pr.author?.login === owner && (pr.headRefName || "").startsWith("renovate/")
+  );
+}
+
+function listRenovatePrNumbers() {
   const prs = gh([
     "pr",
     "list",
     "--state",
     "open",
     "--json",
-    "number,author",
+    "number,author,headRefName",
     "--limit",
     "50",
   ]);
   return prs
-    .filter((p) => p.author?.is_bot && p.author.login === "app/dependabot")
+    .filter(isRenovatePr)
     .map((p) => p.number)
     .sort((a, b) => a - b);
 }
@@ -557,7 +579,7 @@ function evaluateSafely(number) {
 }
 
 function collect(outPath) {
-  const numbers = listDependabotPrNumbers();
+  const numbers = listRenovatePrNumbers();
   const results = numbers.map(evaluateSafely);
   const candidates = results.filter((r) => r.state === "ready");
 
@@ -578,7 +600,7 @@ function collect(outPath) {
   };
   writeFileSync(outPath, JSON.stringify(payload, null, 2));
   console.log(
-    `Dependabot PR ${numbers.length}件: ` +
+    `Renovate PR ${numbers.length}件: ` +
       `候補 ${payload.candidates.length} / 保留 ${payload.pending.length} / 除外 ${payload.blocked.length}`,
   );
   for (const r of [...payload.pending, ...payload.blocked]) {
@@ -593,7 +615,7 @@ function comment(number, body) {
   });
 }
 
-function merge(verdictPath, factsPath = "dependabot-facts.json") {
+function merge(verdictPath, factsPath = "renovate-facts.json") {
   const dryRun = process.env.DRY_RUN === "true";
   const verdicts = JSON.parse(readFileSync(verdictPath, "utf8"));
   const list = Array.isArray(verdicts) ? verdicts : (verdicts.verdicts ?? []);
@@ -624,7 +646,7 @@ function merge(verdictPath, factsPath = "dependabot-facts.json") {
       if (!dryRun) {
         comment(
           number,
-          `🤖 **Dependabot 自動レビュー: 見送り**\n\n${reason}\n\n` +
+          `🤖 **Renovate 自動レビュー: 見送り**\n\n${reason}\n\n` +
             `マージするかどうかは人が判断してください。`,
         );
       }
@@ -651,8 +673,8 @@ function merge(verdictPath, factsPath = "dependabot-facts.json") {
     console.log(`#${number} をマージする: ${reason}`);
     comment(
       number,
-      `🤖 **Dependabot 自動レビュー: マージ**\n\n${reason}\n\n` +
-        `決定論的ゲート (Dependabot作成 / CI全green / 変更ファイル限定 / ` +
+      `🤖 **Renovate 自動レビュー: マージ**\n\n${reason}\n\n` +
+        `決定論的ゲート (Renovate作成 / CI全green / 変更ファイル限定 / ` +
         `メジャー更新なし / ランタイム整合) を通過したうえで自動マージしました。`,
     );
     try {
@@ -667,9 +689,9 @@ function merge(verdictPath, factsPath = "dependabot-facts.json") {
 
 const [, , command, arg] = process.argv;
 if (command === "collect") {
-  collect(arg ?? "dependabot-facts.json");
+  collect(arg ?? "renovate-facts.json");
 } else if (command === "merge") {
-  merge(arg ?? "verdicts.json", process.argv[4] ?? "dependabot-facts.json");
+  merge(arg ?? "verdicts.json", process.argv[4] ?? "renovate-facts.json");
 } else if (command === "inspect") {
   console.log(JSON.stringify(evaluate(Number(arg)), null, 2));
 } else {
