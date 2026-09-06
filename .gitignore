@@ -42,3 +42,6 @@ prisma/*.db-journal
 # Prisma 7: generated client output (regenerated via `prisma generate`, not committed)
 /generated/prisma
 .env*
+
+# 手元の作業メモ。ローカルDBや本番接続の扱いを書いているので追跡しない
+CLAUDE.md
