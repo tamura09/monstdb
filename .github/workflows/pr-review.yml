@@ -3,10 +3,13 @@
 # 実体は再利用可能ワークフローに切り出してある。
 #   https://github.com/tamura09/claude-pr-review
 #
-# マージはしない。自動マージは Dependabot の PR に限定していて、そちらは
-# .github/workflows/dependabot-auto-review.yml が担当する。
-# (Dependabot が作成した PR の pull_request イベントは Secrets を読めないため、
-#  この経路では Claude を起動できない。既定の skip_authors で除外される)
+# マージはしない。自動マージは Renovate の PR に限定していて、そちらは
+# .github/workflows/renovate-auto-review.yml が担当する。
+#
+# Renovate の PR はここではレビューしない。自前ホストの Renovate は GitHub App では
+# なく PAT で動かしているので、作られるのは持ち主名義の通常の PR で、既定の
+# skip_authors (dependabot[bot], renovate[bot]) には引っかからない。放っておくと
+# renovate-auto-review.yml と合わせて Claude が二重に走るので、ブランチ名で止める。
 name: PR Review
 
 on:
@@ -30,4 +33,13 @@ concurrency:
 
 jobs:
   review:
+    # Renovate の PR は renovate-auto-review.yml が見る。判定は gate.mjs の
+    # isRenovatePr と同じで、持ち主が出した renovate/ ブランチだけを外す。
+    # ブランチ名だけで判定すると、renovate/ で始まるブランチを切るだけで
+    # レビューを回避できてしまう。
+    if: >-
+      ${{
+        !(github.event.pull_request.user.login == github.repository_owner &&
+          startsWith(github.event.pull_request.head.ref, 'renovate/'))
+      }}
     uses: tamura09/claude-pr-review/.github/workflows/pr-review.yml@v1

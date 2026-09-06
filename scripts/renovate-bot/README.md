@@ -1,28 +1,32 @@
 # Claude によるPRレビュー
 
-PR のレビューは2本のワークフローに分かれている。**自動マージするのは Dependabot の
+PR のレビューは2本のワークフローに分かれている。**自動マージするのは Renovate の
 PR だけ**で、人間が作った PR はレビューを投稿するだけ。マージするかどうかは人間が決める。
 
 | 対象 | ワークフロー | トリガー | 自動マージ |
 | --- | --- | --- | --- |
 | 人間の PR | [`pr-review.yml`](../../.github/workflows/pr-review.yml) → [tamura09/claude-pr-review](https://github.com/tamura09/claude-pr-review) | PR の作成・更新時 | しない |
-| Dependabot の PR | [`dependabot-auto-review.yml`](../../.github/workflows/dependabot-auto-review.yml) | 毎日 10:00 JST + 手動 | 条件を満たせばする |
+| Renovate の PR | [`renovate-auto-review.yml`](../../.github/workflows/renovate-auto-review.yml) | 毎日 10:00 JST + 手動 | 条件を満たせばする |
 
-分かれている理由は Secrets の制約。**Dependabot が作成した PR の `pull_request`
-イベントで走るワークフローは、リポジトリの Actions Secrets を読めない**ため、
-Claude の認証情報を渡せない。そのため Dependabot の分だけ main 上での定期実行にしている。
-人間の PR (同一リポジトリのブランチ) は `pull_request` で Secrets を読めるので、
-PR を作った時点で即レビューが走る。
+分かれている理由は **CI の完了を待つ必要があるから**。ゲートは CI が全て成功して
+いることを条件にするが、`pull_request` で走らせると CI はまだ動き出したところで、
+判定できない。main 上の定期実行にして、結果が出揃った PR だけを見ている。
 
-以下は Dependabot 側の詳細。
+以前は Secrets の制約が理由だった。Dependabot が作成した PR の `pull_request`
+イベントでは Actions Secrets を読めず、Claude の認証情報を渡せなかった。Renovate は
+GitHub App ではなく PAT で動かしているので、作られるのは通常の PR で、この制約は無い。
+そのため `pr-review.yml` の方も Renovate の PR で走ってしまう。Claude が二重に走るのを
+避けるため、あちらは `renovate/` で始まるブランチをスキップしている。
+
+以下は Renovate 側の詳細。
 
 ---
 
-# Dependabot 自動レビューBot
+# Renovate 自動レビューBot
 
-Dependabot が作った PR を定期的に走査し、安全と判断できるものだけを自動マージする。
+Renovate が作った PR を定期的に走査し、安全と判断できるものだけを自動マージする。
 
-- ワークフロー: [`.github/workflows/dependabot-auto-review.yml`](../../.github/workflows/dependabot-auto-review.yml)
+- ワークフロー: [`.github/workflows/renovate-auto-review.yml`](../../.github/workflows/renovate-auto-review.yml)
 - ゲート: [`gate.mjs`](./gate.mjs)
 
 ## 仕組み
@@ -30,8 +34,9 @@ Dependabot が作った PR を定期的に走査し、安全と判断できる�
 判断を2段構えにして、LLM の出力だけではマージが起きないようにしている。
 
 1. **決定論的ゲート** (`gate.mjs collect`)
-   OPEN な Dependabot PR を全件評価し、次の条件を満たすものだけを候補にする。
-   - 作成者が `dependabot[bot]`
+   OPEN な Renovate PR を全件評価し、次の条件を満たすものだけを候補にする。
+   - 作成者がリポジトリの持ち主で、ブランチが `renovate/` で始まる
+     (自前ホストの Renovate は PAT で動かしているので `renovate[bot]` にはならない)
    - CI が全て成功、コンフリクトなし
    - 変更ファイルが `package.json` / `package-lock.json` /
      `infra/.terraform.lock.hcl` / `.github/workflows/*.yml` のみ
@@ -100,11 +105,11 @@ aws ssm put-parameter --region ap-northeast-1 \
 まず dry-run で判定だけ実行し、マージ対象と理由が妥当か確認する。
 
 ```bash
-gh workflow run dependabot-auto-review.yml -f dry_run=true
+gh workflow run renovate-auto-review.yml -f dry_run=true
 ```
 
-実行後、Actions のログと `dependabot-auto-review` アーティファクト
-(`dependabot-facts.json` / `verdicts.json` / 差分) を確認する。
+実行後、Actions のログと `renovate-auto-review` アーティファクト
+(`renovate-facts.json` / `verdicts.json` / 差分) を確認する。
 
 ## ローカルでのデバッグ
 
@@ -112,13 +117,13 @@ gh workflow run dependabot-auto-review.yml -f dry_run=true
 export GITHUB_REPOSITORY=tamura09/monstdb
 
 # 候補の収集結果を見る
-node scripts/dependabot-bot/gate.mjs collect /tmp/facts.json
+node scripts/renovate-bot/gate.mjs collect /tmp/facts.json
 
 # 1件だけ詳しく評価する
-node scripts/dependabot-bot/gate.mjs inspect 66
+node scripts/renovate-bot/gate.mjs inspect 66
 
 # 判定ファイルを渡してマージ経路を空実行する
-DRY_RUN=true node scripts/dependabot-bot/gate.mjs merge /tmp/verdicts.json
+DRY_RUN=true node scripts/renovate-bot/gate.mjs merge /tmp/verdicts.json
 ```
 
 ## 人間のPRのレビュー
@@ -146,7 +151,10 @@ PR の作成・更新・再オープン・draft解除で走り、次の観点で
 `contents: read` しか与えていないため、Claude はコードを push できない。
 既存ファイルの編集系ツールも `--disallowedTools` で落としてある
 (判定ファイルの書き出しに `Write` だけ許可)。
-draft の PR、fork からの PR、Dependabot の PR はスキップする。
+draft の PR、fork からの PR、持ち主が出した `renovate/` ブランチの PR はスキップする。
+Renovate の PR をスキップするのは、こちらでレビューすると
+[`renovate-auto-review.yml`](../../.github/workflows/renovate-auto-review.yml) と
+二重になるため。呼び出し側のジョブに `if:` を書いて止めている。
 
 観点を変えたい場合やリポジトリ固有の指示を足したい場合は、呼び出し側に `with:` を
 書く。入力の一覧は切り出し先の README を参照。
@@ -158,13 +166,13 @@ draft の PR、fork からの PR、Dependabot の PR はスキップする。
   通っているが、main で改めて走らせたい場合は `contents: write` を持つ PAT を
   Secret に入れ、`merge` ステップの `GH_TOKEN` をそれに差し替える。
 - **メジャー更新は常に人間が判断する。** ゲートで機械的に除外され、Claude には
-  渡らない。PR にはコメントも付かないので、Dependabot の PR 一覧を定期的に見ること。
+  渡らない。PR にはコメントも付かないので、Renovate の PR 一覧を定期的に見ること。
 - **OAuth トークンは失効する。** 失効するとワークフローが認証エラーで落ちるので、
   `claude setup-token` で再発行して SSM パラメータを上書きする。
-- **消費するのはサブスクリプションの利用枠。** Dependabot 側は候補が0件のときは
+- **消費するのはサブスクリプションの利用枠。** Renovate 側は候補が0件のときは
   Claude を呼ばない。人間の PR 側は push のたびに走るので (同じ PR への連続 push は
   `concurrency` で古い実行をキャンセルする)、利用枠の消費はこちらの方が大きい。
-  どちらも `claude-sonnet-5` を使う。変更する場合、Dependabot 側は `claude_args` の
+  どちらも `claude-sonnet-5` を使う。変更する場合、Renovate 側は `claude_args` の
   `--model`、人間の PR 側は呼び出し側の `with: model:` で指定する。
 - **SSM にトークンを入れる前にこの2本を main に入れると、PR のチェックが赤くなる。**
   パラメータがプレースホルダのままだとその旨のエラーで落ちるため、投入を先に

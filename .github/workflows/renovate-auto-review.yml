@@ -1,21 +1,32 @@
-# Dependabot の PR を自動でレビューし、問題がなければマージする。
+# Renovate の PR を自動でレビューし、問題がなければマージする。
+#
+# 対象は「作成者がリポジトリの持ち主で、ブランチが renovate/ で始まる PR」。
+# 自前ホストの Renovate は GitHub App ではなく PAT で動かしているので、作成者は
+# renovate[bot] ではなく持ち主自身になる。実行役は tamura09/renovate-runner。
 #
 # なぜ pull_request ではなく schedule なのか:
-#   Dependabot が作成した PR の pull_request イベントで走るワークフローは、
-#   リポジトリの Secrets を読めない (Dependabot Secrets という別の保管場所になる)。
-#   Claude の認証情報を渡せないため、main 上で定期実行して OPEN な PR を走査する。
+#   ゲートが「CI が全て成功していること」を条件にするため。pull_request で走らせると
+#   CI はまだ動き出したところで判定できない。main 上で定期実行し、結果が出揃った PR
+#   だけを見る。
+#
+#   Dependabot だった頃は Secrets の制約が理由だった (Dependabot が作成した PR の
+#   pull_request イベントでは Actions Secrets を読めない)。Renovate の PR は通常の
+#   PR なのでその制約は無いが、CI を待つ必要は変わらない。
+#
+#   通常の PR なので pr-review.yml の方も起動してしまう。Claude が二重に走らないよう、
+#   あちらは renovate/ で始まるブランチをスキップする。
 #
 # 判断の二段構え:
-#   1. scripts/dependabot-bot/gate.mjs (決定論的) が候補を絞る。
+#   1. scripts/renovate-bot/gate.mjs (決定論的) が候補を絞る。
 #      メジャー更新・CI失敗・許可外ファイルの変更などはここで機械的に除外され、
 #      Claude が何を出力してもマージされない。
 #   2. Claude が残った候補をレビューし、MERGE / HOLD を判定する。
 #   3. マージ直前にもう一度 1 のゲートを通す。
-name: Dependabot Auto Review
+name: Renovate Auto Review
 
 on:
   schedule:
-    # 毎日 10:00 JST (Dependabot の npm は毎週月曜 09:00 JST に PR を作る)
+    # 毎日 10:00 JST (Renovate が PR を作るのは月曜の朝だけ)
     - cron: "0 1 * * *"
   workflow_dispatch:
     inputs:
@@ -37,7 +48,7 @@ permissions:
 
 # マージが直列になるよう、同時に1本しか走らせない
 concurrency:
-  group: dependabot-auto-review
+  group: renovate-auto-review
   cancel-in-progress: false
 
 jobs:
@@ -56,8 +67,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          node scripts/dependabot-bot/gate.mjs collect dependabot-facts.json
-          count=$(node -p "require('./dependabot-facts.json').candidates.length")
+          node scripts/renovate-bot/gate.mjs collect renovate-facts.json
+          count=$(node -p "require('./renovate-facts.json').candidates.length")
           echo "count=${count}" >> "$GITHUB_OUTPUT"
 
       # トークンはこのリポジトリの secret には置かない。AWS の SSM
@@ -73,7 +84,7 @@ jobs:
       # dry_run のときは候補が0件でも実行します。このワークフローは schedule で
       # main 上から走るため OIDC の subject が ref:refs/heads/main になり、PR 用の
       # 経路とは別に信頼ポリシーの一致が要ります。候補が出るまで確かめられないと、
-      # 壊れていることに Dependabot の PR が来て初めて気づくことになります。
+      # 壊れていることに Renovate の PR が来て初めて気づくことになります。
       - name: Claude の OAuth トークンを SSM から読む
         id: oauth_token
         if: ${{ steps.collect.outputs.count != '0' || github.event.inputs.dry_run == 'true' }}
@@ -110,19 +121,19 @@ jobs:
             --max-turns 30
             --model claude-sonnet-5
           prompt: |
-            このリポジトリの Dependabot PR をレビューし、自動マージしてよいかを判定してください。
+            このリポジトリの Renovate PR をレビューし、自動マージしてよいかを判定してください。
 
             ## 入力
-            - `dependabot-facts.json` — 判定対象の一覧。`candidates` 配列が対象です。
+            - `renovate-facts.json` — 判定対象の一覧。`candidates` 配列が対象です。
               各要素に PR 番号・タイトル・変更ファイル・CI結果・package.json の
               依存差分の解析結果 (`manifest`) が入っています。
-            - `.dependabot-bot/pr-<番号>.diff` — その PR の差分 (package-lock.json は
+            - `.renovate-bot/pr-<番号>.diff` — その PR の差分 (package-lock.json は
               バージョン行のみに絞ってあります)。
             - リポジトリ本体 (main の内容)。`CLAUDE.md`、`package.json`、`.nvmrc`、
               `.github/workflows/` などを必要に応じて読んでください。
 
             ## 前段で機械的に確認済みのこと (再確認は不要)
-            - 作成者が Dependabot であること
+            - Renovate が作った PR であること (作成者が持ち主で、ブランチが renovate/ で始まる)
             - CI が全て成功していること、コンフリクトがないこと
             - 変更ファイルが package.json / package-lock.json /
               infra/.terraform.lock.hcl / .github/workflows/*.yml に限られること
@@ -169,16 +180,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: ${{ inputs.dry_run == true && 'true' || 'false' }}
-        run: node scripts/dependabot-bot/gate.mjs merge verdicts.json
+        run: node scripts/renovate-bot/gate.mjs merge verdicts.json
 
       - name: 判定材料をアーティファクトとして残す
         if: always() && steps.collect.outputs.count != '0'
         uses: actions/upload-artifact@v7
         with:
-          name: dependabot-auto-review
+          name: renovate-auto-review
           path: |
-            dependabot-facts.json
+            renovate-facts.json
             verdicts.json
-            .dependabot-bot/
+            .renovate-bot/
           if-no-files-found: ignore
           retention-days: 14
