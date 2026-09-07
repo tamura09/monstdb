@@ -31,7 +31,7 @@ export default function DeleteCharacterButton({
       <button
         type="submit"
         disabled={isDeleting}
-        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm disabled:bg-gray-400"
+        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-sm text-sm disabled:bg-gray-400"
       >
         {isDeleting ? '削除中...' : '削除'}
       </button>

@@ -55,7 +55,7 @@ export default function AdminCharacterTable({
       : 0
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
       <table className="w-full">
         <thead className="bg-gray-50 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
           <tr>
@@ -104,7 +104,7 @@ export default function AdminCharacterTable({
                 </td>
                 <td className="px-4 py-3 text-center">
                   <span
-                    className={`inline-block px-3 py-1 rounded text-xs ${
+                    className={`inline-block px-3 py-1 rounded-sm text-xs ${
                       character.element === '火'
                         ? 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200'
                         : character.element === '水'
@@ -126,7 +126,7 @@ export default function AdminCharacterTable({
                   <div className="flex items-center justify-center gap-2">
                     <Link
                       href={`/admin/characters/${character.id}/edit`}
-                      className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-sm"
+                      className="bg-green-600 text-white px-3 py-1 rounded-sm hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-sm"
                     >
                       編集
                     </Link>

@@ -42,7 +42,7 @@ export default function DeleteCharacterMasterButton({
       <button
         type="submit"
         disabled={isDeleting}
-        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm disabled:opacity-50"
+        className="bg-red-600 text-white px-3 py-1 rounded-sm hover:bg-red-700 text-sm disabled:opacity-50"
       >
         {isDeleting ? '削除中...' : '削除'}
       </button>

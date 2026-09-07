@@ -103,7 +103,7 @@ export default async function AdminCharactersPage({
 
       {/* 成功メッセージ */}
       {success === 'created' && (
-        <div className="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-200 px-4 py-3 rounded mb-6">
+        <div className="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-200 px-4 py-3 rounded-sm mb-6">
           <strong className="font-bold">成功: </strong>
           <span>キャラクターを作成しました。</span>
         </div>
@@ -122,7 +122,7 @@ export default async function AdminCharactersPage({
             <div className="flex flex-wrap gap-2">
               <a
                 href="/admin/characters"
-                className={`px-3 py-1 rounded text-sm ${
+                className={`px-3 py-1 rounded-sm text-sm ${
                   !element
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -136,7 +136,7 @@ export default async function AdminCharactersPage({
                   href={`/admin/characters?element=${el}${
                     type ? `&type=${type}` : ''
                   }${search ? `&search=${search}` : ''}`}
-                  className={`px-3 py-1 rounded text-sm ${
+                  className={`px-3 py-1 rounded-sm text-sm ${
                     element === el
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -157,7 +157,7 @@ export default async function AdminCharactersPage({
                 href={`/admin/characters${element ? `?element=${element}` : ''}${
                   search ? `${element ? '&' : '?'}search=${search}` : ''
                 }`}
-                className={`px-3 py-1 rounded text-sm ${
+                className={`px-3 py-1 rounded-sm text-sm ${
                   !type
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -171,7 +171,7 @@ export default async function AdminCharactersPage({
                   href={`/admin/characters?type=${t}${
                     element ? `&element=${element}` : ''
                   }${search ? `&search=${search}` : ''}`}
-                  className={`px-3 py-1 rounded text-sm ${
+                  className={`px-3 py-1 rounded-sm text-sm ${
                     type === t
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -199,7 +199,7 @@ export default async function AdminCharactersPage({
                 name="search"
                 defaultValue={search}
                 placeholder="キャラ名で検索..."
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               />
             </form>
           </div>

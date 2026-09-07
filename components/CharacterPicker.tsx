@@ -64,7 +64,7 @@ export default function CharacterPicker({
           onBlur={() => setTimeout(() => setIsOpen(false), 150)}
           placeholder={placeholder}
           autoComplete="off"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500"
         />
         <input type="hidden" name={name} value={selected?.id ?? ''} />
 

@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-white dark:bg-gray-900">
       {/* ヒーローセクション */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 dark:from-blue-700 dark:via-blue-800 dark:to-purple-800 text-white">
+      <div className="bg-linear-to-br from-blue-600 via-blue-700 to-purple-700 dark:from-blue-700 dark:via-blue-800 dark:to-purple-800 text-white">
         <div className="max-w-7xl mx-auto px-4 py-20 md:py-32">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
@@ -152,7 +152,7 @@ export default async function Home() {
 
       {/* CTA セクション */}
       {!session && (
-        <div className="bg-gradient-to-br from-purple-600 to-blue-600 dark:from-purple-700 dark:to-blue-700 text-white py-16 md:py-24">
+        <div className="bg-linear-to-br from-purple-600 to-blue-600 dark:from-purple-700 dark:to-blue-700 text-white py-16 md:py-24">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               今すぐ始めよう

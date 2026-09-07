@@ -89,7 +89,7 @@ export default function CharacterFormEdit({
 
       {/* エラーメッセージ */}
       {error === 'duplicate' && (
-        <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-6">
+        <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded-sm mb-6">
           <strong className="font-bold">エラー: </strong>
           <span>入力された図鑑No.は既に他のキャラクターで使用されています。別の番号を入力してください。</span>
         </div>
@@ -113,7 +113,7 @@ export default function CharacterFormEdit({
                 required
                 min="1"
                 defaultValue={character.indexNumber}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
+                className={`w-full px-3 py-2 border rounded-md focus:outline-hidden focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
                   error === 'duplicate'
                     ? 'border-red-500 dark:border-red-400 focus:ring-red-500 dark:focus:ring-red-400'
                     : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500 dark:focus:ring-blue-400'
@@ -136,7 +136,7 @@ export default function CharacterFormEdit({
                 name="monsterName"
                 required
                 defaultValue={character.monsterName}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 disabled={isSubmitting}
               />
             </div>
@@ -159,7 +159,7 @@ export default function CharacterFormEdit({
                       disabled={isSubmitting}
                     />
                     <span
-                      className={`px-3 py-1 rounded text-sm ${
+                      className={`px-3 py-1 rounded-sm text-sm ${
                         el === '火'
                           ? 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200'
                           : el === '水'
@@ -195,7 +195,7 @@ export default function CharacterFormEdit({
                       className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500"
                       disabled={isSubmitting}
                     />
-                    <span className={`px-3 py-1 rounded text-sm font-medium ${
+                    <span className={`px-3 py-1 rounded-sm text-sm font-medium ${
                       t === '限定'
                         ? 'bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-200'
                         : t === 'α'

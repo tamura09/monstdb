@@ -11,7 +11,7 @@ export default function ResetPasswordPage() {
 			<div className="flex gap-3">
 				<Link
 					href="/login"
-					className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+					className="bg-blue-600 text-white px-4 py-2 rounded-sm hover:bg-blue-700 text-sm font-medium"
 				>
 					ログインに戻る
 				</Link>

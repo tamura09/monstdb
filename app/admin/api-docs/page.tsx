@@ -53,7 +53,7 @@ export default async function AdminApiDocsPage() {
           <div>
             <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-1">ベースURL</h3>
             <p>
-              すべてのエンドポイントは <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">/api/v1/...</code>{' '}
+              すべてのエンドポイントは <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">/api/v1/...</code>{' '}
               配下にあります。呼び出し元と同一オリジンに対する相対パスとして呼び出してください。
             </p>
           </div>
@@ -65,21 +65,21 @@ export default async function AdminApiDocsPage() {
               <li>
                 <span className="font-medium">セッションCookie</span>
                 （ブラウザからの利用） — Google
-                OAuthでログイン後に付与される <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">next-auth.session-token</code>{' '}
+                OAuthでログイン後に付与される <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">next-auth.session-token</code>{' '}
                 Cookieで認証します。同一オリジンからの呼び出しが前提で、サーバー間連携には使えません。
               </li>
               <li>
                 <span className="font-medium">APIキー</span>
-                （サーバー間連携） — <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">Authorization: Bearer &lt;key&gt;</code>{' '}
+                （サーバー間連携） — <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">Authorization: Bearer &lt;key&gt;</code>{' '}
                 ヘッダで認証します。下記の「APIキー管理」から発行できます。キーは
                 <span className="font-medium">発行者(admin)として振る舞います</span>
                 が、発行時に指定したスコープの範囲でしか操作できません(最小権限の原則)。
               </li>
             </ul>
             <p className="mt-2">
-              エンドポイントによってはセッションに加えて、DB上の <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">User.role</code>{' '}
-              が <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">admin</code> であることを要求します。
-              APIキー管理API(<code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">/api/v1/api-keys/*</code>)は
+              エンドポイントによってはセッションに加えて、DB上の <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">User.role</code>{' '}
+              が <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">admin</code> であることを要求します。
+              APIキー管理API(<code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">/api/v1/api-keys/*</code>)は
               権限昇格を防ぐため、常にセッション認証限定です(APIキーでは呼び出せません)。
             </p>
           </div>
@@ -87,7 +87,7 @@ export default async function AdminApiDocsPage() {
           <div>
             <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-1">共通エラー形式</h3>
             <p className="mb-2">エラー時は常に以下の形式のJSONを返します。</p>
-            <pre className="bg-gray-100 dark:bg-gray-900 rounded p-3 overflow-x-auto text-xs">
+            <pre className="bg-gray-100 dark:bg-gray-900 rounded-sm p-3 overflow-x-auto text-xs">
 {`{
   "error": {
     "code": "validation_error",
@@ -144,10 +144,10 @@ export default async function AdminApiDocsPage() {
           <div>
             <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-1">ページング</h3>
             <p>
-              一覧取得系のエンドポイントは <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">page</code>{' '}
-              (既定値1) / <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">perPage</code>{' '}
+              一覧取得系のエンドポイントは <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">page</code>{' '}
+              (既定値1) / <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">perPage</code>{' '}
               (既定値50、上限100) のクエリパラメータでページングでき、レスポンスには{' '}
-              <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">{'{ page, perPage, total, totalPages }'}</code>{' '}
+              <code className="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-sm">{'{ page, perPage, total, totalPages }'}</code>{' '}
               が含まれます。詳細・エンドポイント一覧・curl実行例は下記のSwagger UI、または{' '}
               <a
                 href="/api/v1/docs"
