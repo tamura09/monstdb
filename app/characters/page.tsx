@@ -99,7 +99,7 @@ export default async function CharactersPage({
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
                     <span
-                      className={`px-2 py-1 rounded ${
+                      className={`px-2 py-1 rounded-sm ${
                         character.element === '火'
                           ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                           : character.element === '水'
@@ -116,7 +116,7 @@ export default async function CharactersPage({
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
                     <span
-                      className={`px-2 py-1 rounded ${
+                      className={`px-2 py-1 rounded-sm ${
                         character.type === '限定'
                           ? 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200'
                           : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'

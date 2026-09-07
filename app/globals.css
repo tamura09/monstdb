@@ -1,6 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/*
+ * Tailwind v3 の `darkMode: 'class'` 相当。
+ * next-themes が <html> に付与する .dark クラス配下でダークモードを有効にする。
+ */
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Tailwind v4 で変わったデフォルト値を v3 のものに戻す互換レイヤー。
+ * これを外すと既存画面の見た目が変わるため、意図して v4 の既定に寄せる場合のみ削除する。
+ *   - ボーダー色 : v4 は currentColor / v3 は gray-200
+ *   - placeholder: v4 は currentColor の 50% / v3 は gray-400
+ *   - button の cursor: v4 は default / v3 は pointer
+ */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;

@@ -62,7 +62,7 @@ export default function WakuwakuFilter({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-3 py-2 text-left border border-gray-300 rounded-md bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+        className="w-full px-3 py-2 text-left border border-gray-300 rounded-md bg-white hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-blue-500 text-sm"
       >
         {selected.length === 0 ? (
           <span className="text-gray-500">選択してください</span>
@@ -80,7 +80,7 @@ export default function WakuwakuFilter({
               <button
                 type="button"
                 onClick={() => setMode('or')}
-                className={`flex-1 px-3 py-1 rounded text-sm ${
+                className={`flex-1 px-3 py-1 rounded-sm text-sm ${
                   mode === 'or'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -91,7 +91,7 @@ export default function WakuwakuFilter({
               <button
                 type="button"
                 onClick={() => setMode('and')}
-                className={`flex-1 px-3 py-1 rounded text-sm ${
+                className={`flex-1 px-3 py-1 rounded-sm text-sm ${
                   mode === 'and'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -111,13 +111,13 @@ export default function WakuwakuFilter({
             {allWakuwaku.map((w) => (
               <label
                 key={w.id}
-                className="flex items-center px-2 py-2 hover:bg-gray-50 rounded cursor-pointer"
+                className="flex items-center px-2 py-2 hover:bg-gray-50 rounded-sm cursor-pointer"
               >
                 <input
                   type="checkbox"
                   checked={selected.includes(w.name)}
                   onChange={() => toggleWakuwaku(w.name)}
-                  className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded-sm"
                 />
                 <span className="text-sm text-gray-700">{w.name}</span>
               </label>

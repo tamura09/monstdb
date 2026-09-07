@@ -143,12 +143,12 @@ export default function OwnedCharacterCard({
               {wakuwakuSlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded flex items-center justify-between"
+                  className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-sm flex items-center justify-between"
                 >
                   <span>
                     {slot.wakuwakuMaster.name}
                     {slot.level && (
-                      <span className="ml-1 text-[10px] font-semibold bg-green-200 dark:bg-green-800 px-1 rounded">
+                      <span className="ml-1 text-[10px] font-semibold bg-green-200 dark:bg-green-800 px-1 rounded-sm">
                         {slot.level}
                       </span>
                     )}
@@ -170,7 +170,7 @@ export default function OwnedCharacterCard({
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white text-xs px-2 py-1 rounded font-semibold"
+              className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white text-xs px-2 py-1 rounded-sm font-semibold"
             >
               わくわくの実を編集
             </button>
@@ -184,11 +184,11 @@ export default function OwnedCharacterCard({
           {wakuwakuSlots.map((slot) => (
             <div
               key={slot.id}
-              className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded"
+              className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-sm"
             >
               {slot.wakuwakuMaster.name}
               {slot.level && (
-                <span className="ml-1 text-[10px] font-semibold bg-green-200 dark:bg-green-800 px-1 rounded">
+                <span className="ml-1 text-[10px] font-semibold bg-green-200 dark:bg-green-800 px-1 rounded-sm">
                   {slot.level}
                 </span>
               )}

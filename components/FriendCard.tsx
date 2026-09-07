@@ -92,7 +92,7 @@ export default function FriendCard({ friend, onRemove }: FriendCardProps) {
               <button
                 type="submit"
                 disabled={isPending}
-                className="bg-red-600 dark:bg-red-700 text-white px-3 py-1 rounded hover:bg-red-700 dark:hover:bg-red-600 text-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-red-600 dark:bg-red-700 text-white px-3 py-1 rounded-sm hover:bg-red-700 dark:hover:bg-red-600 text-xs disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isPending ? '削除中...' : '削除確定'}
               </button>

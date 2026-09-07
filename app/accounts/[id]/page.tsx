@@ -264,7 +264,7 @@ export default async function AccountDetailPage({
                         {ownedChar.characterMaster.monsterName}
                       </h3>
                       <span
-                        className={`px-2 py-1 rounded text-sm ${
+                        className={`px-2 py-1 rounded-sm text-sm ${
                           ownedChar.characterMaster.element === '火'
                             ? 'bg-red-100 text-red-800'
                             : ownedChar.characterMaster.element === '水'
@@ -340,7 +340,7 @@ export default async function AccountDetailPage({
                           <select
                             name="wakuwakuMasterId"
                             required
-                            className="flex-1 text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="flex-1 text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-hidden focus:ring-2 focus:ring-green-500"
                           >
                             <option value="">わくわくの実を選択...</option>
                             {allWakuwaku.map((wakuwaku) => (

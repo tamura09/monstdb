@@ -48,7 +48,7 @@ export default function Navigation() {
                 </span>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
-                  className="bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 px-3 py-1 rounded text-sm"
+                  className="bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 px-3 py-1 rounded-sm text-sm"
                 >
                   ログアウト
                 </button>
@@ -56,7 +56,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/login"
-                className="bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 px-3 py-1 rounded"
+                className="bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 px-3 py-1 rounded-sm"
               >
                 ログイン
               </Link>
@@ -69,7 +69,7 @@ export default function Navigation() {
             <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md hover:bg-blue-700 dark:hover:bg-gray-700 focus:outline-none"
+              className="p-2 rounded-md hover:bg-blue-700 dark:hover:bg-gray-700 focus:outline-hidden"
               aria-label="メニュー"
             >
               {isMenuOpen ? (
@@ -92,7 +92,7 @@ export default function Navigation() {
           <div className="md:hidden pb-4 space-y-2">
             <Link
               href="/characters"
-              className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+              className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded-sm"
               onClick={() => setIsMenuOpen(false)}
             >
               キャラクター一覧
@@ -101,21 +101,21 @@ export default function Navigation() {
               <>
                 <Link
                   href="/accounts"
-                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded-sm"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   マイアカウント
                 </Link>
                 <Link
                   href="/friends"
-                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded-sm"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   フレンド
                 </Link>
                 <Link
                   href="/profile"
-                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                  className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded-sm"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   マイページ
@@ -123,7 +123,7 @@ export default function Navigation() {
                 {isAdmin && (
                   <Link
                     href="/admin/api-docs"
-                    className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded"
+                    className="block py-2 px-4 hover:bg-blue-700 dark:hover:bg-gray-700 rounded-sm"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     APIドキュメント
@@ -137,7 +137,7 @@ export default function Navigation() {
                     setIsMenuOpen(false)
                     signOut({ callbackUrl: '/' })
                   }}
-                  className="w-full text-left py-2 px-4 bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 rounded"
+                  className="w-full text-left py-2 px-4 bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-sm"
                 >
                   ログアウト
                 </button>
@@ -145,7 +145,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/login"
-                className="block py-2 px-4 bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 rounded"
+                className="block py-2 px-4 bg-blue-700 hover:bg-blue-800 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-sm"
                 onClick={() => setIsMenuOpen(false)}
               >
                 ログイン

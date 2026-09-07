@@ -220,7 +220,7 @@ export default function ApiKeyManager() {
                 このキーは今だけ表示されます。この画面を閉じる・リロードすると二度と表示できません。今すぐコピーして安全な場所に保管してください。
               </p>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                <code className="flex-1 min-w-0 break-all bg-white dark:bg-gray-900 border border-red-300 dark:border-red-700 rounded px-3 py-2 text-sm text-gray-800 dark:text-gray-100">
+                <code className="flex-1 min-w-0 break-all bg-white dark:bg-gray-900 border border-red-300 dark:border-red-700 rounded-sm px-3 py-2 text-sm text-gray-800 dark:text-gray-100">
                   {issuedKey.plaintextKey}
                 </code>
                 <button
@@ -262,7 +262,7 @@ export default function ApiKeyManager() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="例: 集計バッチ"
-              className="w-full max-w-md px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="w-full max-w-md px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
 
@@ -302,7 +302,7 @@ export default function ApiKeyManager() {
               id="api-key-expiry"
               value={expiry}
               onChange={(e) => setExpiry(e.target.value as ExpiryValue)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               {EXPIRY_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -394,7 +394,7 @@ export default function ApiKeyManager() {
                             {key.scopes.map((scope) => (
                               <span
                                 key={scope}
-                                className="inline-block px-2 py-0.5 rounded text-xs bg-gray-100 dark:bg-gray-700 font-mono"
+                                className="inline-block px-2 py-0.5 rounded-sm text-xs bg-gray-100 dark:bg-gray-700 font-mono"
                               >
                                 {scope}
                               </span>
@@ -409,7 +409,7 @@ export default function ApiKeyManager() {
                         </td>
                         <td className="px-4 py-3 text-center">
                           <span
-                            className={`inline-block px-3 py-1 rounded text-xs ${status.className}`}
+                            className={`inline-block px-3 py-1 rounded-sm text-xs ${status.className}`}
                           >
                             {status.label}
                           </span>
@@ -422,7 +422,7 @@ export default function ApiKeyManager() {
                             type="button"
                             onClick={() => handleRevoke(key)}
                             disabled={isRevoked || revokingId === key.id}
-                            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-sm disabled:opacity-50"
+                            className="bg-red-600 text-white px-3 py-1 rounded-sm hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-sm disabled:opacity-50"
                           >
                             {revokingId === key.id ? '失効中...' : '失効'}
                           </button>

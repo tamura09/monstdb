@@ -240,7 +240,7 @@ export default async function ProfilePage() {
                     className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="bg-blue-600 dark:bg-blue-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 mt-1">
+                      <div className="bg-blue-600 dark:bg-blue-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 mt-1">
                         {account.accountNumber}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -250,7 +250,7 @@ export default async function ProfilePage() {
                           updateNameAction={updateGameAccountName}
                         />
                       </div>
-                      <div className="text-right flex-shrink-0">
+                      <div className="text-right shrink-0">
                         <div className="text-sm text-gray-500 dark:text-gray-400">所持キャラ</div>
                         <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
                           {account._count.ownedCharacters}体

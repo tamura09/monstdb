@@ -16,7 +16,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
     <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
       {children}
       {isLoading && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center backdrop-blur-sm">
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center backdrop-blur-xs">
           <div className="bg-white rounded-xl p-8 shadow-2xl max-w-sm mx-4">
             <div className="flex flex-col items-center space-y-4">
               <div className="relative">

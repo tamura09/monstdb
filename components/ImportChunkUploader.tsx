@@ -126,7 +126,7 @@ export default function ImportChunkUploader({ mode = 'add' }: Props) {
         <>
           <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden shadow-inner">
             <div 
-              className="bg-gradient-to-r from-green-500 to-green-600 h-full transition-all duration-300 ease-out flex items-center justify-center text-white text-xs font-semibold"
+              className="bg-linear-to-r from-green-500 to-green-600 h-full transition-all duration-300 ease-out flex items-center justify-center text-white text-xs font-semibold"
               style={{ width: `${progress}%` }}
             >
               {progress > 10 && `${progress}%`}

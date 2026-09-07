@@ -172,7 +172,7 @@ export default function CharacterTable({
       : 0
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table
           className="w-full"
@@ -254,7 +254,7 @@ export default function CharacterTable({
                         </div>
                         <div className="flex items-center gap-2 mt-1 flex-wrap">
                           <span
-                            className={`text-xs px-2 py-0.5 rounded ${
+                            className={`text-xs px-2 py-0.5 rounded-sm ${
                               charData.characterMaster.element === '火'
                                 ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200'
                                 : charData.characterMaster.element === '水'
@@ -269,7 +269,7 @@ export default function CharacterTable({
                             {charData.characterMaster.element}
                           </span>
                           <span
-                            className={`text-xs px-2 py-0.5 rounded font-medium ${
+                            className={`text-xs px-2 py-0.5 rounded-sm font-medium ${
                               charData.characterMaster.type === '限定'
                                 ? 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-200'
                                 : charData.characterMaster.type === 'α'

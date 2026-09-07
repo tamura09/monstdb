@@ -198,7 +198,7 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
               <button
                 key={w.id}
                 onClick={() => toggleWakuwaku(w.name)}
-                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                className={`px-2 py-1 rounded-sm text-xs font-medium transition-colors ${
                   wakuwaku.includes(w.name)
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
@@ -237,7 +237,7 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-sm text-gray-600 dark:text-gray-400">適用中:</span>
               {element && (
-                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-sm text-xs">
                   属性: {element}
                   <button onClick={() => setElement('')} className="hover:text-blue-900 dark:hover:text-blue-100">
                     ✕
@@ -245,7 +245,7 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
                 </span>
               )}
               {type && (
-                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-sm text-xs">
                   種類: {type}
                   <button onClick={() => setType('')} className="hover:text-blue-900 dark:hover:text-blue-100">
                     ✕
@@ -253,13 +253,13 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
                 </span>
               )}
               {search && (
-                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-sm text-xs">
                   検索: {search}
                   <span className="text-xs text-gray-500 dark:text-gray-400">(別の検索バーで変更)</span>
                 </span>
               )}
               {wakuwaku.length > 0 && (
-                <span className="inline-flex items-center gap-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-sm text-xs">
                   わくわく: {wakuwaku.length}個
                   <button onClick={() => setWakuwaku([])} className="hover:text-green-900 dark:hover:text-green-100">
                     ✕
@@ -267,7 +267,7 @@ export default function AccountSearchFilter({ allWakuwaku, basePath = '/accounts
                 </span>
               )}
               {hasEL && (
-                <span className="inline-flex items-center gap-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs">
+                <span className="inline-flex items-center gap-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded-sm text-xs">
                   ELのみ
                   <button onClick={() => setHasEL(false)} className="hover:text-purple-900 dark:hover:text-purple-100">
                     ✕

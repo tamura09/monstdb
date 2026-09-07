@@ -72,14 +72,14 @@ export default function UpdateGameAccountNameForm({
           minLength={1}
           maxLength={50}
           disabled={isLoading}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-gray-600 text-sm bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-gray-600 text-sm bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100"
           placeholder="アカウント名"
         />
       </div>
       
       {message && (
         <div
-          className={`text-sm p-2 rounded ${
+          className={`text-sm p-2 rounded-sm ${
             message.type === 'success'
               ? 'bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200'
               : 'bg-red-50 dark:bg-red-900 text-red-800 dark:text-red-200'
