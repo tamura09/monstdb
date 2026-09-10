@@ -55,9 +55,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .nvmrc
 
@@ -75,7 +75,7 @@ jobs:
       # pr-review.yml が呼ぶ再利用ワークフローと同じ1本を共有している。
       - name: Configure AWS credentials
         if: ${{ steps.collect.outputs.count != '0' || github.event.inputs.dry_run == 'true' }}
-        uses: aws-actions/configure-aws-credentials@v6
+        uses: aws-actions/configure-aws-credentials@cbe3b392738ccf3f987d68400dafcf4b0624a56c # v6
         with:
           role-to-assume: arn:aws:iam::222165754930:role/github-actions-claude-pr-review
           aws-region: ap-northeast-1
@@ -108,7 +108,7 @@ jobs:
 
       - name: Claude によるレビュー
         if: steps.collect.outputs.count != '0'
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@19dda84776b3518d98b8798e591daee763049ed3 # v1
         with:
           claude_code_oauth_token: ${{ steps.oauth_token.outputs.token }}
           # 明示しないと Claude GitHub App のトークンを OIDC で取りにいき、
@@ -183,7 +183,7 @@ jobs:
 
       - name: 判定材料をアーティファクトとして残す
         if: always() && steps.collect.outputs.count != '0'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: renovate-auto-review
           path: |
