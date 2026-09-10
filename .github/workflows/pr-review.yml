@@ -34,4 +34,4 @@ concurrency:
 
 jobs:
   review:
-    uses: tamura09/claude-pr-review/.github/workflows/pr-review.yml@v1
+    uses: tamura09/claude-pr-review/.github/workflows/pr-review.yml@51c2815dac669475a6b1bc4ed602b064bdde30ee # v1
