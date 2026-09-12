@@ -3,12 +3,13 @@
 # 実体は再利用可能ワークフローに切り出してある。
 #   https://github.com/tamura09/claude-pr-review
 #
-# マージはしない。自動マージは Renovate の PR に限定していて、そちらは
-# .github/workflows/renovate-auto-review.yml が担当する。
+# マージはしない。以前は Renovate の PR だけ renovate-auto-review.yml が自動で
+# マージしていたが、あれを動かすために OIDC の信頼ポリシーが全リポジトリの
+# main を開ける必要があったので、やめた (tamura09/aws-terraform#285)。
 #
-# Renovate の PR はここではレビューしない。renovate-auto-review.yml と合わせて
-# Claude が二重に走るため。切り出し先の既定の skip_authors に
+# Renovate の PR はここでもレビューしない。切り出し先の既定の skip_authors に
 # tamura09-renovate[bot] が入っているので、このファイルには何も書かなくてよい。
+# 他のリポジトリと同じ扱いで、マージは人が判断する。
 name: PR Review
 
 on:

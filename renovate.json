@@ -17,7 +17,7 @@
       "groupName": "npm development dependencies"
     },
     {
-      "description": "0.x のマイナーは破壊的変更として扱うので、グループに混ぜず個別のPRにする。scripts/renovate-bot/gate.mjs が自動マージから除外する対象で、まとめると他の更新まで止まる",
+      "description": "0.x のマイナーは破壊的変更として扱うので、グループに混ぜず個別のPRにする。まとめると、破壊的かもしれない更新のせいで他の更新までレビュー待ちで止まる",
       "matchManagers": ["npm"],
       "matchCurrentVersion": "<1.0.0",
       "matchUpdateTypes": ["minor"],
