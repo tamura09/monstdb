@@ -1,7 +1,9 @@
+# Validation retry after repository rename.
+# Reusable workflow repository renamed to tamura09/pr-review.
 # 人間が作った PR を Claude がレビューする。
 #
 # 実体は再利用可能ワークフローに切り出してある。
-#   https://github.com/tamura09/claude-pr-review
+#   https://github.com/tamura09/pr-review
 #
 # マージはしない。以前は Renovate の PR だけ renovate-auto-review.yml が自動で
 # マージしていたが、あれを動かすために OIDC の信頼ポリシーが全リポジトリの
@@ -35,4 +37,4 @@ concurrency:
 
 jobs:
   review:
-    uses: tamura09/claude-pr-review/.github/workflows/pr-review.yml@a987d95ec0b6f182b84a2b8ad12f629da6c41845 # v1
+    uses: tamura09/pr-review/.github/workflows/pr-review.yml@a987d95ec0b6f182b84a2b8ad12f629da6c41845 # v1
