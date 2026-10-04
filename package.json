@@ -32,7 +32,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "bcryptjs": "^3.0.3",
-    "next": "^16.3.3",
+    "next": "^16.3.8",
     "next-auth": "^4.24.14",
     "next-themes": "^0.4.6",
     "pg": "^8.23.0",
@@ -60,6 +60,7 @@
   "overrides": {
     "uuid": "^14.0.0",
     "deepmerge-ts": "^8.0.1",
-    "@auth/core": "^0.41.3"
+    "@auth/core": "^0.41.3",
+    "mysql2": "^3.22.0"
   }
 }
