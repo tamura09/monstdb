@@ -12,6 +12,24 @@ import FriendCard from '@/components/FriendCard'
 import FriendIdDisplay from '@/components/FriendIdDisplay'
 import SendFriendRequestButton from '@/components/SendFriendRequestButton'
 
+// クライアントコンポーネントへ渡す他人のUser情報は、表示に必要な列だけに絞る
+// (メールアドレスやパスワードハッシュ、roleをRSCペイロードに含めないため)
+const publicUserSelect = {
+  id: true,
+  name: true,
+  image: true,
+} as const
+
+const gameAccountCountSelect = {
+  select: {
+    _count: {
+      select: {
+        ownedCharacters: true,
+      },
+    },
+  },
+} as const
+
 export default async function FriendsPage({
   searchParams,
 }: {
@@ -30,7 +48,9 @@ export default async function FriendsPage({
     include: {
       sentFriendRequests: {
         include: {
-          receiver: true,
+          receiver: {
+            select: publicUserSelect,
+          },
         },
         where: {
           status: 'pending',
@@ -38,7 +58,9 @@ export default async function FriendsPage({
       },
       receivedFriendRequests: {
         include: {
-          sender: true,
+          sender: {
+            select: publicUserSelect,
+          },
         },
         where: {
           status: 'pending',
@@ -47,33 +69,9 @@ export default async function FriendsPage({
       friendsInitiated: {
         include: {
           friend: {
-            include: {
-              gameAccounts: {
-                include: {
-                  _count: {
-                    select: {
-                      ownedCharacters: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-      friendsReceived: {
-        include: {
-          user: {
-            include: {
-              gameAccounts: {
-                include: {
-                  _count: {
-                    select: {
-                      ownedCharacters: true,
-                    },
-                  },
-                },
-              },
+            select: {
+              ...publicUserSelect,
+              gameAccounts: gameAccountCountSelect,
             },
           },
         },
@@ -94,16 +92,9 @@ export default async function FriendsPage({
   if (search) {
     searchResult = await prisma.user.findUnique({
       where: { friendId: search },
-      include: {
-        gameAccounts: {
-          include: {
-            _count: {
-              select: {
-                ownedCharacters: true,
-              },
-            },
-          },
-        },
+      select: {
+        ...publicUserSelect,
+        gameAccounts: gameAccountCountSelect,
       },
     })
 
