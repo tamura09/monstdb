@@ -19,7 +19,7 @@ env:
 jobs:
   # DBを必要としない静的チェック。テストジョブと並行して走る。
   lint-and-typecheck:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
@@ -47,7 +47,7 @@ jobs:
         run: npm run lint
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04-arm
 
     services:
       postgres:
